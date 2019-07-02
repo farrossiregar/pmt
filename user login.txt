@@ -1,0 +1,19 @@
+user 1 = requester, 
+username = user1@gmail.com 
+password = admin
+
+======================================
+MANAGER BRANCH
+user 2 = requester, 
+username = user2@gmail.com 
+password = admin
+
+======================================
+Procurement HO
+user 3 = requester, 
+username = user3@gmail.com 
+password = admin
+
+
+ALTER TABLE `purchase_request` ADD `user_id` INT NULL AFTER `branch_id`;
+ALTER TABLE `purchase_request` CHANGE `document_date` `receive_date` DATE NULL DEFAULT NULL;
