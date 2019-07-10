@@ -61,3 +61,6 @@ ALTER TABLE `request_for_qoutation_material_nego`
 ALTER TABLE `request_for_qoutation_material_nego`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
+
+
+ALTER TABLE `quotation_order_vendor` ADD `is_nego` TINYINT NULL AFTER `status`;

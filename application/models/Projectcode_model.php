@@ -35,6 +35,7 @@
 			$this->db->like('firstname', $search);
 		endif;
 
+		$this->db->order_by('id', 'DESC');
 		$i = $this->db->get();
 		
 		return $i->result_array();

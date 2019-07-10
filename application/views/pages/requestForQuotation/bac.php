@@ -26,7 +26,13 @@
                <?php
                   foreach($vendor as $key => $i)
                   {
-                     echo "<tr>";
+                     if($i['is_nego'] == 1)
+                        echo "<tr style=\"background: #ffff97\" title=\"Nego to Vendor\">";
+                     elseif($i['is_nego'] == 2)
+                        echo "<tr style=\"background: #ffff97\" title=\"Nego From Vendor\">";
+                     else
+                        echo "<tr>";
+
                         echo "<td>". ($key + 1) ."</td>";
                         
                         $qo = item_quotation_rfq_vendor($data['id'], $i['vendor_id']);
@@ -52,17 +58,17 @@
                         }
                      ?>
                      <td>
+                        <?php if($qo): ?>
                         <div class="btn-group pull-right">
                           <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <i class="fa fa-bars"></i>
                           </a>
                           <ul class="dropdown-menu">
                               <li><a href="<?=site_url('request-for-quotation/nego/'. $qo['id'])?>?vendor_id=<?=$i['vendor_id']?>"><i class="fa fa-edit"></i> Nego </a></li>
-                              <?php if($qo): ?>
                               <li><a href="<?=site_url('purchase-order/createpobyqo/'. $qo['id'])?>"><i class="fa fa-arrow-right"></i> PO</a></li>
-                              <?php endif;?>
                            </ul>
                         </div>
+                        <?php endif;?>
                      </td>
                     </tr>
                      <?php 

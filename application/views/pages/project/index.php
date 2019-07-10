@@ -5,14 +5,7 @@
       <div class="x_title">
         <h2>Project</h2> &nbsp;
         <div class="btn-group pull-right">
-          <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-bars"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="<?=site_url('project/insert')?>"><i class="fa fa-plus"></i> Create </a></li>
-            <li><a href=""><i class="fa fa-upload"></i> Import</a></li>
-            <li><a href=""><i class="fa fa-download"></i> Export</a></li>
-          </ul>
+          <a href="<?=site_url('project/insert')?>" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Create </a>
         </div>
         <div class="clearfix"></div>
       </div>
@@ -24,6 +17,7 @@
                 <th>No</th>
                 <th class="column-title">Project Code </th>
                 <th class="column-title">Project Name </th>
+                <th class="column-title">Operation Service Manager </th>
                 <th class="column-title">Project Manager </th>
                 <th class="column-title">Region Code</th>
                 <th class="column-title">Project Type</th>
@@ -36,6 +30,7 @@
               <td><?=$key+1?></td>
               <td><?=$item['project_code']?></td>
               <td><?=$item['name']?></td>
+              <td><?=$item['osm']?></td>
               <td><?=$item['project_manager']?></td>
               <td><?=$item['region_code']?></td>
               <td><?=$item['project_type']?></td>

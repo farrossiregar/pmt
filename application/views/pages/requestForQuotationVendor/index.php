@@ -18,7 +18,7 @@
                      <th class="column-title">Expired Date</th>
                      <th class="column-title">Delivery Address</th>
                      <th class="column-title">Status</th>
-                     <th></th>
+                     <th style="width: 30px;"></th>
                   </tr>
                </thead>
                <tbody>
@@ -34,15 +34,20 @@
                            echo "<td>".$value['delivery_date']."</td>";
                            echo "<td>".$value['expired_date']."</td>";
                            echo "<td>".$value['detail_delivery_address']."</td>";
+                           $status = status_quotation_rfq_vendor($value['id'], $vendor_id);
                            ?>
-                            <td><?=status_quotation_rfq_vendor($value['id'], $vendor_id)?></td>
+                            <td><?=$status['msg']?></td>
                             <td>
                                <div class="btn-group pull-right">
                                  <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                    <i class="fa fa-bars"></i>
                                  </a>
                                  <ul class="dropdown-menu">
+                                    <?php if($status['status'] == "" ): ?>
                                      <li><a href="<?=site_url("requestForQuotationVendor/detail/{$value['id']}")?>" ><i class="fa fa-plus"></i> Create Quotation</a></li>
+                                    <?php else:?>
+                                     <li><a href="<?=site_url("requestForQuotationVendor/detail/{$value['id']}")?>" ><i class="fa fa-search"></i> Quotation</a></li>
+                                    <?php endif;?>
                                  </ul>
                                </div>
                             </td>

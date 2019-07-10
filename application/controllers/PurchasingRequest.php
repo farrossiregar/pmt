@@ -101,7 +101,7 @@ class PurchasingRequest extends CI_Controller {
 
 		$params['id'] = $id;
 		$params['group_material'] = $this->model->getGroupMaterial();
-		$params['project'] = $this->Project_model->data_();
+		$params['project'] = $this->Project_model->data_('pm', $this->data['user_id']);
 		$params['page'] = 'purchasing_request/form'; //'purchasing_request/form_purchasing';
 
 		$this->load->view('layouts/main', $params);

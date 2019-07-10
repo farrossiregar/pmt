@@ -59,43 +59,51 @@ else if($access == 13) // Purchasing
 {
 	$menu = [
 		[
-			'label' => 'Master Data',
-			'link' => '#',
-			'icon' => 'fa-home',
-			'items' => [
-				[
-					'label' => 'Material / Services',
-					'link' => 'material',
-					'icon' => ''
-				],
-				[
-					'label' => 'Vendor',
-					'link' => 'vendor',
-					'icon' => ''
-				],
-				[
-					'label' => 'Sales And Distribution',
-					'link' => 'salesDistribution',
-					'icon' => ''
-				],
-				[
-					'label' => 'Request For Quotation',
-					'link' => 'requestForQuotation',
-					'icon' => ''
-				],
-				[
-					'label' => 'PO',
-					'link' => 'PurchaseOrderWarehouse',
-					'icon' => ''
-				],
-				[
-					'label' => 'Import Material',
-					'link' => 'importMaterial',
-					'icon' => ''
-				]
-			]
+			'label' => 'Purchasing Request',
+			'link' => 'PurchasingRequest',
+			'icon' => 'fa-paper-plane-o',
 		]
 	]; 
+	
+	// $menu = [
+	// 	[
+	// 		'label' => 'Master Data',
+	// 		'link' => '#',
+	// 		'icon' => 'fa-home',
+	// 		'items' => [
+	// 			[
+	// 				'label' => 'Material / Services',
+	// 				'link' => 'material',
+	// 				'icon' => ''
+	// 			],
+	// 			[
+	// 				'label' => 'Vendor',
+	// 				'link' => 'vendor',
+	// 				'icon' => ''
+	// 			],
+	// 			[
+	// 				'label' => 'Sales And Distribution',
+	// 				'link' => 'salesDistribution',
+	// 				'icon' => ''
+	// 			],
+	// 			[
+	// 				'label' => 'Request For Quotation',
+	// 				'link' => 'requestForQuotation',
+	// 				'icon' => ''
+	// 			],
+	// 			[
+	// 				'label' => 'PO',
+	// 				'link' => 'PurchaseOrderWarehouse',
+	// 				'icon' => ''
+	// 			],
+	// 			[
+	// 				'label' => 'Import Material',
+	// 				'link' => 'importMaterial',
+	// 				'icon' => ''
+	// 			]
+	// 		]
+	// 	]
+	// ]; 
 }
 else if($access == 14) // Procurement HO
 {

@@ -44,6 +44,7 @@
                                        <li><a href="<?=site_url("requestForQuotation/bac/{$value['id']}")?>" title="Bid Analysis Comparison"><i class="fa fa-bar-chart"></i> Bid Analysis Comparison</a></li>
                                        <li><a href="<?=site_url("requestForQuotation/edit/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li>
                                        <li><a style="cursor: pointer;" title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("requestForQuotation/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>
+                                       <li><a href="<?=site_url('requestForQuotation/pdf/'.$value['id'])?>" target="_blank" title="Print"><i class="fa fa-print"></i> Print</a> </li>
                                    </ul>
                                  </div>
                              </td>

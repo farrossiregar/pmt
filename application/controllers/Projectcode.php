@@ -61,7 +61,7 @@ class Projectcode extends CI_Controller {
 
 		if($this->input->post())
 		{
-			$post  = $this->input->post('Customer');
+			$post  = $this->input->post('project_code');
 			$post['update_time'] = date('Y-m-d H:i:s');
 
 			$this->db->where('id', $id);
@@ -69,10 +69,10 @@ class Projectcode extends CI_Controller {
 
 			$this->session->set_flashdata('messages', 'Data berhasil disimpan');
 
-			redirect('customer/index','location');
+			redirect('projectcode/index','location');
 		}
 		
-		$params['page'] = 'customer/form';
+		$params['page'] = 'projectcode/form';
 		$params['data'] = $model;
 		
 		$this->load->view('layouts/main', $params);
@@ -85,6 +85,6 @@ class Projectcode extends CI_Controller {
 
 		$this->session->set_flashdata('messages', 'Data berhasil dihapus');
 		
-		redirect(site_url('customer'));
+		redirect(site_url('projectcode'));
 	}
 }

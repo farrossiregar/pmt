@@ -24,6 +24,58 @@ class Ajax extends CI_Controller {
 	}
 
 	/**
+	 * get PM
+	 * @return json
+	 */
+	public function getosm()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM user where user_group_id=17 and name LIKE '%". $name ."%'" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->name;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * get PM
+	 * @return json
+	 */
+	public function getpm()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM user where user_group_id=13 and name LIKE '%". $name ."%'" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->name;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
 	 * get User
 	 * @return json
 	 */
@@ -47,7 +99,6 @@ class Ajax extends CI_Controller {
 		}
 
 		echo json_encode($params);
-		
 	}
 
 	/**

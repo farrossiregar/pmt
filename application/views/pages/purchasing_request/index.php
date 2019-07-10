@@ -18,6 +18,7 @@
                      <th class="column-title">Requester </th>
                      <th class="column-title">Region </th>
                      <th class="column-title">Project </th>
+                     <th class="column-title">Operation Service Manager </th>
                      <th class="column-title">Project Manager </th>
                      <th class="column-title">Require Date </th>
                      <th class="column-title">Receive Date </th>
@@ -26,9 +27,7 @@
                   </tr>
                </thead>
                <tbody>
-                <?php 
-                 foreach ($data as $key => $value) {
-                   ?>
+                <?php foreach ($data as $key => $value) {?>
                     <tr>
                        <td class="column-title" align="center"><?php echo $key+1; ?></td>
                        <td class="column-title"><?php echo $value['company']; ?></td>
@@ -36,6 +35,7 @@
                        <td class="column-title"><?=get_user_name($value['user_id'])?></td>
                        <td class="column-title"><?=get_branch_name($value['branch_id'])?></td>
                        <td class="column-title"><?=$value['project']?></td>
+                       <td class="column-title"><?=$value['osm']?></td>
                        <td class="column-title"><?=$value['project_manager']?></td>
                        <td class="column-title"><?php echo $value['require_date']; ?> </td>
                        <td class="column-title"><?php echo $value['receive_date']; ?> </td>
@@ -63,7 +63,7 @@
                               <?php 
                                 if($value['status'] == 1)
                                 {
-                                  if($value['project_manager_id'] == $user_id)
+                                  if($value['osm_id'] == $user_id)
                                   {
                                     echo '<li><a class="text-success" data-id="'. $value['id'] .'" data-no_pr="'. $value['no'] .'" onclick="approve(this)"><i class="fa fa-check"></i> Approve</a></li>'; 
                                   }
@@ -99,7 +99,7 @@
                                     if((int)$position == 1 && (int)$value['status'] > 1){ 
                                       // No Action [hide]
                                     }else{ 
-                                        if((int)$access_id == 14 && (int)$value['status'] >= 4){ 
+                                        if((int)$access_id == 17 && (int)$value['status'] >= 4){ 
                                             // No Action [hide]
                                         }else{ 
                               ?>
