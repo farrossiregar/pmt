@@ -193,7 +193,7 @@ function send_notif($param)
     $message = 'text='. urlencode($message);
     $number = str_replace_first('0','62', $param['number']);
     $number = str_replace('-', '', $number);
-    return false;
+    
     $url = "https://panel.apiwha.com/send_message.php?apikey=". APIWHA_TOKEN ."&number=". $number ."&".$message;
       
     $curl = curl_init();

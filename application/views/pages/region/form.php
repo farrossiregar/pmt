@@ -24,8 +24,11 @@
               </div>
             </div>  
           </div>
+          <?php if(isset($data)):?>
           <input type="hidden" name="Region[created_at]" value="<?=date('Y-m-d H:i:s')?>" />
+          <?php else: ?>
           <input type="hidden" name="Region[updated_at]" value="<?=date('Y-m-d H:i:s')?>" />
+          <?php endif; ?>
           <div class="clearfix"></div>
           <div class="ln_solid"></div>
           <div class="form-group">
@@ -56,7 +59,6 @@ $( function() {
           success: function( data ) {
             console.log(data);
             response( data );
-
           }
         });
     },

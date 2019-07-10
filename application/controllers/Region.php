@@ -54,13 +54,18 @@ class Region extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
+	/**
+	 * Edit
+	 * @param  integer $id
+	 * @return void
+	 */
 	public function edit($id=0)
 	{
 		$model = $this->model->get_by_id($id);
 
 		if($this->input->post())
 		{
-			$post  = $this->input->post('Vendor');
+			$post  = $this->input->post('Region');
 
 			$this->db->where('id', $id);
             $this->db->update($this->model->t_table, $post);
@@ -68,12 +73,11 @@ class Region extends CI_Controller {
 
 			$this->session->set_flashdata('messages', 'Data berhasil disimpan');
 
-			redirect('vendor/index','location');
+			redirect('region/index','location');
 		}
 		
-		$params['page'] = 'vendor/form';
+		$params['page'] = 'region/form';
 		$params['data'] = $model;
-		$params['group'] = $this->GroupOfVendor_model->data_();
 		
 		$this->load->view('layouts/main', $params);
 	}
@@ -89,8 +93,8 @@ class Region extends CI_Controller {
 		$this->db->where('id', $id);
 		$this->db->delete($this->model->t_table);
 
-		$this->session->set_flashdata('messages', 'Data berhasil dihapus');
+		$this->session->set_flashdata('messages', 'Data deleted');
 
-		redirect(site_url('vendor'));
+		redirect(site_url('region'));
 	}
 }
