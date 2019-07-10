@@ -25,14 +25,20 @@
 	 * @param	id, page, limit, search
 	 * @return 	array
 	 **/
-	public function data_($id=0, $page=0, $limit=0, $search=0)
+	public function data_($type = '', $user_id = '')
 	{
 		$this->db->from($this->t_table);
-		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager');
+		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, u2.name as osm');
 		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
 		$this->db->join('user', 'user.id='. $this->t_table .'.project_manager_id', 'left');
+		$this->db->join('user u2', 'u2.id='. $this->t_table .'.osm_id', 'left');
 
-		$i = $this->db->get();
+		if($type == 'pm')
+		{
+			$this->db->where('project_manager_id', $user_id);
+		}
+
+		$i = $this->db->get();	
 		
 		return $i->result_array();
 	}
@@ -46,6 +52,22 @@
 		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, user.phone, user.email');
 		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
 		$this->db->join('user', 'user.id='. $this->t_table .'.project_manager_id', 'left');
+
+		$i = $this->db->get();
+		
+		return $i->row_array();
+	}
+
+	/**
+	 * Get Manager Project
+	 */
+	public function get_osm_by_project($project_id)
+	{
+		$this->db->from($this->t_table);
+		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, user.phone, user.email');
+		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
+		$this->db->join('user', 'user.id='. $this->t_table .'.osm_id', 'left');
+		$this->db->where($this->t_table .'.id', $project_id);
 
 		$i = $this->db->get();
 		
@@ -83,9 +105,10 @@
     public function get_by_id($id)
     {
     	$this->db->from($this->t_table);
-		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager');
+		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, u2.name as osm');
 		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
 		$this->db->join('user', 'user.id='. $this->t_table .'.project_manager_id', 'left');
+		$this->db->join('user u2', 'u2.id='. $this->t_table .'.osm_id', 'left');
 		$this->db->where([$this->t_table .'.id' => $id]);
 
 		$data = $this->db->get();

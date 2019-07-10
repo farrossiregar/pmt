@@ -29,7 +29,6 @@
               <th class="column-title no-link last" style="width: 30px;"></th>
             </tr>
           </thead>
-
           <tbody>
             <?php foreach($data as $key => $item): ?>
               <tr class="even pointer">
@@ -50,9 +49,7 @@
                     </div>
                   </td>
               </tr>
-          <?php 
-              endforeach;
-          ?>
+          <?php endforeach;?>
           </tbody>
         </table>
       </div>

@@ -28,18 +28,19 @@
 	 **/
 	public function data_($user_id)
 	{
-		$this->db->select('pr.*, p.name as project, u_p.name as project_manager, p.project_manager_id, c.name as company');
+		$this->db->select('pr.*,p.osm_id, u_osm.name as osm, p.name as project, u_p.name as project_manager, p.project_manager_id, c.name as company');
 		$this->db->order_by('id','desc');
 		
 		$this->db->from($this->t_table.' pr');
 		$this->db->join('projects p ', 'p.id=pr.project_id');
 		$this->db->join('user u_p ', 'u_p.id=p.project_manager_id');
+		$this->db->join('user u_osm ', 'u_osm.id=p.osm_id');
 		$this->db->join('company c ', 'c.id=pr.company_id');
 
 		if($this->session->userdata('access_id') != 14 )
 		{
 			$this->db->where(['pr.user_id' => $user_id]);
-			$this->db->or_where(['p.project_manager_id' => $user_id]);
+			$this->db->or_where(['p.osm_id' => $user_id]);
 		}
 
 		if($position > 2){
@@ -169,8 +170,8 @@
             {
             	$this->load->model('Project_model');
             	
-            	$project = $this->Project_model->get_manager_by_project('project_id', $project_id);
-
+            	$project = $this->Project_model->get_osm_by_project($project_id);
+            	
             	// send notifikasi whatsapp
             	$message  = "This ". $data['purchase_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
             	$message .= "\n ". site_url('approve/prpm/'. $token_code) ."\n ";
@@ -331,12 +332,13 @@
 	 */
 	public function get_by_id($id)
 	{
-		$this->db->select('pr.*, p.name as project, r.region_code, p.project_type, p.project_code, u_p.name as project_manager, p.project_manager_id');
+		$this->db->select('pr.*,p.osm_id,u_osm.name as osm, p.name as project, r.region_code, p.project_type, p.project_code, u_p.name as project_manager, p.project_manager_id');
 		$this->db->order_by('id','desc');
 		
 		$this->db->from($this->t_table.' pr');
 		$this->db->join('projects p ', 'p.id=pr.project_id');
 		$this->db->join('user u_p ', 'u_p.id=p.project_manager_id');
+		$this->db->join('user u_osm ', 'u_osm.id=p.osm_id');
 		$this->db->join('region r', 'r.id=p.region_id');
 		$this->db->where(['pr.id' => $id]);
 
@@ -384,5 +386,4 @@
 
 		return $this->get_by_id($data['id']);;
 	}
-
 }

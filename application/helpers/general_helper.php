@@ -117,21 +117,23 @@ function status_quotation_rfq_vendor($id, $vendor_id)
     {
         if($query['status'] == 1)
         {
-            return $query['quotation_number'];
+            $msg =  $query['quotation_number'];
         }
         elseif($query['status'] ==2)
         {
-            return "<strong class=\"text-success\">Win</strong>";
+            $msg = "<strong class=\"text-success\">Win</strong>";
         }
         else
         {
-            return "<strong class=\"text-danger\">Lose</strong>";
+            $msg = "<strong class=\"text-danger\">Lose</strong>";
         }
     }
     else
     {
-        return "<strong class=\"text-warning\">Open</strong>";
+        $msg =  "<strong class=\"text-warning\">Open</strong>";
     }
+
+    return ['status' => $query['status'], 'msg' => $msg];
 }
 
 /**

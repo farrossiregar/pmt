@@ -78,12 +78,13 @@ class RequestForQuotation extends CI_Controller {
 			}
 
 			// change status is nego
-			$this->db->where('id', $id);	
+			$this->db->where('request_for_qoutation_id', $id);	
+			$this->db->where('vendor_id', $_GET['vendor_id']);
 			$this->db->update('request_for_qoutation_vendor', ['is_nego' => 1]);
-
+			
 			$this->session->set_flashdata('messages', 'Nego Submited.');
 
-			redirect('requestForQuotation/index','location');
+			redirect('requestForQuotation/bac/'. $id,'location');
 		}
 
 
@@ -253,4 +254,38 @@ class RequestForQuotation extends CI_Controller {
 
 		redirect(site_url('requestForQuotation'));
 	}
+
+	
+    public function pdf($id){
+        $params['rfq'] = $this->model->getRFQ($id);
+        //$params['material'] = $this->MaterialPO_model->get_where_many(['materi_po.po_id    ' => $params['po']['id']]);
+        //$params['t'] = $this->TermConditionPo_model->get_where_many(['po_id    ' => $params['po']['id']]);
+        $html = $this->load->view('pages/requestForQuotation/rfq_pdf', $params, true);
+        //print_r($html);exit();
+        //this the the PDF filename that user will get to download
+        $pdfFilePath = "RFQ-". date('d M Y') .".pdf";
+
+        //load mPDF library
+        $this->load->library('m_pdf');
+
+        $this->m_pdf = new mPDF();
+        
+        $this->m_pdf->showImageErrors = true;
+
+        $this->m_pdf->SetHTMLHeader('<div style="text-align: center;"><img src="'.base_url().'assets/images/logo.png" /></div>');
+
+        $this->m_pdf->AddPage('P', '', '', '', '',
+            15, // margin_left
+            10, // margin right
+            5, // margin top
+            5, // margin bottom
+            5, // margin header
+            5); // margin footer
+
+           //generate the PDF from the given html
+        $this->m_pdf->WriteHTML($html);
+
+        //download it.
+        $this->m_pdf->Output($pdfFilePath, "I");        
+    }
 }

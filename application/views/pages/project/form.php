@@ -49,6 +49,14 @@
                 <input type="hidden" name="project[project_manager_id]" value="<?=isset($data['project_manager_id']) ? $data['project_manager_id'] : ''?>" />
               </div>
             </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Operation Service Manager <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" class="form-control autocomplete-osm" value="<?=isset($data['osm']) ? $data['osm'] : ''?>" required />
+                <input type="hidden" name="project[osm_id]" value="<?=isset($data['osm_id']) ? $data['osm_id'] : ''?>" />
+              </div>
+            </div>
           </div>
           <div class="clearfix"></div>
           
@@ -111,7 +119,7 @@
     dataType: "json",
     source: function( request, response ) {
         $.ajax({
-          url: "<?=site_url('ajax/getuser')?>",
+          url: "<?=site_url('ajax/getpm')?>",
           method : 'POST',
           data: {
             'name': request.term
@@ -123,6 +131,29 @@
     },
     select: function( event, ui ) {
       $("input[name='project[project_manager_id]']").val(ui.item.id);
+    }
+  }).on('focus', function () {
+        $(this).autocomplete("search", "");
+  });
+
+  $(".autocomplete-osm").autocomplete({
+    minLength:0,
+    limit: 25,
+    dataType: "json",
+    source: function( request, response ) {
+        $.ajax({
+          url: "<?=site_url('ajax/getosm')?>",
+          method : 'POST',
+          data: {
+            'name': request.term
+          },
+          success: function( data ) {
+            response( data );
+          }
+        });
+    },
+    select: function( event, ui ) {
+      $("input[name='project[osm_id]']").val(ui.item.id);
     }
   }).on('focus', function () {
         $(this).autocomplete("search", "");

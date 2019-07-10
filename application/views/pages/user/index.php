@@ -26,10 +26,13 @@
               </tr>
             </thead>
             <tbody>
-              <?php foreach($data as $key => $item):?>
+              <?php 
+                $no = 0;
+                foreach($data as $key => $item):?>
                 <?php if($item['user_group_id'] == 7) continue; ?>
+                <?php $no++; ?>
                 <tr class="even pointer">
-                    <td class="a-center "><?=($key+1)?></td>
+                    <td class="a-center "><?=($no)?></td>
                     <td><?=$item['username']?></td>
                     <td><?=$item['name']?></td>
                     <td><?=$item['user_group']?></td>

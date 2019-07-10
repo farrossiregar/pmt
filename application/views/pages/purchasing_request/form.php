@@ -7,7 +7,7 @@
          </div>
          <div class="x_content">
             <br>
-            <form id="demo-form2" name="demo-form2" method="post" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+            <form id="demo-form2" name="demo-form2" autocomplete="off" method="post" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
                <input type="hidden" id="purchase_id" name="purchase_id" />
                <input type="hidden" id="purchase_material_id" name="purchase_material_id" />
                <div class="form-group">
@@ -29,7 +29,7 @@
                      <select class="form-control" name="projects" id="projects">
                         <option value="" data-project_code="">- Projects -</option>
                         <?php foreach ($project as $key => $value){?>
-                           <option value="<?=$value['id']?>" data-project_code="<?=$value['project_code']?>" data-pr_number="<?=generate_purchase_request_no($value['project_code'])?>" data-region="<?=$value['region_code']?>" data-project_type="<?=$value['project_type']?>" data-project_manager="<?=$value['project_manager']?>"><?=$value['project_code']?> / <?=$value['name']?></option>
+                           <option value="<?=$value['id']?>" data-osm="<?=$value['osm']?>" data-project_code="<?=$value['project_code']?>" data-pr_number="<?=generate_purchase_request_no($value['project_code'])?>" data-region="<?=$value['region_code']?>" data-project_type="<?=$value['project_type']?>" data-project_manager="<?=$value['project_manager']?>"><?=$value['project_code']?> / <?=$value['name']?></option>
                         <?php } ?>
                      </select>
                   </div>
@@ -47,9 +47,9 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group_id">Project Manager</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group_id">Operation Service Manager</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" class="form-control readonly_project_manager" readonly="true" value="<?=(isset($data['project_manager']) ? $data['project_manager'] : "")?>">
+                     <input type="text" class="form-control readonly_osm" readonly="true" value="<?=(isset($data['osm']) ? $data['osm'] : "")?>">
                   </div>
                </div>
                <div class="form-group">
@@ -63,7 +63,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="require_date">Required Date <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" value="<?=(isset($data['require_date']) ? $data['require_date'] : "")?>"  name="require_date" class="form-control tanggal" id="require_date">
+                    <input type="text" value="<?=(isset($data['require_date']) ? $data['require_date'] : "")?>"  name="require_date" class="form-control" id="require_date">
                   </div>
                </div>
                <hr/>
@@ -159,7 +159,31 @@
    </div>
 </div>
 <script type="text/javascript">
+function CompareDate(val){
+   var pr_date = $("#pr_date").val();
+   if(pr_date){
+      var date_pr = new Date(pr_date).getTime();
+      var req_date = new Date(val.value).getTime();
+      if(req_date < date_pr){
+         alert('Require Date cannot less than Purchase Request Date !');
+         val.value = '';
+      }
+   }else{
+      alert('Purchase Request Date cannot be null !');
+   }
+}
+
 (function ($){
+
+   $('#require_date').datepicker({
+     dateFormat: 'yy-mm-dd',
+     format: 'yyyy-mm-dd',
+     onSelect: function(d,i){
+          if(d !== i.lastVal){
+              $(this).change();
+          }
+     }
+   });
 
    $("select[name='company_id']").on('change', function(){
       generate_pr_number();
@@ -177,6 +201,7 @@
 
       $('.readonly_project_type').val(el.data('project_type'));
       $('.readonly_project_manager').val(el.data('project_manager'));
+      $('.readonly_osm').val(el.data('osm'));
       $('.readonly_region').val(el.data('region'));
    });
 
