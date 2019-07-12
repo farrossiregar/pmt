@@ -57,17 +57,7 @@ class PurchaseOrderFinance extends CI_Controller {
 			$this->db->update('purchase_order_warehouse');
 
 			$this->session->set_flashdata('messages', 'Purchase Order Submited.');
-
-			$finance = $this->db->get_where('user', ['user_group_id' => 16])->row_array();
-			if($finance)
-			{
-				// send notifikasi whatsapp
-				$message  = "This ". $param['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= "\n ";//. site_url('approve/pr/'. $token_code) ."\n ";
-
-				ApiWhaCurl($finance['phone'], $message);
-			}
-
+			
 			redirect('purchaseOrderFinance','location');
 		}
 
