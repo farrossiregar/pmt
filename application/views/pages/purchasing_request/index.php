@@ -48,7 +48,7 @@
                            }else if($value['status'] == 3){
                               echo "<button class='btn btn-danger btn-xs'>Rejected</button>";
                            }else if($value['status'] == 4){
-                              echo "<button class='btn btn-warning  btn-xs'>Delivery</button>";
+                              echo "<button class='btn btn-warning btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
                            }else if($value['status'] == 5){
                               echo "<button class='btn btn-info  btn-xs'><i class=\"fa fa-check-square-o\"></i> Received</button>";
                            } 

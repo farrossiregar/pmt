@@ -109,13 +109,13 @@
 			$sub_total = 0;
 			foreach($material as $item) { ?>
 				<tr>
-					<td class="border"><?=$item['qty']?></td>
-					<td class="border"><?=$item['material']?></td>
-					<td class="border" style="text-align: right"><?=format_idr($item['price'])?></td>
-					<td class="border" style="text-align: right"><?=format_idr($item['price']*$item['qty'])?></td>
+					<td class="border"><?=@$item->qty?></td>
+					<td class="border"><?=@$item->material?></td>
+					<td class="border" style="text-align: right"><?=@format_idr($item->price)?></td>
+					<td class="border" style="text-align: right"><?=@format_idr($item->price*$item->qty)?></td>
 				</tr>
 			<?php 
-				$sub_total += $item['price']*$item['qty'];
+				$sub_total += $item->price*$item->qty;
 				}?>
 				<tr>
 					<td> </td>

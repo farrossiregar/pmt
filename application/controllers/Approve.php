@@ -32,6 +32,7 @@ class Approve extends CI_Controller {
 
 		$this->load->model('PurchaseRequest_model');
 		$this->load->model('MaterialPurchaseRequest_model');
+		$this->load->model('Project_model');
 
 		$params['data'] = $this->PurchaseRequest_model->get_by_token($token);
 		$params['material'] = $this->MaterialPurchaseRequest_model->get_where_many(['purchase_request_id' => $params['data']['id']]);
@@ -60,11 +61,11 @@ class Approve extends CI_Controller {
 			$this->db->flush_cache();
 			
 			if($post['status'] == 1)
-				$this->db->set('status', 2);
+				$this->db->set('status', 4);
 			else
 				$this->db->set('status', 3);
 
-			$this->session->set_flashdata('messages', 'Purchase Request #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
+			$this->session->set_flashdata('messages', 'Purchase Requisition #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
 
 			$this->db->set('note_pm', $post['note']);
 			$this->db->where('token_code', $token_code);
@@ -72,7 +73,7 @@ class Approve extends CI_Controller {
 
 			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
         		
-    		if(!empty($user))
+    		if(!empty($user) and $post['status'] == 1)
     		{
 				$token_code = md5(uniqid());
         		$this->db->set('token_expired', date('Y-m-d', strtotime( date('Y-m-d') .' + 3 day')));
@@ -81,13 +82,42 @@ class Approve extends CI_Controller {
         		$this->db->update('purchase_request');
 
 				// send notifikasi whatsapp
-				$message  = "This ". $params['data']['no'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= "\n ". site_url('approve/prho/'. $token_code) ."\n ";
+				$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
+				//$message .= "\n ". site_url('approve/prho/'. $token_code) ."\n ";
             	
             	$param['message'] 	= $message;
             	$param['phone'] 	= $user['phone'];
             	$param['email']		= $user['email'];
-            	$param['subject']	= 'Purchase Request Need Your Approval #'. $params['data']['no'];
+            	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
+
+            	send_notif($param);
+
+            	// send PM
+            	$pm = $this->Project_model->get_manager_by_project($params['data']['project_id']);
+            	// send notifikasi whatsapp
+            	$message  = "Your Purchase Requisition ". $data['purchase_number'] .' Approved.';
+            	
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $project['phone'];
+            	$param['email']		= $project['email'];
+            	$param['subject']	= 'Purchase Requisition  #'. $data['purchase_number'];
+
+            	send_notif($param);
+			}
+			else
+			{
+        		$this->db->set('token_code', '-' );
+        		$this->db->where('id', $params['data']['id']);
+        		$this->db->update('purchase_request');
+
+				$pm = $this->Project_model->get_manager_by_project($params['data']['project_id']);
+            	// send notifikasi whatsapp
+            	$message  = "Your Purchase Requisition ". $data['purchase_number'] .' Rejected.';
+            	
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $project['phone'];
+            	$param['email']		= $project['email'];
+            	$param['subject']	= 'Purchase Request  #'. $data['purchase_number'];
 
             	send_notif($param);
 			}
