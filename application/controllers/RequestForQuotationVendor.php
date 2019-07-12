@@ -47,6 +47,55 @@ class RequestForQuotationVendor extends CI_Controller {
 	}
 
 	/**
+	 * Nego
+	 */
+	public function nego($id)
+	{
+		$params['page'] 			= 'requestForQuotation/nego';
+		$params['data'] 			= $this->model->get_by_id($id);
+		$params['material']			= $this->model->material($id);
+		$params['vendor_id']		= $_GET['vendor_id'];
+		$params['quotation_order_vendor_id']		= $id;
+
+		if($this->input->post())
+		{			
+			$post 							= $this->input->post();
+
+			foreach($post['persen_nego'] as $k => $i)
+			{
+				if($i== "") continue;
+
+				$val['request_for_qoutation_material_id'] 	= $id;
+				$val['persen_nego'] 						= $i;
+				$val['price_nego'] 							= $post['price_nego'][$k];
+				$val['price'] 								= $post['price'][$k];
+				$val['material_id'] 						= $post['material_id'][$k];
+				$this->db->insert('request_for_qoutation_material_nego', $val);	
+			
+				$this->db->flush_cache();
+				$val = [];
+				$val['persen_nego'] = $i;
+				$val['price_nego']	= $post['price_nego'][$k];
+				$this->db->where('quotation_order_vendor_id', $id);
+				$this->db->where('material_id', $post['material_id'][$k]);
+				$this->db->update('quotation_order_vendor_material', $val);
+			}
+
+			// change status is nego
+			$this->db->where('request_for_qoutation_id', $id);	
+			$this->db->where('vendor_id', $_GET['vendor_id']);
+			$this->db->update('request_for_qoutation_vendor', ['is_nego' => 2]);
+			
+			$this->session->set_flashdata('messages', 'Nego Submited.');
+
+			redirect('requestForQuotationVendor');
+		}
+
+
+		$this->load->view('layouts/main', $params);
+	}
+
+	/**
 	 * Detail
 	 */
 	public function detail($id)

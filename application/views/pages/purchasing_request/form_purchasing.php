@@ -2,7 +2,7 @@
    <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
          <div class="x_title">
-            <h2>Form PURCHASING REQUEST</h2>
+            <h2>Form Purchase Requisition</h2>
             <div class="clearfix"></div>
          </div>
          <div class="x_content">
@@ -11,7 +11,7 @@
             <form id="demo-form2" method="post" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">                   
 
             	<div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no">No Purchase Request<span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="no">No Purchase Requisition<span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text"  name="purchasingRequest[no]" value="<?=(isset($data['no']) ? $data['no'] : generate_purchase_request_no())?>" readonly="readonly" class="form-control" id="no" >

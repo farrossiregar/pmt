@@ -39,7 +39,10 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Order Unit<span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select class="form-control" name="Material[order_unit]">
+                    <input type="text" class="form-control autocomplete-order-unit" name="order_unit_name"  value="<?=(isset($data['name_unit']) ? $data['name_unit'] : '')?>">
+                    <input type="hidden" class="form-control" name="Material[order_unit]" value="<?=(isset($data['order_unit']) ? $data['order_unit'] : '')?>">
+                    
+                    <!-- <select class="form-control" name="Material[order_unit]">
                      <?php 
                         foreach ($unit as $key => $value){
                             $selected = "";
@@ -54,7 +57,7 @@
                            echo "<option ".$selected."  value='".$value['id']."'>".$value['name']."</option>";
                         }
                      ?>                  
-                     </select>
+                     </select> -->
                   </div>
                </div>
                <div class="form-group">
@@ -349,7 +352,8 @@
       </div>
    </div>
 </div>
-
+<link href="<?=base_url()?>assets/js/ui/jquery-ui.min.css" rel="stylesheet">
+<script src="<?=base_url()?>assets/js/ui/jquery-ui.min.js"></script>
 <script type="text/javascript">
    $( document ).ready(function() {
 
@@ -395,6 +399,29 @@
             $("#shipping_instruction_val").val(0);
          }
 
+      });
+
+      $(".autocomplete-order-unit").autocomplete({
+        minLength:0,
+        limit: 25,
+        dataType: "json",
+        source: function( request, response ) {
+            $.ajax({
+              url: "<?=site_url('ajax/getorderunit')?>",
+              method : 'POST',
+              data: {
+                'name': request.term
+              },
+              success: function( data ) {
+                response( data );
+              }
+            });
+        },
+        select: function( event, ui ) {
+          $("input[name='Material[order_unit]']").val(ui.item.id);
+        }
+      }).on('focus', function () {
+            $(this).autocomplete("search", "");
       });
 
       $("#material_detail").click(function(){

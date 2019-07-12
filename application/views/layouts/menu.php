@@ -135,7 +135,7 @@ else if($access == 14) // Procurement HO
 		],
 		[
 			'label' => 'Bid Analysis Comparison',
-			'link' => 'Bac',
+			'link' => 'home/bac',
 			'icon' => 'fa-bar-chart'
 		]
 	]; 

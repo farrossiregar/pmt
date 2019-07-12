@@ -1,5 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+/**
+ * [request_for_qoutation_vendor description]
+ * @return [type] [description]
+ */
+function request_for_qoutation_vendor()
+{
+
+}
+
 /**
  * Get Regionn
  * @return objects
@@ -193,7 +203,7 @@ function send_notif($param)
 
     $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
     $message = 'text='. urlencode($message);
-    $number = str_replace_first('0','62', $param['number']);
+    $number = str_replace_first('0','62', $param['phone']);
     $number = str_replace('-', '', $number);
     
     $url = "https://panel.apiwha.com/send_message.php?apikey=". APIWHA_TOKEN ."&number=". $number ."&".$message;

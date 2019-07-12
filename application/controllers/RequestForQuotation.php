@@ -52,6 +52,7 @@ class RequestForQuotation extends CI_Controller {
 		$params['data'] 			= $this->model->get_by_id($id);
 		$params['material']			= $this->model->material($id);
 		$params['vendor_id']		= $_GET['vendor_id'];
+		$params['quotation_order_vendor_id'] = $id;
 
 		if($this->input->post())
 		{			
@@ -146,6 +147,7 @@ class RequestForQuotation extends CI_Controller {
 			$post 							= $this->input->post();
 			$rfq							= $this->input->post('RFQ');
 			$rfq['purchase_request_id'] 	= $_GET['pr_id'];
+			$rfq['created_at'] 				= date('Y-m-d H:i:s');
 
 			$rfq_material	= $this->input->post('RFQMaterial');
 			$rfq_id = $this->model->add_data($rfq);

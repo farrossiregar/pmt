@@ -76,8 +76,21 @@ class Material extends CI_Controller {
 	{
 		if($this->input->post())
 		{ 
-
 			$post	= $this->input->post('Material');
+
+			// new insert order unit
+			if($post['order_unit'] == "" and $this->input->post('order_unit_name') != "")
+			{
+				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+				$post['order_unit'] =  $this->db->insert_id();
+			}
+
+			if($post['order_unit'] != "" and $this->input->post('order_unit_name') != "")
+			{
+				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+				$post['order_unit'] =  $this->db->insert_id();	
+			}
+
 
 			if(isset($post['division']))
 			{
@@ -125,6 +138,13 @@ class Material extends CI_Controller {
 		if($this->input->post())
 		{
 			$post	= $this->input->post('Material');
+
+			// new insert order unit
+			if($post['order_unit'] != $model->order_unit and $this->input->post('order_unit_name') != "")
+			{
+				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+				$post['order_unit'] =  $this->db->insert_id();
+			}
 
 			if(isset($post['division']))
 			{

@@ -165,11 +165,11 @@ function CompareDate(val){
       var date_pr = new Date(pr_date).getTime();
       var req_date = new Date(val.value).getTime();
       if(req_date < date_pr){
-         alert('Require Date cannot less than Purchase Request Date !');
+         alert('Require Date cannot less than Purchase Requisition Date !');
          val.value = '';
       }
    }else{
-      alert('Purchase Request Date cannot be null !');
+      alert('Purchase Requisition Date cannot be null !');
    }
 }
 

@@ -22,23 +22,10 @@ class Home extends CI_Controller {
 		endif;
 		$this->load->model('Employee_model');
 		$this->model = $this->Employee_model;
+		$this->load->model('RequestForQoutation_model');
+		$this->load->model('Home_model');
 	}
-	
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function index()
 	{
 		$params = [];
@@ -46,6 +33,12 @@ class Home extends CI_Controller {
 
 		if($this->session->userdata('access_id') == 1)
 			$params['page'] = 'home';
+
+		if($this->session->userdata('access_id') == 14)
+		{
+			$params['data'] = $this->Home_model->transaksi();
+			$params['page'] = 'home-ho';
+		}
 
 		if($this->session->userdata('access_id') == 7){
 			$this->load->model('Producthistorystock_model');
@@ -70,6 +63,32 @@ class Home extends CI_Controller {
 		// cek custome old or no
 		$this->cek_customer_old();	
 
+		$this->load->view('layouts/main', $params);
+	}
+	
+	/**
+	 * BAC
+	 * @return void
+	 */
+	public function bac()
+	{
+		$this->db->from('request_for_qoutation_material rfqm');
+		$this->db->select('sad.sales_price, rfq.id, rfq.*, v.name as vendor_name, c.name as company_name,  m.name as material_name');
+		$this->db->join('request_for_qoutation rfq', 'rfq.id=rfqm.request_for_qoutation', 'left');
+		$this->db->join('purchase_request pr', 'pr.id=rfq.purchase_request_id', 'left');
+		$this->db->join('company c', 'c.id=pr.company_id', 'left');
+		$this->db->join('material m', 'm.id=rfqm.material_id', 'left');
+		$this->db->join('request_for_qoutation_vendor rfqv', 'rfqv.request_for_qoutation_id=rfq.id');
+		$this->db->join('vendor_of_material v', 'v.id=rfqv.vendor_id');
+		$this->db->join('sales_and_distribution sad', 'sad.material_id=rfqm.material_id and sad.vendor_id=rfqv.id', 'left');
+		$this->db->group_by(['rfqv.vendor_id', 'rfqm.material_id']);
+
+		$data = $this->db->get()->result_array();
+
+		$params['page'] = 'bac-all';
+		$params['data'] = $data;
+
+		
 		$this->load->view('layouts/main', $params);
 	}
 

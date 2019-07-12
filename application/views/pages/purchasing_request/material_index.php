@@ -1,10 +1,10 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
    <div class="x_panel">
       <div class="x_title">
-         <h2>Material Purcashing Request :  <b><?php echo $header['no']; ?></b></h2>
+         <h2>Material Purchase Requisition :  <b><?php echo $header['no']; ?></b></h2>
          &nbsp;
          <!--<a href="<?=site_url('PurchasingRequest/insert/'.$header['id'])?>" class="btn btn-success btn-sm">Create / Insert Material </a>-->
-         <a href="<?=site_url('PurchasingRequest/')?>" class="btn btn-success btn-sm">back to all purchasing</a>
+         <a href="<?=site_url('PurchasingRequest/')?>" class="btn btn-success btn-sm">back to all Purchase Requisition</a>
          <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
          </ul>

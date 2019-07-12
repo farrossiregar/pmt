@@ -1,7 +1,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
    <div class="x_panel">
       <div class="x_title">
-          <h2>Purchasing Request</h2>
+          <h2>Purchase Requisition</h2>
           <div class="pull-right">
             <a href="<?=site_url('PurchasingRequest/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create / Insert</a>
           </div>
@@ -14,7 +14,7 @@
                   <tr class="headings">
                      <th class="column-title" align="center">No</th>
                      <th class="column-title">Company </th>
-                     <th class="column-title">No Purchase Request </th>
+                     <th class="column-title">No Purchase Requisition </th>
                      <th class="column-title">Requester </th>
                      <th class="column-title">Region </th>
                      <th class="column-title">Project </th>

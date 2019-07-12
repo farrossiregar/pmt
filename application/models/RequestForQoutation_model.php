@@ -44,7 +44,7 @@
 	 */
 	public function data_rfq_vendor($vendor_id)
 	{
-		$this->db->select($this->t_table .'.*');
+		$this->db->select($this->t_table .'.*, rv.is_nego');
 		$this->db->from($this->t_table);
 		$this->db->join('request_for_qoutation_vendor rv', $this->t_table .'.id=rv.request_for_qoutation_id');
 		$this->db->where('rv.vendor_id', $vendor_id);
