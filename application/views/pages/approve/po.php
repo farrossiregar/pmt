@@ -208,24 +208,35 @@
                        }
                     ?>
                  </tbody>                
-                 <tfoot>
+                 <tfoot style="background: #f5f5f5;">
                     <tr>
-                       <th colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</th>
+                       <td colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</td>
                        <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
                     </tr>
                     <tr>
-                       <th colspan="5" style="text-align: right;background: #f5f5f5;">VAT (<?=$data->vat?>%)</th>
-                       <th style="background: #f5f5f5;padding-top:0;"><?=format_idr($vat * $sub_total / 100)?></th>
+                       <td colspan="5" style="text-align: right;vertical-align: middle;">Discount</td>
+                       <th><?=$data->discount?>% (Rp. <?=format_idr($data->discount_rp)?>)</th>
                     </tr>
                     <tr>
-                       <th colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</th>
-                       <th style="background: #f5f5f5;" class="vat"><?=format_idr($sub_total)?></th>
+                       <td colspan="5" style="text-align: right;vertical-align: middle;">
+                          <?php if($data->vat_type==1){ echo "PPH"; }?>
+                          <?php if($data->vat_type==2){ echo "PPN"; }?>
+                       </td>
+                       <th><?=format_idr($data->vat)?>% (Rp. <?=format_idr($vat)?>)</th>
+                    </tr>
+                    <tr>
+                       <td colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</td>
+                       <th><?=format_idr($data->shipping_charge)?></th>
+                    </tr>
+                    <tr>
+                       <td colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</td>
+                       <th style="background: #f5f5f5;" class="vat"><?=format_idr( $sub_total + $data->shipping_charge + $vat - $data->discount_rp)?></th>
                     </tr>
                  </tfoot>
               </table>
               <input type="hidden" name="sub_total" value="<?=$sub_total?>">
               <input type="hidden" name="tax">
-              <input type="hidden" name="total">
+              <input type="hidden" name="total" value="<?=($sub_total + $data->shipping_charge + $vat - $data->discount_rp)?>">
            </div>
         </div>
      </div>

@@ -69,7 +69,7 @@
 		return $i->result_array();
 	}
 
-	public function get_where_one($search = [])
+	public function get_where_one($search = [], $type = '')
 	{
 		$this->db->select($this->t_table.".*, 
 							vendor_of_material.name as vname, 
@@ -87,7 +87,7 @@
 							rfq.currency,
 							rfq.delivery_date,
 							rfq.expired_date,
-							rfq.term_day
+							pr.no as pr_number
 						");
 		$this->db->from($this->t_table);
 		if(! empty($search))
@@ -102,10 +102,13 @@
 		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id');
 		$this->db->join('quotation_order_vendor qo', 'qo.id=purchase_order_warehouse.quotation_vendor_id', 'left');
 		$this->db->join('request_for_qoutation rfq', 'rfq.id=purchase_order_warehouse.rfq_id', 'left');
-
+		$this->db->join('purchase_request pr', 'pr.id='. $this->t_table .'.pr_id', 'left');
 		$i = $this->db->get();
-		
-		return $i->row_array();
+
+		if($type == 'object') 
+			return $i->row_object();
+		else 
+			return $i->row_array();
 	}
 
 	function add_data($post_data) 
@@ -122,7 +125,7 @@
 	 */
 	public function get_by_id($id)
 	{
-		return $this->db->get_where($this->t_table, ['id' => $id])->row_array();
+		return $this->get_where_one([$this->t_table .'.id' => $id]);
 	}
 
 	/**
@@ -134,7 +137,7 @@
 		$this->db->from('purchase_order_material p');
 		$this->db->select('p.*, m.name as material');
 		$this->db->join('material m', 'm.id=p.material_id');
-		$this->db->where('po_id', $id);
+		$this->db->where('p.po_id', $id);
 
 		$data = $this->db->get();
 

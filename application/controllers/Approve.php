@@ -32,6 +32,7 @@ class Approve extends CI_Controller {
 
 		$this->load->model('PurchaseRequest_model');
 		$this->load->model('MaterialPurchaseRequest_model');
+		$this->load->model('Project_model');
 
 		$params['data'] = $this->PurchaseRequest_model->get_by_token($token);
 		$params['material'] = $this->MaterialPurchaseRequest_model->get_where_many(['purchase_request_id' => $params['data']['id']]);
@@ -60,37 +61,41 @@ class Approve extends CI_Controller {
 			$this->db->flush_cache();
 			
 			if($post['status'] == 1)
-				$this->db->set('status', 2);
+				$this->db->set('status', 4);
 			else
 				$this->db->set('status', 3);
 
-			$this->session->set_flashdata('messages', 'Purchase Request #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
+			$this->session->set_flashdata('messages', 'Purchase Requisition #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
 
 			$this->db->set('note_pm', $post['note']);
 			$this->db->where('token_code', $token_code);
 			$this->db->update('purchase_request');
 
 			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
-        		
-    		if(!empty($user))
-    		{
-				$token_code = md5(uniqid());
-        		$this->db->set('token_expired', date('Y-m-d', strtotime( date('Y-m-d') .' + 3 day')));
-        		$this->db->set('token_code', $token_code );
-        		$this->db->where('id', $params['data']['id']);
-        		$this->db->update('purchase_request');
+        	$pm = $this->Project_model->get_manager_by_project($params['data']['project_id']);
 
+    		$this->db->set('token_code', '-' );
+    		$this->db->where('id', $params['data']['id']);
+    		$this->db->update('purchase_request');
+    		if(!empty($user) and $post['status'] == 1)
+    		{
 				// send notifikasi whatsapp
-				$message  = "This ". $params['data']['no'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= "\n ". site_url('approve/prho/'. $token_code) ."\n ";
-            	
+				$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
             	$param['message'] 	= $message;
             	$param['phone'] 	= $user['phone'];
             	$param['email']		= $user['email'];
-            	$param['subject']	= 'Purchase Request Need Your Approval #'. $params['data']['no'];
+            	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
 
             	send_notif($param);
+            	$message  = "Your Purchase Requisition ". $data['purchase_number'] .' Approved.';
 			}
+			else $message  = "Your Purchase Requisition ". $data['purchase_number'] ." rejected.";
+
+        	$param['message'] 	= $message;
+        	$param['phone'] 	= $pm['phone'];
+        	$param['email']		= $pm['email'];
+        	$param['subject']	= 'Purchase Request  #'. $data['purchase_number'];
+        	send_notif($param);
 
 			redirect('approve/success','location');
 		}
@@ -105,6 +110,101 @@ class Approve extends CI_Controller {
 	public function success()
 	{
 		$this->load->view('pages/approve/success', $params);
+	}
+
+	/**
+	 * Approve PR Project Manager
+	 */
+	public function poprocurement($token)
+	{
+		$token = mysqli_real_escape_string(get_instance()->db->conn_id, $token);
+
+		$this->load->model('PurchaseOrderWarehouse_model');
+		$this->load->model('QuotationOrderVendor_model');
+
+		$item = $this->db->get_where('purchase_order_warehouse', ['token_code' => $token])->row_array();
+
+		$params['data'] 		= $this->PurchaseOrderWarehouse_model->get_where_one(['purchase_order_warehouse.id' => $item['id']], 'object');
+		$params['material']		= $this->PurchaseOrderWarehouse_model->material($item['id']);
+		$params['term']			= $this->PurchaseOrderWarehouse_model->term($item['id']);
+
+		if(!$params['data'])
+		{
+			$this->session->set_flashdata('messages', 'Token Not Found');
+
+			redirect('approve/success','location');	
+		}
+
+		if($this->input->post())
+		{
+			$post = $this->input->post();
+
+			if($post['status'] == 1)
+			{
+				$this->db->set('status_proqurement_ho', 1);
+				$this->db->set('status', 2);
+			}
+			else
+			{
+				$this->db->set('status_proqurement_ho', 2);
+				$this->db->set('status', 5);
+			}
+
+			$this->db->set('note_gm', $post['note']);
+			$this->db->where('id', $params['data']->id);
+			$this->db->update('purchase_order_warehouse');
+
+			$token_code = md5(uniqid());
+    		$this->db->set('token_code', $token_code );
+    		$this->db->where('id', $params['data']->id);
+    		$this->db->update('purchase_order_warehouse');
+
+			if($post['status'] == 1)
+			{
+	    		// Finance
+				$user = $this->db->get_where('user', ['user_group_id' => 16])->row_array();
+				if($user)
+				{
+					$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pofinance/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
+	            	send_notif($param);
+				}
+				// General Manager
+				$user = $this->db->get_where('user', ['user_group_id' => 15])->row_array();
+				if($user)
+				{
+					$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
+	            	send_notif($param);
+				}
+				$message  = "Purchase Order ". $params['data']->po_number ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
+			}
+			else $message  = "Purchase Order ". $params['data']->po_number ." Rejected Proqurement Manager.\n\nNote:\n". $post['note'];
+			
+			$user = $this->db->get_where('user', ['id' => $params['data']->user_id ])->row_array();
+			if($user)
+			{
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $user['phone'];
+            	$param['email']		= $user['email'];
+            	$param['subject']	= 'Purchase Order #'. $params['data']->po_number .( $post['status'] == 1 ? ' Approved' : ' Rejected');
+            	send_notif($param);
+			}
+
+			$this->session->set_flashdata('messages', 'Purchase Order #'. $params['data']->po_number. ( $post['status'] == 1 ? ' Approved' : ' Rejected'));
+			
+			redirect('approve/success','location');
+		}
+
+		$this->load->view('pages/approve/po', $params);
 	}
 
 	/**
@@ -195,32 +295,50 @@ class Approve extends CI_Controller {
 		{
 			$post = $this->input->post();
 
-			if($post['status'] == 1)
-				$this->db->set('status', 2);
+			if($params['data']->status_finance == 1)
+			{
+				if($post['status'] == 1)
+				{
+					$this->db->set('status_gm', 1);
+					$this->db->set('status', 4);
+					$this->db->set('token_code', '-');
+				}
+				else
+				{
+					$this->db->set('status', 5);
+					$this->db->set('status_gm', 1);
+				} 
+			}
 			else
-				$this->db->set('status', 4);
+			{
+				if($post['status'] == 1)
+				{
+					$this->db->set('status_gm', 1);
+				}
+				else 
+				{
+					$this->db->set('status_gm', 2);
+					$this->db->set('status', 5);
+				}
+			}
 
-			$this->db->set('note_gm', $post['note']);
+			if($post['status'] == 1)
+			{
+				$message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+			}
+			else $message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+			
+
 			$this->db->where('id', $params['data']->id);
-			$this->db->update('purchase_order_warehouse');
+	        $this->db->update('purchase_order_warehouse');
 
-			$user = $this->db->get_where('user', ['user_group_id' => 16])->row_array();
+			$user = $this->db->get_where('user', ['id' => $params['data']->user_id])->row_array();
 			if($user)
 			{
-				$token_code = md5(uniqid());
-        		$this->db->set('token_code', $token_code );
-        		$this->db->where('id', $params['data']->id);
-        		$this->db->update('purchase_order_warehouse');
-
-				// send notifikasi whatsapp
-				$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= "\n ". site_url('approve/pofinance/'. $token_code) ."\n ";
-            	
             	$param['message'] 	= $message;
             	$param['phone'] 	= $user['phone'];
             	$param['email']		= $user['email'];
-            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
-
+            	$param['subject']	= 'Purchase Order #'. $params['data']->po_number .( $post['status'] == 1 ? ' Approved' : ' Rejected');
             	send_notif($param);
 			}
 
@@ -267,14 +385,51 @@ class Approve extends CI_Controller {
 		{
 			$post = $this->input->post();
 
-			if($post['status'] == 1)
-				$this->db->set('status', 3);
+			if($params['data']->status_gm == 1)
+			{
+				if($post['status'] == 1)
+				{
+					$this->db->set('status_finance', 1);
+					$this->db->set('status', 4);
+					$this->db->set('token_code', '-');
+				}
+				else
+				{
+					$this->db->set('status', 5);
+					$this->db->set('status_finance', 1);
+				} 
+			}
 			else
-				$this->db->set('status', 4);
+			{
+				if($post['status'] == 1)
+				{
+					$this->db->set('status_finance', 1);
+				}
+				else 
+				{
+					$this->db->set('status_finance', 2);
+					$this->db->set('status', 5);
+				}
+			}
 
-			$this->db->set('note_gm', $post['note']);
+			if($post['status'] == 1)
+			{
+				$message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+			}
+			else $message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+			
 			$this->db->where('id', $params['data']->id);
-			$this->db->update('purchase_order_warehouse');
+	        $this->db->update('purchase_order_warehouse');
+
+			$user = $this->db->get_where('user', ['id' => $params['data']->user_id])->row_array();
+			if($user)
+			{
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $user['phone'];
+            	$param['email']		= $user['email'];
+            	$param['subject']	= 'Purchase Order #'. $params['data']->po_number .( $post['status'] == 1 ? ' Approved' : ' Rejected');
+            	send_notif($param);
+			}
 
 			$this->session->set_flashdata('messages', 'Purchase Order #'. $params['data']->po_number. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
 			

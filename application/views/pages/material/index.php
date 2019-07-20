@@ -3,14 +3,7 @@
       <div class="x_title">
         <h2>Material / Services</h2> &nbsp;
         <div class="btn-group pull-right">
-          <button type="button" class="btn btn-default btn-sm">Action</button>
-          <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="<?=site_url('material/insert')?>"><i class="fa fa-plus"></i> Create </a></li>
-            <li><a href=""><i class="fa fa-upload"></i> Import</a></li>
-          </ul>
+          <a href="<?=site_url('material/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
         </div>
         <div class="clearfix"></div>
       </div>

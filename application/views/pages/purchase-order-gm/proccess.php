@@ -120,15 +120,16 @@
                       <th>QTY</th>
                       <th>Price List</th>
                       <th>Discount (%)</th>
-                      <th>Price</th>
+                      <th>Sub Total</th>
                     </tr>
                   </thead>
                   <tbody class="add-table-rfq-request">
                      <?php 
                        $vat = 0;
+                       $total = 0;
                         if(isset($material) AND count($material) > 0)
                         {
-                           $sub_total = 0;
+                           $total = 0;
                            foreach ($material as $key => $item)
                            {
                               echo '<tr>';
@@ -139,39 +140,41 @@
                               echo '<td>'. $item->discount .'</td>';
                               echo '<td class="sub_total">'. format_idr($item->price * $item->qty) .'</td>';
                               echo '</tr>';
-
                               echo '<input type="hidden" name="Material['. $key .'][material_id]" value="'. $item->material_id .'" />';
                               echo '<input type="hidden" name="Material['. $key .'][qty]" value="'. $item->qty .'" />';
                               echo '<input type="hidden" name="Material['. $key .'][price]" value="'. $item->sales_price .'" />';
-
-                              $sub_total += $item->price * $item->qty;
+                              $total += $item->price * $item->qty;
                            }    
 
-                           $vat = $data->vat * $sub_total / 100;
+                           $vat = $data->vat * $total / 100;
                         }
                      ?>
                   </tbody>                
-                  <tfoot>
+                  <tfoot style="background: #fbfbfb;">
                      <tr>
-                        <th colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</th>
-                        <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
+                        <td><?=$data['discount']?>% (Rp. <?=format_idr($data['discount_rp'])?>)</td>
                      </tr>
                      <tr>
-                        <th colspan="5" style="text-align: right;background: #f5f5f5;">VAT (<?=$data->vat?>%)</th>
-                        <th style="background: #f5f5f5;padding-top:0;">
-                           <a href="#" class="edit_disc" data-type="text"><?=($vat * $sub_total / 100)?></a>
-                           <input type="hidden" name="PO[vat]" value="<?=$data->vat?>">
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">
+                           <?=$data['vat_type'] == 1 ? 'PPH' : 'PPN'?>
                         </th>
+                        <td>
+                           <?php $vat_idr = $total * $data['vat'] / 100; ?>
+                           <?=$data['vat']?>% (Rp <?=format_idr($vat_idr)?>)
+                        </td>
                      </tr>
                      <tr>
-                        <th colspan="5" style="text-align: right;background: #f5f5f5;">Shipping Charge</th>
-                        <th style="background: #f5f5f5;padding-top:0;"><?=format_idr($data->shipping_charge)?></th>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                        <td><?=format_idr($data['shipping_charge'])?></td>
                      </tr>
                      <tr>
-                        <th colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</th>
-                        <th style="background: #f5f5f5;" class="vat"><?=format_idr($sub_total)?></th>
+                        <td colspan="5" style="text-align: right;vertical-align: middle;">
+                           <b>Total</b>
+                        </td>
+                       <td id="total"><?=format_idr($total + $vat_idr - $data['discount_rp'] + $data['shipping_charge'])?></td>
                      </tr>
-                  </tfoot>
+                 </tfoot>
                </table>
                <div class="form-group">
                   <textarea name="note" class="form-control" placeholder="Note General Manager" style="height: 100px;width: 600px;"></textarea>
@@ -191,20 +194,55 @@
    </div>
 </div>
 <script type="text/javascript">
-   function reject()
-   {
-      if(confirm('Reject Purchasing Order ?'))
-      {
-         $("input[name='status']").val(0);
-         $("#proccess_po").trigger('submit');  
-      }
-   }
-
    function approve()
    {
-      if(confirm('Approve Purchasing Order ?'))
-      {
-         $("#proccess_po").trigger('submit');  
-      }
+      bootbox.confirm({
+      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
+      message: 'Approve Purchasing Order #<?=$data['po_number']?> ?',
+      closeButton: false,
+      buttons: {
+           confirm: {
+               label: '<i class="fa fa-check"></i> Yes',
+               className: 'btn btn-sm btn-success'
+           },
+           cancel: {
+               label: '<i class="fa fa-close"></i> No',
+               className: 'btn btn-sm btn-default btn-outline'
+           }
+      },
+      callback: function (result) {
+         if(result)
+         { 
+            $("input[name='status']").val(1);
+            $("#proccess_po").trigger('submit');
+         }
+       }
+     });
+   }
+
+   function reject()
+   {
+      bootbox.confirm({
+      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
+      message: 'Reject Purchasing Order #<?=$data['po_number']?> ?',
+      closeButton: false,
+      buttons: {
+           confirm: {
+               label: '<i class="fa fa-check"></i> Yes',
+               className: 'btn btn-sm btn-success'
+           },
+           cancel: {
+               label: '<i class="fa fa-close"></i> No',
+               className: 'btn btn-sm btn-default btn-outline'
+           }
+      },
+      callback: function (result) {
+         if(result)
+         { 
+            $("input[name='status']").val(2);
+            $("#proccess_po").trigger('submit');
+         }
+       }
+     });
    }
 </script>

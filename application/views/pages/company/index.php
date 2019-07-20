@@ -5,14 +5,7 @@
       <div class="x_title">
         <h2>Company</h2> &nbsp;
         <div class="btn-group pull-right">
-          <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-bars"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="<?=site_url('company/insert')?>"><i class="fa fa-plus"></i> Create </a></li>
-            <li><a href=""><i class="fa fa-upload"></i> Import</a></li>
-            <li><a href=""><i class="fa fa-download"></i> Export</a></li>
-          </ul>
+          <a href="<?=site_url('region/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
         </div>
         <div class="clearfix"></div>
       </div>

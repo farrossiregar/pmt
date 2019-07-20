@@ -35,7 +35,7 @@
       <div class="form-group">
         <label class="control-label col-md-12">Company </label>
         <div class="col-sm-12">
-           <select class="form-control" name="company_id" readonly>
+           <select class="form-control" name="company_id" disabled>
               <option value="" data-code="">-- Select Company --</option>
               <?php foreach(get_company() as $item) { ?>
               <option value="<?=$item['id']?>" <?=((isset($data['company_id']) and $data['company_id'] == $item['id']) ? ' selected ' : '')?> data-code="<?=$item['code']?>"><?=$item['name']?></option>

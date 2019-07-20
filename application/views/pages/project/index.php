@@ -5,7 +5,7 @@
       <div class="x_title">
         <h2>Project</h2> &nbsp;
         <div class="btn-group pull-right">
-          <a href="<?=site_url('project/insert')?>" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Create </a>
+          <a href="<?=site_url('project/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
         </div>
         <div class="clearfix"></div>
       </div>

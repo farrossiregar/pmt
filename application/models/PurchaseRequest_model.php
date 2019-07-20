@@ -37,7 +37,7 @@
 		$this->db->join('user u_osm ', 'u_osm.id=p.osm_id');
 		$this->db->join('company c ', 'c.id=pr.company_id');
 
-		if($this->session->userdata('access_id') != 14 )
+		if($this->session->userdata('access_id') != 14 and $this->session->userdata('access_id') != 18)
 		{
 			$this->db->where(['pr.user_id' => $user_id]);
 			$this->db->or_where(['p.osm_id' => $user_id]);
@@ -265,26 +265,33 @@
                 	$this->db->insert('approval', $konten);
 	            }
 
-	            // Send Notif to Procurement HO
-	            if($data['value'] == 2)
+            	$pr = $this->db->get_where('purchase_request',['id' => $data['id']])->row_array();
+				$pm = $this->Project_model->get_manager_by_project($pr['project_id']);
+	            $this->db->set('token_code', '-' );
+        		$this->db->where('id', $pr['id']);
+        		$this->db->update('purchase_request');
+
+	            if($data['value'] == 4)
             	{
-            		$po = $this->db->get_where('purchase_request',['id' => $data['id']])->row_array();
             		$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
-            		
             		if(!empty($user))
             		{
 						// send notifikasi whatsapp
-						$message  = "This ". $po['purchase_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-						$message .= "\n ". site_url('approve/pr/'. $token_code) ."\n ";
-		            	
+						$message  = "You have incoming Purchase Requisition ". $pr['no'];	
 		            	$param['message'] 	= $message;
 		            	$param['phone'] 	= $user['phone'];
 		            	$param['email']		= $user['email'];
-		            	$param['subject']	= 'Purchase Request Need Your Approval #'. $data['purchase_number'];
-
-		            	send_notif($param);
+		            	$param['subject']	= 'Purchase Requisition #'. $pr['no'];
+		            	send_notif($param); $params = "";
 					}
             	}
+            	else $message  = "Your Purchase Requisition ". $pr['no'] ." rejected.";
+            	
+            	$param['message'] 	= $message;
+	        	$param['phone'] 	= $pm['phone'];
+	        	$param['email']		= $pm['email'];
+	        	$param['subject']	= 'Purchase Requisition  #'. $pr['no'];
+	        	send_notif($param);
             }
 
             if ($this->db->trans_status() == false) {

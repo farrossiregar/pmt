@@ -105,7 +105,7 @@ else if($access == 13) // Purchasing
 	// 	]
 	// ]; 
 }
-else if($access == 14) // Procurement HO
+else if($access == 14) // Procurement Manager
 {
 	$menu = [
 		[
@@ -138,6 +138,31 @@ else if($access == 14) // Procurement HO
 			'link' => 'home/bac',
 			'icon' => 'fa-bar-chart'
 		]
+	]; 
+}
+elseif($access == 18) // Procurement
+{
+	$menu = [
+		[
+			'label' => 'Catalog',
+			'link' => 'procurementho/catalog',
+			'icon' => 'fa-database',
+		],
+		[
+			'label' => 'Purchasing Request',
+			'link' => 'purchase-request',
+			'icon' => 'fa-paper-plane-o',
+		],
+		[
+			'label' => 'Request For Quotation',
+			'link' => 'requestForQuotation',
+			'icon' => 'fa-paper-plane-o'
+		],
+		[
+			'label' => 'PO',
+			'link' => 'PurchaseOrderWarehouse',
+			'icon' => 'fa-paper-plane-o'
+		],
 	]; 
 }
 elseif($access == 7)
