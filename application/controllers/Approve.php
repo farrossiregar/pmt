@@ -72,15 +72,16 @@ class Approve extends CI_Controller {
 			$this->db->update('purchase_request');
 
 			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
-        	$pm = $this->Project_model->get_manager_by_project($params['data']['project_id']);
-
-    		$this->db->set('token_code', '-' );
-    		$this->db->where('id', $params['data']['id']);
-    		$this->db->update('purchase_request');
+        		
     		if(!empty($user) and $post['status'] == 1)
     		{
-				// send notifikasi whatsapp
+				$token_code = md5(uniqid());
+        		$this->db->set('token_code', '-');
+        		$this->db->where('id', $params['data']['id']);
+        		$this->db->update('purchase_request');
+				
 				$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
+
             	$param['message'] 	= $message;
             	$param['phone'] 	= $user['phone'];
             	$param['email']		= $user['email'];

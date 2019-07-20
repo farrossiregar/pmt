@@ -211,8 +211,8 @@ function CompareDate(val){
       var company_code = $("select[name='company_id']").children("option:selected").data('code');
       var project_code = $("select[name='projects']").children("option:selected").data('project_code');
       
-      pr_number += company_code != "" ? company_code : '';
-      pr_number += project_code != "" ? '/'+project_code : '';
+      //pr_number += company_code != "" ? company_code : '';
+      pr_number += project_code != "" ? project_code : '';
       pr_number += '<?=generate_purchase_request_no()?>';
 
       $("input[name='purchase_number']").val(pr_number);
