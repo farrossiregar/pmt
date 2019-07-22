@@ -128,6 +128,18 @@ class Approve extends CI_Controller {
 		$this->load->view('pages/approve/pr', $params);
 	}
 
+	public function test()
+	{
+		$message  = "Your Purchase Requisition  Rejected.";
+            	
+    	$param['message'] 	= $message;
+    	$param['phone'] 	= '087775365856';
+    	$param['email']		= 'doni.enginer@gmail.com';
+    	$param['subject']	= 'Purchase Request  #';
+
+    	send_notif($param);
+	}
+
 	/**
 	 * Success Page
 	 * @return view
