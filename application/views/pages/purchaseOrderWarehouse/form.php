@@ -12,19 +12,20 @@
                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="po_number">Company <span class="required">*</span>
                </label>
                <div class="col-md-6 col-sm-6 col-xs-12">
-               	<select class="form-control" name="PO[company_id]">
+               	<select class="form-control" disabled>
                		<option value="">-- Select Company --</option>
                		<?php foreach(get_company() as $item) { ?>
-					         <option value="<?=$item['id']?>" data-po_number="<?=generate_purchase_order_no($item['code'])?>"><?=$item['name']?></option>
+					         <option value="<?=$item['id']?>" <?=(isset($pr_data) and $pr_data['company_id'] == $item['id']) ? 'selected' : ''?> data-po_number="<?=generate_purchase_order_no($item['code'])?>"><?=$item['name']?></option>
                		<?php } ?>
                	</select>
+                  <input type="hidden" name="PO[company_id]" value="<?=(isset($pr_data) ) ? $pr_data['company_id'] : ''?>" />
                </div>
               </div>
                	<div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="po_number">PO Number <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="text" id="po_number" required="required" name="PO[po_number]" readonly="readonly" class="form-control col-md-7 col-xs-12">
+                     <input type="text" id="po_number" required="required" name="PO[po_number]" value="<?=generate_purchase_order_no($pr_data['project_code'])?>" readonly="readonly" class="form-control col-md-7 col-xs-12">
                   </div>
                	</div>
                	<div class="form-group">
@@ -83,7 +84,7 @@
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="doc_date">Doc. Date <span class="required">*</span>
                   </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
                      <input type="text" id="doc_date" required="required" name="PO[doc_date]"  class="form-control col-md-7 col-xs-12 tanggal">
                   </div>
                </div>               
@@ -92,34 +93,10 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="number" class="form-control" name="PO[term_day]" placeholder="Day" style="width: 150px; float: left; margin-right: 10px;">
-                     <label style="margin-top:8px;">After Invoice Received</label>
-                     <input type="text" class="form-control" name="PO[term_day_remark]" style="margin-top: 10px; width: 300px;" placeholder="Remark">
+                     <label style="margin-top:8px; float: left;">After Invoice Received</label>
+                     <input type="text" class="form-control" name="PO[term_day_remark]" style="float: left;margin-left: 10px; width: 300px;" placeholder="Remark">
                   </div>
                </div>
-
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">VAT
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" class="form-control" name="PO[vat]" placeholder="%" style="width: 150px; float: left; margin-right: 10px;">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Shipping Charge
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" class="form-control" name="PO[shipping_charge]" placeholder="Rp. " style="width: 150px; float: left; margin-right: 10px;">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Discount
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" class="form-control" name="PO[discount]" placeholder="%" style="width: 150px; float: left; margin-right: 10px;">
-                     <input type="number" class="form-control" name="PO[discount_rp]" placeholder="Rp. " style="width: 250px; float: left; margin-right: 10px;">
-                  </div>
-               </div>
-
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Note
                   </label>
@@ -152,17 +129,51 @@
                <table align="center" class="table" style="margin:auto; width: 90%" >
 	               	<thead>
 	               		<tr>
-	               			<td>Item</td>
-	               			<td>PO QTY</td>
-	               			<td>Unit Price</td>
-	               			<td>Sub Total</td>
+                           <th style="width: 50px;">No</th>
+	               			<th>Item</th>
+	               			<th>PO QTY</th>
+	               			<th>Unit Price</th>
+	               			<th style="width: 300px;">Sub Total</th>
 	               		</tr>
 	               	</thead>
-	               	<tbody id="material_body"></tbody>
-	               	<tfoot>
+	               	<tbody id="material_body">
+                        <tr>
+                           <td colspan="5" style="text-align: center;"><i>Empty</i></td>
+                        </tr>    
+                     </tbody>
+	               	<tfoot style="background: #fbfbfb;">
+                        <tr>
+                           <th colspan="4" style="text-align: right;vertical-align: middle;">
+                              Discount
+                           </th>
+                           <td>
+                              <input type="number" class="form-control" name="PO[discount]" placeholder="%" style="width: 80px; float: left; margin-right: 10px;">
+                              <input type="number" class="form-control" name="PO[discount_rp]" placeholder="Rp. " style="width: 170px; float: left; margin-right: 10px;">
+                           </td>
+                        </tr>
+                        <tr>
+                           <td colspan="4" style="text-align: right;vertical-align: middle;">
+                              <select name="PO[vat_type]" class="form-control" style="width: 100px;float: right;">
+                                 <option value="1">PPh</option>
+                                 <option value="2">PPN</option>
+                              </select>
+                           </td>
+                           <td>
+                              <input type="number" class="form-control" name="PO[vat]" placeholder="% " style="width: 150px; float: left; margin-right: 10px;">
+                           </td>
+                        </tr>
+                        <tr>
+                           <th colspan="4" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                           <td>
+                              <input type="number" class="form-control" name="PO[shipping_charge]" placeholder="Rp. " style="width: 150px; float: left; margin-right: 10px;">
+                           </td>
+                        </tr>
 		               	<tr>
-		               		<td colspan="3" style="text-align: right;"><b>Total</b></td>
-	            			<td id="total"></td>
+		               		<td colspan="4" style="text-align: right;vertical-align: middle;">
+                              <b>Total</b>
+                              <input type="hidden" name="PO[total]" />
+                           </td>
+	            			  <td id="total"></td>
 		               	</tr>
 	                 </tfoot>
                </table>
@@ -185,8 +196,52 @@
 	var option = "";
 	var data_material = "";
 	var sales_distribution = "";
+   var total = 0;
+
+   function init_calculate(rp = "")
+   {
+      if(total == 0 || total == "") return false;
+
+      var disc             = $("input[name='PO[discount]']").val() !="" ? parseInt($("input[name='PO[discount]']").val()) : 0;
+      var shipping_charge  = $("input[name='PO[shipping_charge]']").val() !="" ? parseInt($("input[name='PO[shipping_charge]']").val()) : 0;
+      var vat              = $("input[name='PO[vat]']").val() !="" ? parseInt($("input[name='PO[vat]']").val()) : 0;
+      var discount_rp      = $("input[name='PO[discount_rp]']").val() !="" ? parseInt($("input[name='PO[discount_rp]']").val()) : 0;
+      var total_           = total;
+
+      if(disc != 0 && rp == "")
+      {
+         disc  = disc * total / 100; 
+         total_ = parseInt(total_) - disc;
+         $("input[name='PO[discount_rp]']").val(disc);
+      }
+      if(rp != "")
+      {
+         disc     = discount_rp / total * 100; 
+         total_   = parseInt(total_) - discount_rp;
+         $("input[name='PO[discount]']").val(disc);
+      }
+      if(vat != 0)
+      {
+         vat  = vat * total_ / 100; 
+         total_ = parseInt(total_ + vat);
+      }
+
+      total_ += parseInt(shipping_charge);
+      
+      $("#total").html(numberWithDot(total_)); 
+   }
+
 	$( document ).ready(function() {      
-		
+      $("input[name='PO[discount]'], input[name='PO[vat]'], input[name='PO[shipping_charge]'], input[name='PO[discount_rp]']").on('input', function(){
+         
+         if($(this).attr('name') == 'PO[discount_rp]')
+         {
+            init_calculate('rp');         
+         } 
+         else init_calculate();         
+
+      });
+
 		$("select[name='PO[company_id]']").on('change', function(){
 			var no_po = $(this).find(':selected').data('po_number');
 			$("input[name='PO[po_number]']").val(no_po);
@@ -241,11 +296,11 @@
 	            	$("#material_body").html("");
 
 	            	var el = ''; 
-	            	var total = 0;
 
 	            	$(data).each(function(k,v){
 	            		var sub_total = 0;
 	            		el += '<tr>';
+                     el += '<td>'+ (parseInt(k) + 1) +'</td>';
 	            		el += '<td>'+ v.material +'</td>';
 	            		el += '<td>'+ v.qty;
 	            		el += '<input type="hidden" name="Material['+ k +'][material_id]" value="'+ v.material_id +'" />';
@@ -263,8 +318,9 @@
 	            		}
 	            		el += '<td>'+ numberWithDot(sub_total) +'</td>';
 	            		el += '</tr>';
-
 	            	});	
+
+                  $("input[name='PO[total]']").val(total);
 
 	            	$("#total").html(numberWithDot(total));
 	            	$("#material_body").html(el);
@@ -449,5 +505,4 @@
 		$("#material_content_"+i).remove();
 		sum_total();
 	}
-
 </script>

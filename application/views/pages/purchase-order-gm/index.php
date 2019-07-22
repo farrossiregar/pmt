@@ -31,10 +31,29 @@
                     <td><?=$value['po_number']?></td>
                     <td><?=$value['vendor']?></td>
                     <td><?=$value['doc_date']?></td>
-                    <td><?=status_po($value['status'])?></td>
+                    <td>
+                      <?php 
+                      if($value['status'] == 1 || $value['status'] == "")
+                      {
+                         echo '<label class="btn btn-info btn-sm"><i class="fa fa-history"></i> Proqurement Manager </label>';
+                      }
+                      elseif($value['status'] == 2 || $value['status'] == 3)
+                      {
+                         echo '<label class="btn btn-info btn-sm"><i class="fa fa-history"></i> General Manager / Finance </label>';
+                      }
+                      elseif($value['status'] == 4)
+                      {
+                         echo '<label class="btn btn-success btn-sm"><i class="fa fa-check"></i> Approved </label>';
+                      }
+                      elseif($value['status'] == 5)
+                      {
+                         echo '<label class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Rejected </label>';
+                      }
+                    ?>
+                    </td>
                     <td>
                       <a href="<?=site_url('purchase-order-gm/proccess/'.$value['id'])?>" class="btn btn-default btn-xs">
-                      <?php if($value['status'] == 1 || $value['status'] == "") { ?>
+                      <?php if($value['status_gm'] == "") { ?>
                        <i class="fa fa-arrow-right"></i> Proccess 
                       <?php }else {?>
                         <i class="fa fa-search"></i> Detail

@@ -3,7 +3,7 @@
       <div class="x_title">
           <h2>Purchase Requisition</h2>
           <div class="pull-right">
-            <a href="<?=site_url('PurchasingRequest/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create / Insert</a>
+            <a href="<?=site_url('PurchasingRequest/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create</a>
           </div>
          <div class="clearfix"></div>
       </div>
@@ -70,7 +70,7 @@
                                 }
                                 if($value['status'] == 2)
                                 {
-                                  if($access_id == 14)
+                                  if($access_id == 14 || $access_id == 18)
                                   {
                                     echo '<li><a href="javascript:void(0)" data-id="'. $value['id'] .'" data-no_pr="'. $value['no'] .'" onclick="approve(this)"><i class="fa fa-check"></i> Approve</a></li>'; 
                                   }
@@ -86,7 +86,7 @@
 
                                 if($value['status'] ==4)
                                 {
-                                  if($access_id == 14)
+                                  if($access_id == 14 || $access_id == 18)
                                   {
                                     echo '<li><a href="'. site_url('RequestForQuotation/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create RFQ</a></li>';
                                     echo '<li><a href="'. site_url('PurchaseOrderWarehouse/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create PO</a></li>';
@@ -187,7 +187,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12"> <span class="required"></span>
             </label>
             <div class="col-sm-8">
-              <label class="radio-inline"> <input type="radio" name="approval" id="approval" value="<?php echo $access_id == 14 ? 4 : 2 ?>"> Approve </label>
+              <label class="radio-inline"> <input type="radio" name="approval" id="approval" value="4"> Approve </label>
               <label class="radio-inline"> <input type="radio" name="approval" id="approval" value="3"> Reject </label>
             </div>
             <div class="clearfix"></div>

@@ -93,6 +93,87 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	 * Insert
 	 * @return view
 	 */
+	public function proccess($id)
+	{
+		$params['data'] 			= $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
+		$params['material'] 		= $this->model->material($id);
+		$params['term'] 			= $this->model->term($id);
+		$params['pr_data'] 			= $this->PurchaseRequest_model->get_by_id($data['data']['pr_id']);
+		$params['page'] 	= 'purchaseOrderWarehouse/proccess';
+		$params['rfq'] 		= $this->RequestForQoutation_model->data_();
+
+		if($this->input->post())
+		{
+        	$post = $this->input->post();
+
+			if($post['status'] == 1)
+			{
+				$this->db->set('status_proqurement_ho', 1);
+				$this->db->set('status', 2);
+			}
+			else
+			{
+				$this->db->set('status_proqurement_ho', 2);
+				$this->db->set('status', 5);
+			}
+
+			$token_code = md5(uniqid());
+    		$this->db->set('token_code', $token_code );
+    		$this->db->where('id', $id);
+    		$this->db->update('purchase_order_warehouse');
+
+			if($post['status'] == 1)
+			{
+	    		// Finance
+				$user = $this->db->get_where('user', ['user_group_id' => 16])->row_array();
+				if($user)
+				{
+					$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pofinance/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
+	            	send_notif($param);
+				}
+				// General Manager
+				$user = $this->db->get_where('user', ['user_group_id' => 15])->row_array();
+				if($user)
+				{
+					$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
+	            	send_notif($param);
+				}
+				$message  = "Purchase Order ". $params['data']['po_number'] ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
+			}
+			else $message  = "Purchase Order ". $params['data']['po_number'] ." Rejected Proqurement Manager.\n\nNote:\n". $post['note'];
+			
+			$user = $this->db->get_where('user', ['id' => $params['data']['user_id']])->row_array();
+			
+			if($user)
+			{
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $user['phone'];
+            	$param['email']		= $user['email'];
+            	$param['subject']	= 'Purchase Order #'. $params['data']['po_number'] .( $post['status'] == 1 ? ' Approved' : ' Rejected');
+            	send_notif($param);
+			}
+
+			$this->session->set_flashdata('messages', 'Purchase Order #'. $params['data']['po_number']. ( $post['status'] == 1 ? ' Approved' : ' Rejected'));
+			
+			redirect('purchaseOrderWarehouse','location');
+		}
+
+		$this->load->view('layouts/main', $params);
+	}
+	/**
+	 * Insert
+	 * @return view
+	 */
 	public function insert()
 	{
 		if(isset($_GET['pr_id']))
@@ -107,8 +188,10 @@ class PurchaseOrderWarehouse extends CI_Controller {
         	$token_code = md5(uniqid());
 			$post = $this->input->post('PO');
 			$post['token_code'] 	= $token_code;
+            $post['token_expired'] 	= date('Y-m-d', strtotime( date('Y-m-d') .' + 3 day'));
 			$post['created_at'] 	= date('Y-m-d H:i:s');
 			$post['status'] 		= 1;
+			$post['user_id'] 		= $this->data['user_id'];
 
 			$this->db->insert('purchase_order_warehouse', $post);
     		$id = $this->db->insert_id();
@@ -134,17 +217,17 @@ class PurchaseOrderWarehouse extends CI_Controller {
 				$this->db->insert('purchase_order_material', $var);
             	$this->db->flush_cache();
 			}
-
-			$gm = $this->db->get_where('user', ['user_group_id' => 15])->row_array();
-			if($gm)
+			// Procurement Manager
+			$user = $this->db->get_where('user', ['user_group_id' => 18])->row_array();
+			if($user)
 			{
 				// send notifikasi whatsapp
 				$message  = "This ". $post['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= site_url('approve/pogm/'. $token_code) ."\n ";
+				$message .= site_url('approve/poprocurement/'. $token_code) ."\n ";
 
 				$param['message'] 	= $message;
-            	$param['phone'] 	= $gm['phone'];
-            	$param['email']		= $gm['email'];
+            	$param['phone'] 	= $user['phone'];
+            	$param['email']		= $user['email'];
             	$param['subject']	= 'Purchase Order Need Your Approval #'. $post['po_number'];
 
             	send_notif($param);

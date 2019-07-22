@@ -3,7 +3,7 @@
       <div class="x_title">
          <h2>Request For Quotation</h2>
          <div class="pull-right">
-            <a href="<?=site_url('requestForQuotation/insert')?>" class="btn btn-success btn-sm"> <i class="fa fa-plus"></i> Create / Insert</a>
+            <a href="<?=site_url('requestForQuotation/insert')?>" class="btn btn-success btn-sm"> <i class="fa fa-plus"></i> Create</a>
          </div>
          <div class="clearfix"></div>
       </div>

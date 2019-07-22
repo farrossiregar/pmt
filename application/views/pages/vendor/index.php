@@ -3,14 +3,7 @@
       <div class="x_title">
         <h2>Vendor / Supplier</h2> &nbsp;
         <div class="btn-group pull-right">
-          <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-expanded="false">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="<?=site_url('vendor/insert')?>"><i class="fa fa-plus"></i> Create </a></li>
-            <li><a href=""><i class="fa fa-upload"></i> Import</a></li>
-            <li><a href=""><i class="fa fa-download"></i> Export</a></li>
-          </ul>
+          <a href="<?=site_url('vendor/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
         </div>
         <div class="clearfix"></div>
       </div>

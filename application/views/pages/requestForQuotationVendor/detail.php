@@ -149,7 +149,7 @@
                                        echo '<td>'. $item['qty'];
                                        echo '<input type="hidden" name="material_id[]" value="'. $item['material_id'] .'" />';
                                        echo '<input type="hidden" name="qty[]" value="'. $item['qty'] .'" />';
-                                       echo '<input type="hidden" name="discount[]" value="'. $item['qty'] .'" />';
+                                       echo '<input type="hidden" name="discount[]" value="'. $item['discount'] .'" />';
                                        echo '</td>';
                                        
                                        if($row)

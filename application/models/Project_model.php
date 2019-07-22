@@ -37,7 +37,7 @@
 		{
 			$this->db->where('project_manager_id', $user_id);
 		}
-
+		$this->db->order_by('id', 'DESC');
 		$i = $this->db->get();	
 		
 		return $i->result_array();

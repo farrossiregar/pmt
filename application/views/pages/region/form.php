@@ -43,6 +43,8 @@
     </div>
   </div>
 </div>
+<link href="<?=base_url()?>assets/js/ui/jquery-ui.min.css" rel="stylesheet">
+<script src="<?=base_url()?>assets/js/ui/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $( function() {
   $(".autocomplete-region-code").autocomplete({

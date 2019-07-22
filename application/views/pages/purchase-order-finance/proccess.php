@@ -184,27 +184,62 @@
                      <button type="button" class="btn btn-success btn-sm" onclick="approve()"><i class="fa fa-check"></i> Approve </button>
                   </div>
                </div>
-               <input type="hidden" name="status" value="3" />
+               <input type="hidden" name="status" value="1" />
             </form>
          </div>
       </div>
    </div>
 </div>
 <script type="text/javascript">
-   function reject()
-   {
-      if(confirm('Reject Purchasing Order ?'))
-      {
-         $("input[name='status']").val(4);
-         $("#proccess_po").trigger('submit');  
-      }
-   }
-
    function approve()
    {
-      if(confirm('Approve Purchasing Order ?'))
-      {
-         $("#proccess_po").trigger('submit');  
-      }
+      bootbox.confirm({
+      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
+      message: 'Approve Purchasing Order #<?=$data['po_number']?> ?',
+      closeButton: false,
+      buttons: {
+           confirm: {
+               label: '<i class="fa fa-check"></i> Yes',
+               className: 'btn btn-sm btn-success'
+           },
+           cancel: {
+               label: '<i class="fa fa-close"></i> No',
+               className: 'btn btn-sm btn-default btn-outline'
+           }
+      },
+      callback: function (result) {
+         if(result)
+         { 
+            $("input[name='status']").val(1);
+            $("#proccess_po").trigger('submit');
+         }
+       }
+     });
+   }
+
+   function reject()
+   {
+      bootbox.confirm({
+      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
+      message: 'Reject Purchasing Order #<?=$data['po_number']?> ?',
+      closeButton: false,
+      buttons: {
+           confirm: {
+               label: '<i class="fa fa-check"></i> Yes',
+               className: 'btn btn-sm btn-success'
+           },
+           cancel: {
+               label: '<i class="fa fa-close"></i> No',
+               className: 'btn btn-sm btn-default btn-outline'
+           }
+      },
+      callback: function (result) {
+         if(result)
+         { 
+            $("input[name='status']").val(2);
+            $("#proccess_po").trigger('submit');
+         }
+       }
+     });
    }
 </script>
