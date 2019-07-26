@@ -78,6 +78,18 @@ class Material extends CI_Controller {
 		{ 
 			$post	= $this->input->post('Material');
 
+			if($post['material_group'] == "" and $this->input->post('material_group_name') != "")
+			{
+				$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+				$post['material_group'] =  $this->db->insert_id();
+			}
+
+			if($post['material_group'] != "" and $this->input->post('material_group_name') != "")
+			{
+				$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+				$post['material_group'] =  $this->db->insert_id();	
+			}
+
 			// new insert order unit
 			if($post['order_unit'] == "" and $this->input->post('order_unit_name') != "")
 			{

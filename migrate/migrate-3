@@ -1,6 +1,16 @@
+quotation_order_vendor -> vat_type
+quotation_order_vendor -> shipping_charge
+
+
+
+
+
+
 purchase_order_warehouse -> token_expired
 purchase_order_warehouse -> user_id
 purchase_order_warehouse -> status_proqurement_ho
 purchase_order_warehouse -> status_gm
 purchase_order_warehouse -> status_finance
 purchase_request_history
+
+

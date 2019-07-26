@@ -12,13 +12,8 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Material Group<span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select class="form-control" name="Material[material_group]">
-                     <?php 
-                        foreach ($group as $key => $value) {
-                           echo "<option value='".$value['id']."'>".$value['name']."</option>";
-                        }
-                     ?>                  
-                     </select>
+                    <input type="text" class="form-control autocomplete-material-group" name="material_group_name" />
+                    <input type="hidden" name="Material[material_group]">
                   </div>
                </div>
                <div class="form-group">
@@ -41,23 +36,6 @@
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" class="form-control autocomplete-order-unit" name="order_unit_name"  value="<?=(isset($data['name_unit']) ? $data['name_unit'] : '')?>">
                     <input type="hidden" class="form-control" name="Material[order_unit]" value="<?=(isset($data['order_unit']) ? $data['order_unit'] : '')?>">
-                    
-                    <!-- <select class="form-control" name="Material[order_unit]">
-                     <?php 
-                        foreach ($unit as $key => $value){
-                            $selected = "";
-
-                            if(isset($data['order_unit']))
-                            {
-                              if($data['order_unit'] == $value['id']){
-                                $selected = " selected";
-                              }
-                            }
-
-                           echo "<option ".$selected."  value='".$value['id']."'>".$value['name']."</option>";
-                        }
-                     ?>                  
-                     </select> -->
                   </div>
                </div>
                <div class="form-group">
@@ -399,6 +377,29 @@
             $("#shipping_instruction_val").val(0);
          }
 
+      });
+
+      $(".autocomplete-material-group").autocomplete({
+        minLength:0,
+        limit: 25,
+        dataType: "json",
+        source: function( request, response ) {
+            $.ajax({
+              url: "<?=site_url('ajax/getmaterialgroup')?>",
+              method : 'POST',
+              data: {
+                'name': request.term
+              },
+              success: function( data ) {
+                response( data );
+              }
+            });
+        },
+        select: function( event, ui ) {
+          $("input[name='Material[material_group]']").val(ui.item.id);
+        }
+      }).on('focus', function () {
+            $(this).autocomplete("search", "");
       });
 
       $(".autocomplete-order-unit").autocomplete({
