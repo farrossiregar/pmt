@@ -10,7 +10,7 @@
 
       <div class="x_content">
         <div class="table-responsive p-t-0">
-          <table class="table table-striped table-bordered data_table">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr class="headings">
                 <th>No</th>
@@ -19,7 +19,6 @@
                 <th class="column-title">Deskripsi</th>
                 <th class="column-title">Order Unit</th>
                 <th class="column-title">Planned Delivery Time</th>
-                <!-- <th class="column-title">Region</th> -->
                 <th class="column-title">Stock</th>
                 <th class="column-title"></th>
               </tr>

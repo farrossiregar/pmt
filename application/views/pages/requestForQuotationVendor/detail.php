@@ -111,11 +111,6 @@
                       } 
                      ?>
                   </tbody>
-                 <!--  <tfoot>
-                     <tr>
-                        <td colspan="3" style="text-align: right;"><a style="cursor: pointer;" class="btn btn-primary btn-xs" id="add_term"><i class="fa fa-plus"></i> Add Term & Condition</a></td>
-                     </tr>
-                  </tfoot> -->
                </table>
                <br/><br/>
                <br/>
@@ -174,22 +169,44 @@
                                     }                                 
                                  }
                               ?>
-                           </tbody>                
-                           <tfoot>
+                           </tbody>      
+                           <tfoot style="background: #f5f5f5;">
                               <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</th>
-                                 <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
+                                 <th colspan="5" style="text-align: right;">Sub Total</th>
+                                 <th class="foot_sub_total"> <?=format_idr($sub_total)?></th>
                               </tr>
                               <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;">VAT (%)</th>
-                                 <td style="background: #f5f5f5;padding-top:0;">
-                                    <!-- <input type="number" class="form-control calculate_tax" placeholder="%" style="width: 100px;" /> -->
-                                    <a href="#" class="edit_disc" data-type="text">0</a>
+                                <th colspan="5" style="text-align: right;vertical-align: middle;">
+                                  <?php if(isset($quotation_id)):?>
+                                    <?=($quotation['vat_type'] == 1 ? 'PPH' : 'PPN')?>
+                                  <?php else:?>
+                                    <a href="#" id="pph_ppn" data-type="select" data-pk="1" data-value="PPH" data-title="Select PPH / PPN">PPH</a>
+                                    <input type="hidden" name="RFQ[vat_type]" value="1" />
+                                  <?php endif;?>
+                                 </th>
+                                 <td>
+                                    <?php if(isset($quotation_id)):?>
+                                      <a href="javascript:void(0)"><?=$quotation['vat']?>%</a>
+                                    <?php else: ?>
+                                      <a href="#" data-type="text" class="edit_ppn">0</a>%
+                                      <input type="hidden" class="form-control" name="RFQ[vat]" placeholder="% " style="width: 150px; float: left; margin-right: 10px;">
+                                    <?php endif; ?>
                                  </td>
                               </tr>
                               <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</th>
-                                 <th style="background: #f5f5f5;" class="vat"><?=format_idr($sub_total)?></th>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                                 <td>
+                                    <?php if(isset($quotation_id)):?>
+                                      <?=format_idr($quotation['shipping_charge'])?>
+                                    <?php else: ?>
+                                      <a href="#" data-type="text" class="edit_shipping_charger">0</a>
+                                      <input type="hidden" name="RFQ[shipping_charge]" value="" />
+                                    <?php endif; ?>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th colspan="5" style="text-align: right;" title="Value After Tax" colspan="3">Total</th>
+                                 <th class="total"><?=format_idr($sub_total)?></th>
                               </tr>
                            </tfoot>
                         </table>
@@ -201,7 +218,7 @@
                </div>
                 <div class="form-group">
                   <div>
-                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                     <a href="<?=site_url('requestForQuotationVendor')?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
                      <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
                   </div>
                </div>
@@ -211,6 +228,60 @@
    </div>
 </div>
 <script type="text/javascript">
+  $('#pph_ppn').editable({
+      source: [
+          {value: 1, text: 'PPH'},
+          {value: 2, text: 'PPN'}
+      ],
+      success: function(response, val) {
+       $("input[name='RFQ[vat_type]']").val(val);
+      }
+  }); 
+
+  function init_calculate()
+  {
+    var total =0;
+    var shipping_charge = $("input[name='RFQ[shipping_charge]']").val() != "" ? parseInt($("input[name='RFQ[shipping_charge]']").val()) : 0;
+
+    $("input[name='price[]']").each(function(k,v){
+      var el      = $(this).parent().parent();
+      var price   = parseInt($(this).val());
+      var qty     = parseInt(el.find("input[name='qty[]']").val());
+      var disc    = el.find("input[name='discount[]']").val() != "" ? parseInt(el.find("input[name='discount[]']").val()) : 0;
+
+      if(disc != 0)
+      {
+        var harga_discount  =  (price - (disc * price / 100)) * qty;
+      } 
+      else
+      {
+        var harga_discount  =  price * qty;
+      }
+
+      el.find(".sub_total").html(numberWithDot(harga_discount));
+      
+      total += harga_discount;
+    });
+
+    $(".foot_sub_total").html(numberWithDot(total));
+
+    var pph = $("input[name='RFQ[vat]']").val() != "" ? parseInt($("input[name='RFQ[vat]']").val()) : 0;
+
+    if(pph != 0)
+    {
+      pph = pph * total / 100;
+    }
+
+    total += shipping_charge + pph;
+
+    $(".total").html(numberWithDot(total));
+    $("input[name='sub_total']").val(total);
+  }
+
+  $("input[name='PO[vat]'], input[name='RFQ[vat]']").on('input', function(){
+    init_calculate();
+  });
+
   function delete_term(el)
   {
     $(el).parent().parent().remove();
@@ -226,19 +297,29 @@
     $('#term_body').append(el);
   });
 
+  $('.edit_shipping_charger').editable({
+    success: function(response, val) {
+      $("input[name='RFQ[shipping_charge]']").val(val);
+      init_calculate();
+    }
+  });
+
+  $('.edit_ppn').editable({
+    success: function(response, val) {
+      $("input[name='RFQ[vat]']").val(val);
+      init_calculate();
+    }
+  });
+
    $('.edit_disc').editable(
     {
-        success: function(response, val) {
-         var price      =  $(this).data('price');
-         var qty        =  $(this).data('qty');
-         var sub_total  =  (price - (val * price / 100)) * qty;
-
-         $(this).parent().parent().find('.sub_total').html(numberWithDot(sub_total)); 
-         $(this).parent().parent().find("input[name='discount[]']").val(val); 
-         
-        }
+      success: function(response, val) {
+        $(this).parent().parent().find("input[name='discount[]']").val(val); 
+          setTimeout(function(){
+            init_calculate();
+        }, 500);
       }
-    );
+    });
 
    $(function(){
       $('.calculate_tax').on('input', function(){

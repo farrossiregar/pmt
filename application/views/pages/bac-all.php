@@ -1,10 +1,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
    <div class="x_panel">
       <div class="x_title">
-         <h2>Request For Quotation</h2>
-         <div class="pull-right">
-            <a href="<?=site_url('requestForQuotation/insert')?>" class="btn btn-success btn-sm"> <i class="fa fa-plus"></i> Create / Insert</a>
-         </div>
+         <h2>Bid Analysis Comparasion</h2>
          <div class="clearfix"></div>
       </div>
       <div class="x_content">

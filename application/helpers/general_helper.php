@@ -143,7 +143,7 @@ function status_quotation_rfq_vendor($id, $vendor_id)
         $msg =  "<strong class=\"text-warning\">Open</strong>";
     }
 
-    return ['status' => $query['status'], 'msg' => $msg];
+    return ['status' => $query['status'], 'msg' => $msg, 'data' => $query];
 }
 
 /**

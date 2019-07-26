@@ -100,7 +100,6 @@ class RequestForQuotationVendor extends CI_Controller {
 	 */
 	public function detail($id)
 	{
-
 		if($this->input->post())
 		{			
 			$post 							= $this->input->post();
@@ -171,6 +170,12 @@ class RequestForQuotationVendor extends CI_Controller {
 		$params['vendor_id'] 	= $this->session->userdata('vendor_id');
 		$params['page'] 		= 'requestForQuotationVendor/detail';
 		$params['request']		= $this->PurchaseRequest_model->get_where_many(['purchase_request.status' => 0]);
+
+		if(isset($_GET['quotation_id']))
+		{
+			$params['quotation_id'] 	= $_GET['quotation_id'];
+			$params['quotation'] 		= $this->db->get_where('quotation_order_vendor', ['id'=>$_GET['quotation_id']] )->row_array();
+		}
 
 		$this->load->view('layouts/main', $params);
 	}

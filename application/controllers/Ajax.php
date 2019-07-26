@@ -21,6 +21,32 @@ class Ajax extends CI_Controller {
 			$this->data['menu_name'] = $this->uri->segment('2');
 			$this->data['sub_name'] = $this->uri->segment('3');
 		endif;
+	}	
+
+	/**
+	 * Get Order Unit
+	 * @return json
+	 */
+	public function getmaterialgroup()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM group_of_material WHERE name LIKE '%". $name ."%'" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->name;  
+			}
+		}
+
+		echo json_encode($params);
 	}
 
 
