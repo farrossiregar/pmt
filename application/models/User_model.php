@@ -40,6 +40,7 @@
 		{
 			$this->db->group_start()
 					->like('name', $_GET['name'])
+					->or_like('username', $_GET['name'])
 					->or_like('email', $_GET['name'])
 					->or_like('phone', $_GET['name'])
 					->group_end();
