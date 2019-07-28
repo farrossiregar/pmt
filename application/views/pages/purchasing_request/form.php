@@ -88,7 +88,6 @@
                      </select>
                   </div>
                </div>
-
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="qty">Required Qty. <span class="required">*</span>
                   </label>
@@ -96,7 +95,6 @@
                     <input type="number"  name="qty" class="form-control" id="qty">
                   </div>
                </div>
-
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="urgency">Urgency Level. <span class="required">*</span>
                   </label>
@@ -110,6 +108,12 @@
                            <option value="<?=$key?>"><?=$value?></option>
                         <?php } ?>
                      </select>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Note </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                     <input type="text" class="form-control" id="note" placeholder="Note" />
                   </div>
                </div>
             </form>
@@ -136,6 +140,7 @@
                             <th>Material</th>
                             <th>Required Qty.</th>
                             <th>Urgency Level</th>
+                            <th>Note</th>
                             <th></th>
                           </tr>
                         </thead>
@@ -144,7 +149,6 @@
                      </table>
                   </div>
                </div>
-
                <div class="ln_solid"></div>
                <div class="form-group">
                   <div class="col-md-12">
@@ -152,7 +156,6 @@
                      <button type="button" id="save" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Submit</button>
                   </div>
                </div>
-
             </form>
          </div>
       </div>
@@ -245,13 +248,15 @@ function CompareDate(val){
                            '<input type="hidden" name="purchasingRequest['+i+'][material_group_id]" value="'+data.pr_material[x].material_group_id+'">'+
                            '<input type="hidden" name="purchasingRequest['+i+'][material_id]" value="'+data.pr_material[x].material_id+'">'+
                            '<input type="hidden" name="purchasingRequest['+i+'][qty]" value="'+data.pr_material[x].qty+'">'+
-                           '<input type="hidden" name="purchasingRequest['+i+'][urgency]" value="'+data.pr_material[x].urgency+'">';
+                           '<input type="hidden" name="purchasingRequest['+i+'][urgency]" value="'+data.pr_material[x].urgency+'">'+
+                           '<input type="hidden" name="purchasingRequest['+i+'][note]" value="'+data.pr_material[x].urgency+'">';
 
                var tr = "<tr id='child-request-"+i+"'>"+
                            "<td>"+data.pr_material[x].group_material+"</td>"+
                            "<td>"+data.pr_material[x].material+"</td>"+
                            "<td align='center'>"+data.pr_material[x].qty+"</td>"+
                            "<td>"+data.urgency[data.pr_material[x].urgency]+"</td>"+
+                           "<td>"+data.urgency[data.pr_material[x].note]+"</td>"+
                            "<td><a class='btn btn-danger delete-row btn-xs' onclick='delete_row("+i+")' data-id='"+i+"' ><i class='fa fa-trash'></i></a> "+
                                "<a class='btn btn-info delete-row btn-xs' onclick='edit_row("+i+")' data-id='"+i+"' ><i class='fa fa-edit'></i></a> "+ input+"</td>"+
                         "<tr>";
@@ -278,7 +283,7 @@ function CompareDate(val){
          material_id: "Please select Material",
          require_date: "Please enter Require Date",
          qty: "Please enter Quantity",
-         urgency : "Please select Urgency Level"
+         urgency : "Please select Urgency Level",
        },
    });
 
@@ -307,13 +312,15 @@ function CompareDate(val){
                      '<input type="hidden" name="purchasingRequest['+i+'][material_group_id]" value="'+$( "#material_group_id" ).val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][material_id]" value="'+$( "#material_id" ).val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][qty]" value="'+$( "#qty" ).val()+'">'+
-                     '<input type="hidden" name="purchasingRequest['+i+'][urgency]" value="'+$( "#urgency" ).val()+'">';
+                     '<input type="hidden" name="purchasingRequest['+i+'][urgency]" value="'+$( "#urgency" ).val()+'">'+
+                     '<input type="hidden" name="purchasingRequest['+i+'][note]" value="'+$( "#note" ).val()+'">';
 
          var tr = "<tr id='child-request-"+i+"'>"+
                      "<td>"+$("#material_group_id option:selected").text()+"</td>"+
                      "<td>"+$("#material_id option:selected").text()+"</td>"+
                      "<td align='center'>"+$("#qty ").val()+"</td>"+
                      "<td>"+$("#urgency option:selected").text()+"</td>"+
+                     "<td>"+$("#note").val()+"</td>"+
                      "<td><a class='btn btn-danger delete-row btn-xs' onclick='delete_row("+i+")' data-id='"+i+"' ><i class='fa fa-trash'></i></a> "+
                          "<a class='btn btn-info delete-row btn-xs' onclick='edit_row("+i+")' data-id='"+i+"' ><i class='fa fa-edit'></i></a> "+ input+"</td>"+
                   "<tr>";
@@ -339,7 +346,6 @@ function CompareDate(val){
 
 })(jQuery);
 
-
    function delete_row(id){
       $("#child-request-"+id).remove();
    }
@@ -350,6 +356,7 @@ function CompareDate(val){
       var material_id = $('input[name="purchasingRequest['+id+'][material_id]"]')[0].value;
       var qty = $('input[name="purchasingRequest['+id+'][qty]"]')[0].value;
       var urgency = $('input[name="purchasingRequest['+id+'][urgency]"]')[0].value;
+      var note = $('input[name="purchasingRequest['+id+'][note]"]')[0].value;
 
       $("#purchase_material_id").val(idx);
       $("#material_group_id").val(material_group_id);
@@ -365,7 +372,7 @@ function CompareDate(val){
       $("#qty").val(qty);
       $("#urgency").val(urgency);
       $("#x").val(id);
-
+      $("#note").val(note);
    }
 
    function back(){

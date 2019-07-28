@@ -1,3 +1,5 @@
+material_purchase_request -> note
+
 quotation_order_vendor -> vat_type
 quotation_order_vendor -> shipping_charge
 

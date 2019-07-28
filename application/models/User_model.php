@@ -30,6 +30,22 @@
 		$this->db->from($this->t_table);
 		$this->db->select('user.*, user_group.user_group as user_group, user_group.user_group as access');
 		$this->db->join('user_group', 'user_group.id=user.user_group_id', 'left');
+
+		if(isset($_GET['user_group_id']) and !empty($_GET['user_group_id']))
+		{
+			$this->db->where('user_group_id', $_GET['user_group_id']);
+		}
+
+		if(isset($_GET['name']) and !empty($_GET['name']))
+		{
+			$this->db->group_start()
+					->like('name', $_GET['name'])
+					->or_like('email', $_GET['name'])
+					->or_like('phone', $_GET['name'])
+					->group_end();
+		}
+
+
 		$this->db->order_by('id', 'desc');
 
 		$i = $this->db->get();

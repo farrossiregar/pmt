@@ -59,7 +59,7 @@ else if($access == 13) // Purchasing
 {
 	$menu = [
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'PurchasingRequest',
 			'icon' => 'fa-paper-plane-o',
 		]
@@ -114,7 +114,7 @@ else if($access == 14) // Procurement Manager
 			'icon' => 'fa-database',
 		],
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'purchase-request',
 			'icon' => 'fa-paper-plane-o',
 		],
@@ -149,7 +149,7 @@ elseif($access == 18) // Procurement
 			'icon' => 'fa-database',
 		],
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'purchase-request',
 			'icon' => 'fa-paper-plane-o',
 		],
@@ -194,7 +194,7 @@ elseif($access == 15)
 {
 	$menu = [
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'PurchasingRequest',
 			'icon' => 'fa-paper-plane-o',
 		],
@@ -209,7 +209,7 @@ elseif($access == 16)
 {
 	$menu = [
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'PurchasingRequest',
 			'icon' => 'fa-paper-plane-o',
 		],
@@ -229,7 +229,7 @@ else
 {
 	$menu = [
 		[
-			'label' => 'Purchasing Request',
+			'label' => 'Purchase Requisition',
 			'link' => 'PurchasingRequest',
 			'icon' => 'fa-paper-plane-o',
 		]
