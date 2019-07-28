@@ -35,6 +35,106 @@ class User extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
+	/**
+	 * Autologin
+	 * @return redirect
+	 */
+	public function autologin($id)
+	{	
+		$key = $this->input->get('key');
+
+		$query = $this->db->query("SELECT * FROM user WHERE id='". $id."' AND password='".$key."'");		
+		// set setting
+		$data = $this->db->get_where('setting', ['id' => 1]);
+		$data = $data->row_array();
+
+		$this->session->set_userdata('meta_title', $data['meta_title']);
+		$this->session->set_userdata('meta_description', $data['meta_description']);
+
+		if ($row = $query->row()):
+
+			$group = $this->db->get_where('user_group', ['id' => $row->user_group_id])->row();
+
+			$this->session->set_userdata('username', $row->username);
+			$this->session->set_userdata('name', $row->name);
+			$this->session->set_userdata('divisi', $row->divisi_id);
+			$this->session->set_userdata('branch_id', $row->branch_id);
+			$this->session->set_userdata('position_id', $row->position_id);
+			$this->session->set_userdata('phone', $row->phone);
+			$this->session->set_userdata('id_user', $row->id);
+			$this->session->set_userdata('user_id', $row->id);
+			$this->session->set_userdata('employee_id', $row->id);
+			$this->session->set_userdata('access_id', $row->user_group_id);
+			$this->session->set_userdata('foto', $row->foto);
+			$this->session->set_userdata('group', $group->user_group);
+			$this->session->set_userdata('is_login_admin', 1);
+			
+			if($row->user_group_id == 7)
+			{
+				$vendor = $this->db->get_where('vendor_of_material', ['email' => $row->username])->row();
+				if($vendor)
+				{
+					$this->session->set_userdata('vendor_id', $vendor->id);
+				}
+			}
+
+			redirect('home', 'location');
+
+		else:
+			$this->session->set_flashdata('messages', 'Session key tidak ditemukan');
+			redirect('user/index');
+		endif;
+	}
+
+	/**
+	 * Back to Admin
+	 * @return redirect
+	 */
+	public function backtoadmin()
+	{
+    	if($this->session->userdata('is_login_admin') == 1):
+    		$query = $this->db->query("SELECT * FROM user WHERE user_group_id=1");		
+			// set setting
+			$data = $this->db->get_where('setting', ['id' => 1]);
+			$data = $data->row_array();
+
+			$this->session->set_userdata('meta_title', $data['meta_title']);
+			$this->session->set_userdata('meta_description', $data['meta_description']);
+
+			if ($row = $query->row()):
+
+				$group = $this->db->get_where('user_group', ['id' => $row->user_group_id])->row();
+
+				$this->session->set_userdata('username', $row->username);
+				$this->session->set_userdata('name', $row->name);
+				$this->session->set_userdata('divisi', $row->divisi_id);
+				$this->session->set_userdata('branch_id', $row->branch_id);
+				$this->session->set_userdata('position_id', $row->position_id);
+				$this->session->set_userdata('phone', $row->phone);
+				$this->session->set_userdata('id_user', $row->id);
+				$this->session->set_userdata('user_id', $row->id);
+				$this->session->set_userdata('employee_id', $row->id);
+				$this->session->set_userdata('access_id', $row->user_group_id);
+				$this->session->set_userdata('foto', $row->foto);
+				$this->session->set_userdata('group', $group->user_group);
+				$this->session->set_userdata('is_login_admin', 1);
+				
+				if($row->user_group_id == 7)
+				{
+					$vendor = $this->db->get_where('vendor_of_material', ['email' => $row->username])->row();
+					if($vendor)
+					{
+						$this->session->set_userdata('vendor_id', $vendor->id);
+					}
+				}
+
+				redirect('home', 'location');
+			endif;
+    	else:
+
+    	endif;
+	}
+
 	public function profile()
 	{
 		$params = [];
@@ -132,8 +232,8 @@ class User extends CI_Controller {
 	 */
 	public function delete($id=0)
 	{
-		$this->db->where('id', $id);
-		$this->db->delete('user');
+		$this->db->where(['id' => $id]);
+		$this->db->update('user', ['disabled' => 1]);
 		
 		$this->session->set_flashdata('messages', 'User Deleted.');
 

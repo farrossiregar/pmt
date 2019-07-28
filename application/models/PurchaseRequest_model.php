@@ -144,6 +144,7 @@
             			'material_id' => $detail[$i]['material_id'],
             			'qty' => $detail[$i]['qty'],
             			'urgency' => $detail[$i]['urgency'],
+            			'note' => $detail[$i]['note'],
             		);
 		            if(@$detail[$i]['id']){
 		            	$konten_detail['updated_at'] = date('Y-m-d H:i:s');
@@ -179,9 +180,21 @@
             	$param['message'] 	= $message;
             	$param['phone'] 	= $project['phone'];
             	$param['email']		= $project['email'];
-            	$param['subject']	= 'Purchase Request Need Your Approval #'. $data['purchase_number'];
+            	$param['subject']	= 'Purchase Requisition Need Your Approval '. $data['purchase_number'];
 
             	send_notif($param);
+
+
+            	$user = $this->db->get_where('user', ['id' => $this->session->userdata('user_id') ])->row_array();
+            	$message  = "Your purchase requisition with ".  $data['purchase_number'] ." number has been successfully created and is waiting for approval from OSM";
+            	
+            	$param['message'] 	= $message;
+            	$param['phone'] 	= $user['phone'];
+            	$param['email']		= $user['email'];
+            	$param['subject']	= 'Your Purchase Requisition '. $data['purchase_number'];
+
+            	send_notif($param);
+            	
             }
 
         } catch (Exception $exc) {

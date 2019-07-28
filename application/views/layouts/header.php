@@ -143,6 +143,11 @@
               <a href="<?=site_url('site/setting')?>" data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
+              <?php if($this->session->userdata('is_login_admin') == 1): ?>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?=site_url('user/backtoadmin')?>">
+                <i class="fa fa-user-secret"></i>
+              </a>
+              <?php endif;?>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?=site_url('user/signout')?>">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
@@ -179,6 +184,14 @@
                         <span>Settings</span>
                       </a>
                     </li>
+                    <?php if($this->session->userdata('is_login_admin') == 1): ?>
+                      <li>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?=site_url('user/backtoadmin')?>">
+                          <i class="fa fa-user-secret pull-right"></i>
+                          Back To Admin
+                        </a>
+                      </li>
+                    <?php endif;?>
                     <li><a href="<?=site_url('user/signout')?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
