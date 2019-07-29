@@ -184,8 +184,49 @@
                                     $vat = $data->vat * $sub_total / 100;
                                  }
                               ?>
-                           </tbody>                
-                           <tfoot>
+                           </tbody>
+                           <tfoot style="background: #fbfbfb;">
+                              <tr>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">
+                                    Sub Total
+                                 </th>
+                                 <td><?=format_idr($sub_total)?></td>
+                              </tr>
+                              <tr>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">
+                                    Discount
+                                 </th>
+                                 <td>
+                                    <input type="number" class="form-control" name="PO[discount]" placeholder="%" style="width: 80px; float: left; margin-right: 10px;">
+                                    <input type="number" class="form-control" name="PO[discount_rp]" placeholder="Rp. " style="width: 170px; float: left; margin-right: 10px;">
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td colspan="5" style="text-align: right;vertical-align: middle;">
+                                    <select name="PO[vat_type]" class="form-control" style="width: 100px;float: right;">
+                                       <option value="1">PPh</option>
+                                       <option value="2">PPN</option>
+                                    </select>
+                                 </td>
+                                 <td>
+                                    <input type="number" class="form-control" name="PO[vat]" placeholder="% " style="width: 150px; float: left; margin-right: 10px;">
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                                 <td>
+                                    <input type="number" class="form-control" name="PO[shipping_charge]" placeholder="Rp. " style="width: 150px; float: left; margin-right: 10px;">
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td colspan="5" style="text-align: right;vertical-align: middle;">
+                                    <b>Total</b>
+                                    <input type="hidden" name="PO[total]" value="<?=$sub_total?>" />
+                                 </td>
+                                <td id="total"><?=format_idr($sub_total)?></td>
+                              </tr>
+                          </tfoot>           
+                          <!--  <tfoot>
                               <tr>
                                  <th colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</th>
                                  <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
@@ -201,7 +242,7 @@
                                  <th colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</th>
                                  <th style="background: #f5f5f5;" class="vat"><?=format_idr($sub_total)?></th>
                               </tr>
-                           </tfoot>
+                           </tfoot> -->
                         </table>
                         <input type="hidden" name="sub_total" value="<?=$sub_total?>">
                         <input type="hidden" name="tax">
@@ -221,6 +262,54 @@
    </div>
 </div>
 <script type="text/javascript">
+
+   var total = <?=$sub_total?>;
+
+   function init_calculate(rp = "")
+   {
+      if(total == 0 || total == "") return false;
+
+      var disc             = $("input[name='PO[discount]']").val() !="" ? parseInt($("input[name='PO[discount]']").val()) : 0;
+      var shipping_charge  = $("input[name='PO[shipping_charge]']").val() !="" ? parseInt($("input[name='PO[shipping_charge]']").val()) : 0;
+      var vat              = $("input[name='PO[vat]']").val() !="" ? parseInt($("input[name='PO[vat]']").val()) : 0;
+      var discount_rp      = $("input[name='PO[discount_rp]']").val() !="" ? parseInt($("input[name='PO[discount_rp]']").val()) : 0;
+      var total_           = total;
+
+      if(disc != 0 && rp == "")
+      {
+         disc  = disc * total / 100; 
+         total_ = parseInt(total_) - disc;
+         $("input[name='PO[discount_rp]']").val(disc);
+      }
+      if(rp != "")
+      {
+         disc     = discount_rp / total * 100; 
+         total_   = parseInt(total_) - discount_rp;
+         $("input[name='PO[discount]']").val(disc);
+      }
+      if(vat != 0)
+      {
+         vat  = vat * total_ / 100; 
+         total_ = parseInt(total_ + vat);
+      }
+
+      total_ += parseInt(shipping_charge);
+      
+      $("#total").html(numberWithDot(total_)); 
+   }
+
+   $( document ).ready(function() {      
+      $("input[name='PO[discount]'], input[name='PO[vat]'], input[name='PO[shipping_charge]'], input[name='PO[discount_rp]']").on('input', function(){
+         
+         if($(this).attr('name') == 'PO[discount_rp]')
+         {
+            init_calculate('rp');         
+         } 
+         else init_calculate();         
+
+      });
+   });
+
    $("#add_term").click(function(){
       //term_body
       var td = '<tr">' +
