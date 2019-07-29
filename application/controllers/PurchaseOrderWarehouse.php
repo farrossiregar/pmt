@@ -216,6 +216,26 @@ class PurchaseOrderWarehouse extends CI_Controller {
 
 				$this->db->insert('purchase_order_material', $var);
             	$this->db->flush_cache();
+
+            	// check vendor material price list
+            	$vendor_material = $this->db->get_where('sales_and_distribution', ['material_id' => $value['material_id'], 'vendor_id' => $post['vendor_id']])->row_array();
+				if($vendor_material)
+				{
+					$this->db->where('id', $vendor_material['id']);
+					$this->db->update('sales_and_distribution', ['price_submited' => $value['price'], 'price_submited_date'=> date('Y-m-d')]);
+            		$this->db->flush_cache();
+				}
+				else
+				{
+					$this->db->insert('sales_and_distribution', 
+								[
+									'vendor_id'=>$post['vendor_id'], 
+									'material_id' => $value['material_id'],
+									'sales_price'=> $value['price'],
+									'price_submited' => $value['price'], 
+									'price_submited_date'=> date('Y-m-d')
+								]);
+				} 	
 			}
 			// Procurement Manager
 			$user = $this->db->get_where('user', ['user_group_id' => 18])->row_array();
@@ -344,7 +364,11 @@ class PurchaseOrderWarehouse extends CI_Controller {
 			$row = get_material_vendor_row($item['material_id'], $id);
             if($row) 
             {
-            	$data[$key]['sales_price'] = $row['sales_price'];
+            	if(!empty($row['price_submited']))
+            	{
+            		$data[$key]['sales_price'] = $row['price_submited'];
+            	}else
+            		$data[$key]['sales_price'] = $row['sales_price'];
             } 
             else
             {

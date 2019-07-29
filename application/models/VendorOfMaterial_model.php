@@ -30,6 +30,21 @@
 		$this->db->select($this->t_table.".*, group_of_vendor.name as name_group");
 		$this->db->from($this->t_table);
 		$this->db->join('group_of_vendor', 'group_of_vendor.id = vendor_of_material.group_vendor', 'left');		
+		
+		if(isset($_GET['currency']) and !empty($_GET['currency']))
+		{
+			$this->db->where('vendor_of_material.currency', $_GET['currency']);
+		}
+		if(isset($_GET['name']) and !empty($_GET['name']))
+		{
+			$this->db->group_start()
+					->like('vendor_of_material.name', $_GET['name'])
+					->or_like('vendor_of_material.pic_name', $_GET['name'])
+					->or_like('vendor_of_material.email', $_GET['name'])
+					->or_like('vendor_of_material.phone_1', $_GET['name'])
+					->or_like('vendor_of_material.term_of_payment', $_GET['name'])
+					->group_end();
+		}
 		$this->db->order_by('id', 'DESC');
 		
 		$i = $this->db->get();

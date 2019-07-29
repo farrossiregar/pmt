@@ -69,6 +69,14 @@
                      </select>
                   </div>
                </div>
+               <?php if(isset($pr_data)): ?>
+               <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">Quotation /<br /> Confirmation Order Number<span class="required"> *</span></label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                     <input type="text" class="form-control" name="PO[qo_number]" required />
+                  </div>
+               </div>
+               <?php endif; ?>
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="vendor_id">Vendor <span class="required">*</span>
                   </label>
@@ -98,21 +106,17 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Note
-                  </label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Note</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                   	<textarea class="form-control" name="PO[note]" style="height: 100px;"></textarea>
                   </div>
                </div>
-
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Delivery Address
-                  </label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Delivery Address</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <textarea class="form-control" name="PO[address]" style="height: 100px;"></textarea>
                   </div>
                </div>
-               
                <table align="center" class="table" style="margin:auto; width: 50%" >
                   <tbody id="term_body">
                      <tr id="tb_0">
@@ -198,8 +202,33 @@
 	var sales_distribution = "";
    var total = 0;
 
+   function editable_harga()
+   {
+      $('.editable_harga').editable({
+          success: function(response, val) {
+            var el = $(this).parent().parent();
+            var sub_total = parseInt(val) * parseInt(el.find(".input_qty").val());
+            el.find(".sub_total").html(sub_total);
+            el.find('.input_price').val(val);
+            init_calculate();
+          }
+        });
+   }
+
    function init_calculate(rp = "")
    {
+      if(total == 0)
+      {
+         $('.editable_harga').each(function(){
+            var el = $(this).parent().parent();
+            if(el.find('.input_qty').val() != "" && el.find('.input_price').val() != "")
+            {
+               total += (parseInt(el.find('.input_qty').val()) * parseInt(el.find('.input_price').val()));
+            }
+         });
+      }
+      
+
       if(total == 0 || total == "") return false;
 
       var disc             = $("input[name='PO[discount]']").val() !="" ? parseInt($("input[name='PO[discount]']").val()) : 0;
@@ -303,20 +332,20 @@
                      el += '<td>'+ (parseInt(k) + 1) +'</td>';
 	            		el += '<td>'+ v.material +'</td>';
 	            		el += '<td>'+ v.qty;
-	            		el += '<input type="hidden" name="Material['+ k +'][material_id]" value="'+ v.material_id +'" />';
-	            		el += '<input type="hidden" name="Material['+ k +'][qty]" value="'+ v.qty +'" />';
-	            		el += '<input type="hidden" name="Material['+ k +'][price]" value="'+ v.sales_price +'" />';
+	            		el += '<input type="hidden" name="Material['+ k +'][material_id]" class="input_material_id" value="'+ v.material_id +'" />';
+	            		el += '<input type="hidden" name="Material['+ k +'][qty]" class="input_qty" value="'+ v.qty +'" />';
+	            		el += '<input type="hidden" name="Material['+ k +'][price]" class="input_price" value="'+ v.sales_price +'" />';
 	            		el += '</td>';
 
 	            		if(v.sales_price != "")
 	            		{
-	            			el += '<td>'+ numberWithDot(v.sales_price) +'</td>';
+	            			el += '<td><a href="javascript:void(0)" class="editable_harga text-danger">'+ v.sales_price +'</a></td>';
 	            			total += parseInt(v.sales_price) * parseInt(v.qty); 
 	            			sub_total = parseInt(v.sales_price) * parseInt(v.qty);
 	            		}else{
-	            			el += '<td><a href="javascript:void(0)" class="text-danger">Stock Empty</a></td>';
+	            			el += '<td><a href="javascript:void(0)" class="editable_harga text-danger">0</a></td>';
 	            		}
-	            		el += '<td>'+ numberWithDot(sub_total) +'</td>';
+	            		el += '<td class="sub_total">'+ numberWithDot(sub_total) +'</td>';
 	            		el += '</tr>';
 	            	});	
 
@@ -324,7 +353,8 @@
 
 	            	$("#total").html(numberWithDot(total));
 	            	$("#material_body").html(el);
-
+                  
+                  editable_harga();
 	            }
 			});
 		});

@@ -75,22 +75,6 @@
                     <td><?=$item['phone']?></td>
                     <td><a href="#" class="edit-active" data-type="select" data-url="<?=site_url()?>/ajax/saveuser" data-pk="<?=$item['id']?>" ><?=($item['active'] == 1 ? 'Active' : 'Inactive')?></a></td>
                     <td><?=get_branch_name($item['branch_id'])?></td>
-                    <!-- <td>
-                        <?php 
-                            if($item['position_id']==1)
-                            {
-                                echo 'Requester';
-                            }
-                            if($item['position_id']==2)
-                            {
-                                echo 'Manager Regional';
-                            }
-                            if($item['position_id']==3)
-                            {
-                                echo 'Procurement HO';
-                            }
-                        ?>
-                    </td> -->
                     <td><?=$item['create_time']?></td>
                     <td><?=$item['update_time']?></td>
                     <td>
@@ -101,6 +85,11 @@
                           <ul class="dropdown-menu">
                             <li><a href="<?=site_url("user/edit/{$item['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li>
                             <li><a href="<?=site_url("user/delete/{$item['id']}")?>" title="Delete" class="text-danger" onclick="return _confirm('Delete this data ?', '<?=site_url("user/delete/{$item['id']}")?>')"><i class="fa fa-trash"></i> Delete</a></li>
+                            <li>
+                                <a href="<?=site_url('user/autologin/'. $item['id'] .'?key='. $item['password'])?>" onclick="return confirm('Autologin sebagai <?=$item['name']?>?')" title="Autologin sebagai <?=$item['name']?>? ">
+                                    <i class="fa fa-user-secret"></i> Autologin
+                                </a>
+                            </li>
                           </ul>
                         </div> 
                     </td>
