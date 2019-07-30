@@ -126,7 +126,7 @@
                                <th>QTY</th>
                                <th>Price List</th>
                                <th>Discount (%)</th>
-                               <th>Price</th>
+                               <th>Sub Total</th>
                              </tr>
                            </thead>
                            <tbody class="add-table-rfq-request">
@@ -155,16 +155,20 @@
                                        }
                                        else
                                        {
-                                          echo '<td><input type="hidden" name="price[]" value="0" /></td>';
+                                          echo '<td><a href="#" class="edit_price" data-type="text">0</a><input type="hidden" name="price[]" value="0" /></td>';
                                        }
 
-                                       echo '<td>
-                                             <a href="#" class="edit_disc" data-type="text" data-qty="'. $item['qty'] .'" data-price="'. $row['sales_price'] .'" data-pk="'. $row['id'] .'" >0</a>
-                                       </td>';
+                                        if($new==0)
+                                        {
+                                          echo '<td>'. $item['discount'] .'</td>';
+                                        }
+                                        else
+                                        {
+                                          echo '<td><a href="#" class="edit_disc" data-type="text" data-qty="'. $item['qty'] .'" data-price="'. $row['sales_price'] .'" data-pk="'. $row['id'] .'" >'. $item['discount'] .'</a></td>';
+                                        }
 
                                        echo '<td class="sub_total">'. format_idr($row['sales_price'] * $item['qty']) .'</td>';
                                        echo '</tr>';
-
                                        $sub_total += $row['sales_price'] * $item['qty'];
                                     }                                 
                                  }
@@ -295,6 +299,16 @@
         el += '</tr>';
 
     $('#term_body').append(el);
+  });
+
+  $('.edit_price').editable({
+    success: function(response, val) {
+      var el = $(this).parent().parent();
+
+      el.find("input[name='price[]']").val(val);
+
+      init_calculate();
+    }
   });
 
   $('.edit_shipping_charger').editable({

@@ -34,6 +34,7 @@ class RequestForQuotationVendor extends CI_Controller {
 		$this->load->model('PurchaseRequest_model');
 		$this->load->model('MaterialPurchaseRequest_model');
 		$this->load->model('RequestForQoutationMaterial_model');
+		$this->load->model('QuotationOrderVendor_model');
 		$this->model = $this->RequestForQoutation_model;
 	}
 
@@ -123,6 +124,26 @@ class RequestForQuotationVendor extends CI_Controller {
 
 				$this->db->insert('quotation_order_vendor_material', $param);
 				$this->db->flush_cache();
+
+				// check vendor material price list
+            	$vendor_material = $this->db->get_where('sales_and_distribution', ['material_id' => $item, 'vendor_id' => $rfq['vendor_id']])->row_array();
+				if($vendor_material)
+				{
+					$this->db->where('id', $vendor_material['id']);
+					$this->db->update('sales_and_distribution', ['price_submited' => $post['price'][$key], 'price_submited_date'=> date('Y-m-d')]);
+            		$this->db->flush_cache();
+				}
+				else
+				{
+					$this->db->insert('sales_and_distribution', 
+								[
+									'vendor_id'=>$rfq['vendor_id'], 
+									'material_id' => $item,
+									'sales_price'=> $post['price'][$key],
+									'price_submited' => $post['price'][$key], 
+									'price_submited_date'=> date('Y-m-d')
+								]);
+				} 	
 			}
 
 			if(isset($post['term']))
@@ -164,9 +185,19 @@ class RequestForQuotationVendor extends CI_Controller {
 		$params['pr'] 			= $this->PurchaseRequest_model->get_by_id($params['data']['purchase_request_id']);
 		$params['pr_number'] 	= $params['pr']['no'];
 
-		$params['material']		= $this->model->material($id);
+		if(isset($_GET['quotation_id']))
+		{
+			$params['material']		= $this->QuotationOrderVendor_model->material($_GET['quotation_id'], 'array');
+			$params['term']			= $this->QuotationOrderVendor_model->term($_GET['quotation_id'], 'array');
+			$params['new'] 			= 0;
+		}
+		else
+		{
+			$params['material']		= $this->model->material($id);
+			$params['term']			= $this->model->term($id);
+			$params['new'] 			= 1;
+		}
 		$params['vendor']		= $this->model->vendor($id);
-		$params['term']			= $this->model->term($id);
 		$params['vendor_id'] 	= $this->session->userdata('vendor_id');
 		$params['page'] 		= 'requestForQuotationVendor/detail';
 		$params['request']		= $this->PurchaseRequest_model->get_where_many(['purchase_request.status' => 0]);

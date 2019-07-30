@@ -67,26 +67,33 @@
      * Get Material
      * @return objects
      */
-    public function material($id)
+    public function material($id, $type='object')
     {
     	$this->db->from('quotation_order_vendor_material q');
     	$this->db->select('q.*, m.name as material');
     	$this->db->join('material m', 'm.id=q.material_id', 'left');
     	$this->db->where('q.quotation_order_vendor_id', $id);
-
-    	return $this->db->get()->result_object();
+        if($type=='array')
+        {
+            return $this->db->get()->result_array();
+        }
+        else return $this->db->get()->result_object();
     }
 
     /**
      * Get Term
      * @return objects
      */
-    public function term($id)
+    public function term($id, $type='object')
     {
     	$this->db->from('quotation_order_vendor_term_cond t');
     	$this->db->select('t.*');
     	$this->db->where('t.quotation_order_vendor_id', $id);
 
-    	return $this->db->get()->result_object();
+        if($type=='array')
+        {
+            return $this->db->get()->result_array();
+        }
+        else return $this->db->get()->result_object();
     }
 }

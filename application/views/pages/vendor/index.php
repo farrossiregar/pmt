@@ -86,7 +86,7 @@
                         <ul class="dropdown-menu">
                           <li><a href="<?=site_url("vendor/edit/{$item['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li>
                           <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("vendor/delete/{$item['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>
-                          <li><a title="Autologin" onclick="_confirm('Hapus data ini?', '<?=site_url("vendor/autologin/{$item['id']}")?>')" ><i class="fa fa-user-secret"></i> Autologin</a></li>
+                          <li><a title="Autologin" onclick="_confirm('Login sebagai <?=$item['name']?>?', '<?=site_url("vendor/autologin")?>?email=<?=$item['email']?>')" ><i class="fa fa-user-secret"></i> Autologin</a></li>
                         </ul>
                       </div>
                     </td>
