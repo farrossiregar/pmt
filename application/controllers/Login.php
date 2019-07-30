@@ -21,8 +21,8 @@ class Login extends CI_Controller {
 	public function index()
 	{
 		$this->data[''] = '';
-		$this->form_validation->set_rules('username', 'Username', 'required|min_length[2]|max_length[20]|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[2]|max_length[20]|xss_clean');
+		$this->form_validation->set_rules('username', 'Username', 'required|min_length[2]|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[2]|xss_clean');
 		$this->form_validation->set_error_delimiters('<div class="msg-error"><p>', '</p></div>');
 
 		if ($this->form_validation->run() == FALSE):
