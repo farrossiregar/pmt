@@ -11,9 +11,9 @@
                   <tr class="headings">
                      <th>No</th>
                      <th class="column-title">RFQ Number </th>
-                     <th class="column-title">Type</th>
+                     <!-- <th class="column-title">Type</th> -->
                      <th class="column-title">Document Title</th>
-                     <th class="column-title">Solicatation Type</th>
+                     <!-- <th class="column-title">Solicatation Type</th> -->
                      <th class="column-title">Delivery Date</th>
                      <th class="column-title">Expired Date</th>
                      <th class="column-title">Delivery Address</th>
@@ -28,9 +28,9 @@
                         echo "<tr>";
                            echo "<td>".$no."</td>";
                            echo "<td>".$value['case_id']."</td>";
-                           echo "<td>".$value['purchase_type']."</td>";
+                           // echo "<td>".$value['purchase_type']."</td>";
                            echo "<td>".$value['document_title']."</td>";
-                           echo "<td>".$value['solicatation_type']."</td>";
+                           // echo "<td>".$value['solicatation_type']."</td>";
                            echo "<td>".$value['delivery_date']."</td>";
                            echo "<td>".$value['expired_date']."</td>";
                            echo "<td>".$value['detail_delivery_address']."</td>";

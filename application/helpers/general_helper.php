@@ -195,7 +195,7 @@ function send_notif($param)
     $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
 
     $CI->email->set_newline("\r\n");
-    $CI->email->from('noreply@empore.co.id');
+    $CI->email->from('noreply@pmt.co.id');
     $CI->email->to($param['email']);
     $CI->email->subject($param['subject']);
     $CI->email->message($message);
