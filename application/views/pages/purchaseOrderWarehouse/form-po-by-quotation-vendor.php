@@ -187,62 +187,41 @@
                            </tbody>
                            <tfoot style="background: #fbfbfb;">
                               <tr>
-                                 <th colspan="5" style="text-align: right;vertical-align: middle;">
-                                    Sub Total
-                                 </th>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
                                  <td><?=format_idr($sub_total)?></td>
                               </tr>
                               <tr>
-                                 <th colspan="5" style="text-align: right;vertical-align: middle;">
-                                    Discount
-                                 </th>
-                                 <td>
-                                    <input type="number" class="form-control" name="PO[discount]" placeholder="%" style="width: 80px; float: left; margin-right: 10px;">
-                                    <input type="number" class="form-control" name="PO[discount_rp]" placeholder="Rp. " style="width: 170px; float: left; margin-right: 10px;">
-                                 </td>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
+                                 <td><?=$data->discount == "" ? 0 :$data->discount ?>%</td>
+                                 <?php 
+                                    $discount_rp = 0;
+                                    if(!empty($data->discount))
+                                    {
+                                       $discount_rp = $data->discount * $sub_total / 100;
+                                    }
+                                 ?>
                               </tr>
                               <tr>
-                                 <td colspan="5" style="text-align: right;vertical-align: middle;">
-                                    <select name="PO[vat_type]" class="form-control" style="width: 100px;float: right;">
-                                       <option value="1">PPh</option>
-                                       <option value="2">PPN</option>
-                                    </select>
-                                 </td>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">
+                                    <?=$data->vat_type == 1 ? 'PPH' : 'PPN'?>
+                                 </th>
                                  <td>
-                                    <input type="number" class="form-control" name="PO[vat]" placeholder="% " style="width: 150px; float: left; margin-right: 10px;">
+                                    <?php $vat_idr = $sub_total * $data->vat / 100; ?>
+                                    <?=$data->vat?>% (Rp <?=format_idr($vat_idr)?>)
                                  </td>
                               </tr>
                               <tr>
                                  <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
-                                 <td>
-                                    <input type="number" class="form-control" name="PO[shipping_charge]" placeholder="Rp. " style="width: 150px; float: left; margin-right: 10px;">
-                                 </td>
+                                 <td><?=format_idr($data->shipping_charge)?></td>
                               </tr>
                               <tr>
                                  <td colspan="5" style="text-align: right;vertical-align: middle;">
                                     <b>Total</b>
-                                    <input type="hidden" name="PO[total]" value="<?=$sub_total?>" />
                                  </td>
-                                <td id="total"><?=format_idr($sub_total)?></td>
+                                <td id="total"><?=format_idr($sub_total + $vat_idr - $discount_rp + $data->shipping_charge)?></td>
                               </tr>
-                          </tfoot>           
-                          <!--  <tfoot>
-                              <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</th>
-                                 <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
-                              </tr>
-                              <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;">VAT (<?=$data->vat?>%)</th>
-                                 <th style="background: #f5f5f5;padding-top:0;">
-                                    <a href="#" class="edit_disc" data-type="text"><?=($vat * $sub_total / 100)?></a>
-                                    <input type="hidden" name="PO[vat]" value="<?=$data->vat?>">
-                                 </th>
-                              </tr>
-                              <tr>
-                                 <th colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</th>
-                                 <th style="background: #f5f5f5;" class="vat"><?=format_idr($sub_total)?></th>
-                              </tr>
-                           </tfoot> -->
+                          </tfoot>
+
                         </table>
                         <input type="hidden" name="sub_total" value="<?=$sub_total?>">
                         <input type="hidden" name="tax">
