@@ -48,7 +48,12 @@
                            }else if($value['status'] == 3){
                               echo "<button class='btn btn-danger btn-xs'>Rejected</button>";
                            }else if($value['status'] == 4){
-                              echo "<button class='btn btn-warning btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
+
+                              if(cek_po_by_pr($value['id']) || cek_rfq_by_pr($value['id']))
+                                echo "<button class='btn btn-success btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
+                              else
+                                echo "<button class='btn btn-warning btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
+
                            }else if($value['status'] == 5){
                               echo "<button class='btn btn-info  btn-xs'><i class=\"fa fa-check-square-o\"></i> Received</button>";
                            } 
@@ -88,8 +93,15 @@
                                 {
                                   if($access_id == 14 || $access_id == 18)
                                   {
-                                    echo '<li><a href="'. site_url('RequestForQuotation/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create RFQ</a></li>';
-                                    echo '<li><a href="'. site_url('PurchaseOrderWarehouse/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create PO</a></li>';
+                                    if(!cek_rfq_by_pr($value['id']))
+                                    {
+                                      echo '<li><a href="'. site_url('RequestForQuotation/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create RFQ</a></li>';
+                                    }
+                                    if(!cek_po_by_pr($value['id']))
+                                    {
+                                      echo '<li><a href="'. site_url('PurchaseOrderWarehouse/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create PO</a></li>';
+                                    }
+
                                     echo '<li><a href="'. site_url("PurchasingRequest/checkinventory/").$value['id'] .'" title="Check Inventory"><i class="fa fa-check-square"></i> Check Inventory</a></li>';
                                   }
                                 }
@@ -104,7 +116,7 @@
                                         }else{ 
                               ?>
                               <li><a href="<?=site_url("PurchasingRequest/insert/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li>
-                              <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("PurchasingRequest/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li> 
+                              <!-- <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("PurchasingRequest/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>  -->
                             <?php }
                                 } ?>
                               </ul>

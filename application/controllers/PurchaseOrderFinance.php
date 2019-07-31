@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class PurchaseOrderFinance extends CI_Controller {
 
-
 	/**
 	 * Constructor
 	 * @param	-

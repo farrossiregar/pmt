@@ -1,5 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Check PO
+ */
+function cek_po_by_pr($id){
+    $obj = get_instance();
+
+    return $obj->db->get_where('purchase_order_warehouse', ['pr_id' => $id])->row_array();
+}
+
+/**
+ * Check RFQ
+ */
+function cek_rfq_by_pr($id)
+{
+    $obj = get_instance();
+
+    return $obj->db->get_where('request_for_qoutation', ['purchase_request_id' => $id])->row_array();
+}
 
 /**
  * [request_for_qoutation_vendor description]
