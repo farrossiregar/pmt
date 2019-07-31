@@ -93,12 +93,9 @@
                                 {
                                   if($access_id == 14 || $access_id == 18)
                                   {
-                                    if(!cek_rfq_by_pr($value['id']))
+                                    if(!cek_rfq_by_pr($value['id']) || !cek_po_by_pr($value['id']))
                                     {
-                                      echo '<li><a href="'. site_url('RequestForQuotation/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create RFQ</a></li>';
-                                    }
-                                    if(!cek_po_by_pr($value['id']))
-                                    {
+                                      echo '<li><a href="'. site_url('RequestForQuotation/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create RFQ</a></li>';   
                                       echo '<li><a href="'. site_url('PurchaseOrderWarehouse/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create PO</a></li>';
                                     }
 
@@ -115,7 +112,7 @@
                                             // No Action [hide]
                                         }else{ 
                               ?>
-                              
+
                               <!-- <li><a href="<?=site_url("PurchasingRequest/insert/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li> -->
                               <!-- <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("PurchasingRequest/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>  -->
                             <?php }
