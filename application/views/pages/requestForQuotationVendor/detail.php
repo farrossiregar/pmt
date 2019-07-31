@@ -167,9 +167,18 @@
                                           echo '<td><a href="#" class="edit_disc" data-type="text" data-qty="'. $item['qty'] .'" data-price="'. $row['sales_price'] .'" data-pk="'. $row['id'] .'" >'. $item['discount'] .'</a></td>';
                                         }
 
-                                       echo '<td class="sub_total">'. format_idr($row['sales_price'] * $item['qty']) .'</td>';
+                                        $discount = 0;
+                                        if(!empty($item['discount']))
+                                        {
+                                          $discount = $item['discount'] * $row['sales_price'] / 100; 
+                                        }
+
+                                       echo '<td class="sub_total">'. format_idr(($row['sales_price'] - $discount) * $item['qty']) .'</td>';
                                        echo '</tr>';
-                                       $sub_total += $row['sales_price'] * $item['qty'];
+                                      
+                                      
+
+                                      $sub_total += ($row['sales_price'] - $discount) * $item['qty'];
                                     }                                 
                                  }
                               ?>
@@ -210,7 +219,13 @@
                               </tr>
                               <tr>
                                  <th colspan="5" style="text-align: right;" title="Value After Tax" colspan="3">Total</th>
-                                 <th class="total"><?=format_idr($sub_total)?></th>
+                                 <th class="total">
+                                  <?php 
+                                    if(isset($quotation_id)):
+                                      $sub_total = $sub_total + $quotation['shipping_charge'] + ($quotation['vat'] * $sub_total / 100);
+                                    endif;
+                                  ?>
+                                  <?=format_idr($sub_total)?></th>
                               </tr>
                            </tfoot>
                         </table>
