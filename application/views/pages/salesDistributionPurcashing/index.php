@@ -15,7 +15,7 @@
                 <th class="column-title">Valid Until</th>
                 <th class="column-title">Sales Price</th>
                 <th class="column-title">Min Order</th>
-                <th class="column-title">Price Submited</th>
+                <th class="column-title">Last Submited</th>
                 <th style="width: 100px;"></th>
               </tr>
             </thead>
