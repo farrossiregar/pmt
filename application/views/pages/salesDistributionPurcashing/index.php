@@ -15,6 +15,7 @@
                 <th class="column-title">Valid Until</th>
                 <th class="column-title">Sales Price</th>
                 <th class="column-title">Min Order</th>
+                <th class="column-title">Price Submited</th>
                 <th style="width: 100px;"></th>
               </tr>
             </thead>
@@ -30,6 +31,7 @@
                   <td><?=$row['valid_until']?></td>
                   <td><?=format_idr($row['sales_price'])?></td>
                   <td><?=$row['min_order']?></td>
+                  <td><?=$item['price_submited']?></td>
                   <td><a href="<?=site_url("salesDistribution/edit/{$row['id']}")?>" class="btn btn-success btn-xs" title="Edit"><i class="fa fa-edit"></i> Update</a> 
                   </td>
                 <?php } else { ?>
@@ -38,6 +40,8 @@
                   <td> - </td>
                   <td>0</td>
                   <td>0</td>
+                  <td><?=$item['price_submited']?></td>
+
                   <td>
                       <a href="<?=site_url("salesDistribution/setprice/{$item['id']}")?>" class="btn btn-warning btn-xs" title="Edit"><i class="fa fa-edit"></i> Set Price</a> 
                   </td>

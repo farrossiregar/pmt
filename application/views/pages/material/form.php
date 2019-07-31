@@ -117,7 +117,7 @@
                   </div>
                </div>
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_detail">Matrerial Detail <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_detail">Material Detail</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <label class="switch">
                         <input type="checkbox" value="1" id="material_detail">
@@ -128,43 +128,43 @@
                 
                 <div id="material_detail_child" style="display: none;"> 
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Brand <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Brand </label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[brand]" value="<?=(isset($data['brand']) ? $data['brand'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Model <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Model</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[model]" value="<?=(isset($data['model']) ? $data['model'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Type <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Type</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[type]" value="<?=(isset($data['type']) ? $data['type'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Series <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Series</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[series]" value="<?=(isset($data['series']) ? $data['series'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Part Number <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Part Number</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[part_number]" value="<?=(isset($data['part_number']) ? $data['part_number'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Size <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Size</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[size]" value="<?=(isset($data['size']) ? $data['size'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Color <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Color</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[color]" value="<?=(isset($data['color']) ? $data['color'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
@@ -176,40 +176,39 @@
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Dimensional <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Dimensional</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[dimensional]" value="<?=(isset($data['dimensional']) ? $data['dimensional'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Weight <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Weight</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[weight]" value="<?=(isset($data['weight']) ? $data['weight'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Engine Model <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Engine Model</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[engine_model]" value="<?=(isset($data['engine_model']) ? $data['engine_model'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Sheet <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Data Sheet</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[data_sheet]" value="<?=(isset($data['data_sheet']) ? $data['data_sheet'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Services <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Services</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[services]" value="<?=(isset($data['services']) ? $data['services'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
-                  
                 </div>
 
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shipping_instruction">Shipping Instruction <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shipping_instruction">Shipping Instruction</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <label class="switch">
                         <?php 
@@ -222,7 +221,6 @@
                           }
 
                         ?>
-
                         <input <?=$checked;?> type="checkbox" value="1" id="shipping_instruction">
                         <span class="slider round"></span>
                      </label>

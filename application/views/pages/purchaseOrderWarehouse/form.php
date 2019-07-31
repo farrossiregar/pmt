@@ -71,7 +71,7 @@
                </div>
                <?php if(isset($pr_data)): ?>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">Quotation /<br /> Confirmation Order Number<span class="required"> *</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">Quotation /<br /> Confirmation Order Number</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="text" class="form-control" name="PO[qo_number]" required />
                   </div>

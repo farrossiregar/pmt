@@ -99,6 +99,7 @@
               <th>Material</th>
               <th>Required Qty.</th>
               <th>Urgency Level</th>
+              <th>Note</th>
               <th></th>
             </tr>
           </thead>
@@ -122,6 +123,7 @@
                 $urgency_val = isset($urgency[$value['urgency']]) ? $urgency[$value['urgency']] : "";
                 echo $urgency_val;
                 ?></td>
+               <td class="column-title"><?php echo $value['note']; ?></td>
             </tr>
           <?php endforeach;?>
           </tbody>                  
