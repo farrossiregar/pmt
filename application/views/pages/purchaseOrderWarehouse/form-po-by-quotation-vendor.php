@@ -221,11 +221,10 @@
                                 <td id="total"><?=format_idr($sub_total + $vat_idr - $discount_rp + $data->shipping_charge)?></td>
                               </tr>
                           </tfoot>
-
                         </table>
                         <input type="hidden" name="sub_total" value="<?=$sub_total?>">
-                        <input type="hidden" name="tax">
-                        <input type="hidden" name="total">
+                        <input type="hidden" name="tax" value="<?=$vat?>">
+                        <input type="hidden" name="total" value="<?=$sub_total + $vat_idr - $discount_rp + $data->shipping_charge?>">
                      </div>
                   </div>
                </div>
