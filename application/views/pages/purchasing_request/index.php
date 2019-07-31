@@ -115,7 +115,8 @@
                                             // No Action [hide]
                                         }else{ 
                               ?>
-                              <li><a href="<?=site_url("PurchasingRequest/insert/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li>
+                              
+                              <!-- <li><a href="<?=site_url("PurchasingRequest/insert/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li> -->
                               <!-- <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("PurchasingRequest/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>  -->
                             <?php }
                                 } ?>
