@@ -117,7 +117,7 @@ class User extends CI_Controller {
 				$this->session->set_userdata('access_id', $row->user_group_id);
 				$this->session->set_userdata('foto', $row->foto);
 				$this->session->set_userdata('group', $group->user_group);
-				$this->session->set_userdata('is_login_admin', 1);
+				$this->session->set_userdata('is_login_admin', "");
 				
 				if($row->user_group_id == 7)
 				{
