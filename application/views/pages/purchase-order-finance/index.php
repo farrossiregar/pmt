@@ -52,9 +52,11 @@
                     ?>
                     </td>
                     <td>
-                      <?php //if($value['status_finance'] != ""): ?>
+                      <?php if(empty($value['status_finance'])): ?>
                       <a href="<?=site_url('PurchaseOrderFinance/proccess/'.$value['id'])?>" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i> Proccess</a> 
-                      <?php //endif; ?>
+                      <?php else: ?>
+                      <a href="<?=site_url('PurchaseOrderFinance/proccess/'.$value['id'])?>" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i> Detail</a> 
+                      <?php endif; ?>
                     </td>
                 </tr>
               <?php
