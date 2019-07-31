@@ -52,9 +52,9 @@
                     ?>
                     </td>
                     <td>
-                      <?php if($value['status_finance'] != ""): ?>
+                      <?php //if($value['status_finance'] != ""): ?>
                       <a href="<?=site_url('PurchaseOrderFinance/proccess/'.$value['id'])?>" class="btn btn-default btn-xs"><i class="fa fa-arrow-right"></i> Proccess</a> 
-                      <?php endif; ?>
+                      <?php //endif; ?>
                     </td>
                 </tr>
               <?php

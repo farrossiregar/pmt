@@ -183,8 +183,10 @@
                <div class="form-group">
                   <div>
                      <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                    <?php if(!empty($data['status_gm'])):?>
                      <button type="button" class="btn btn-danger btn-sm" onclick="reject()"><i class="fa fa-close"></i> Reject </button>
                      <button type="button" class="btn btn-success btn-sm" onclick="approve()"><i class="fa fa-check"></i> Approve </button>
+                    <?php endif; ?>
                   </div>
                </div>
                <input type="hidden" name="status" value="1" />
