@@ -82,15 +82,6 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Discount
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" class="form-control" readonly value="<?=$data['discount']?>" placeholder="%" style="width: 150px; float: left; margin-right: 10px;">
-                     <input type="number" class="form-control" readonly name="<?=$data['discount_rp']?>" placeholder="Rp. " style="width: 250px; float: left; margin-right: 10px;">
-                  </div>
-               </div>
-
-               <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Note
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
