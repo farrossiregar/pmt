@@ -61,24 +61,23 @@ class Approve extends CI_Controller {
 			$this->db->flush_cache();
 			
 			if($post['status'] == 1)
-				$this->db->set('status', 4);
+				$set['status']= 4;
 			else
-				$this->db->set('status', 3);
+				$set['status'] = 3;
 
 			$this->session->set_flashdata('messages', 'Purchase Requisition #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
 
-			$this->db->set('note_pm', $post['note']);
+			$set['note_pm'] = $post['note'];
 			$this->db->where('token_code', $token_code);
-			$this->db->update('purchase_request');
+			$this->db->update('purchase_request', $set);
 
 			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
         		
     		if(!empty($user) and $post['status'] == 1)
     		{
 				$token_code = md5(uniqid());
-        		$this->db->set('token_code', '-');
         		$this->db->where('id', $params['data']['id']);
-        		$this->db->update('purchase_request');
+        		$this->db->update('purchase_request', ['token_code'=>'-']);
 				
 				$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
 
@@ -151,16 +150,16 @@ class Approve extends CI_Controller {
 		if($this->input->post())
 		{
 			$post = $this->input->post();
-
+			$set = [];
 			if($post['status'] == 1)
 			{
-				$this->db->set('status_proqurement_ho', 1);
-				$this->db->set('status', 2);
+				$set['status_proqurement_ho'] = 1;
+				$set['status']= 2;
 			}
 			else
 			{
-				$this->db->set('status_proqurement_ho', 2);
-				$this->db->set('status', 5);
+				$set['status_proqurement_ho'] = 2;
+				$set['status'] = 5;
 			}
 
 			$this->db->set('note_gm', $post['note']);
