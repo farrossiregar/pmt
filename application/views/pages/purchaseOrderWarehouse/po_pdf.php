@@ -90,7 +90,13 @@
 		<div class="box-2">
 			<h4>SHIPPED TO</h4>
 			<div class="box" style="float: right;">
-				<p style="padding-left: 10px;"><?=$po['detail_delivery_address']?></p>
+				<p style="padding-left: 10px;">
+					<?php if(!empty($po['rfq_id'])): ?>
+					<?=$po['detail_delivery_address']?>
+					<?php else: ?>
+					<?=$po['address']?>
+					<?php endif; ?>		
+				</p>
 			</div>
 		</div>
 		<div style="clear: both;"></div>

@@ -103,7 +103,7 @@
                                   }
                                 }
                               ?>
-                              <li><a href="<?=site_url("PurchasingRequest/material/{$value['id']}")?>" title="Show Detail Material"><i class="glyphicon glyphicon-share"></i> Detail Material</a></li>                    
+                              <li><a href="<?=site_url("PurchasingRequest/material/{$value['id']}")?>" title="Show Detail Material"><i class="glyphicon glyphicon-share"></i> View</a></li>                    
                               <?php 
                                     if((int)$position == 1 && (int)$value['status'] > 1){ 
                                       // No Action [hide]
