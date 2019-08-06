@@ -12,20 +12,18 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Material Group<span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" class="form-control autocomplete-material-group" name="material_group_name" />
-                    <input type="hidden" name="Material[material_group]">
+                    <input type="text" class="form-control autocomplete-material-group" name="material_group_name" value="<?=(isset($data['name_group']) ? $data['name_group'] : '')?>" />
+                    <input type="hidden" name="Material[material_group]" value="<?=isset($data['material_group']) ? $data['material_group'] : ''?>">
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Material / Services <span class="required">*</span>
-                  </label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Material / Services <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="text" id="name" required="required" name="Material[name]"  value="<?=(isset($data['name']) ? $data['name'] : '')?>" class="form-control col-md-7 col-xs-12">
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description <span class="required">*</span>
-                  </label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <textarea class="form-control" name="Material[description]"><?=(isset($data['description']) ? $data['description'] : '')?></textarea>
                   </div>
@@ -39,9 +37,9 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="safety_stock">Safety Stock <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="safety_stock">Safety Stock</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="safety_stock" required="required" name="Material[safety_stock]"  value="<?=(isset($data['safety_stock']) ? $data['safety_stock'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
+                     <input type="number" id="safety_stock" name="Material[safety_stock]"  value="<?=(isset($data['safety_stock']) ? $data['safety_stock'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
                   </div>
                </div>
                <div class="form-group">
@@ -92,7 +90,7 @@
                </div>
 
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reorder_level">Purchasing Group (Group of Buyers) <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reorder_level">Purchasing Group (Group of Buyers) </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select multiple="multiple" class="form-control" id="division" name="Material[division][]">
                      <?php 

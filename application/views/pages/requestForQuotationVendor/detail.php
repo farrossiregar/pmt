@@ -155,7 +155,7 @@
                                        }
                                        else
                                        {
-                                          echo '<td><a href="#" class="edit_price" data-type="text">0</a><input type="hidden" name="price[]" value="0" /></td>';
+                                          echo '<td><a href="#" class="edit_price" data-type="text"></a><input type="hidden" name="price[]" value="0" /></td>';
                                        }
 
                                         if($new==0)
@@ -201,7 +201,7 @@
                                     <?php if(isset($quotation_id)):?>
                                       <a href="javascript:void(0)"><?=$quotation['vat']?>%</a>
                                     <?php else: ?>
-                                      <a href="#" data-type="text" class="edit_ppn">0</a>%
+                                      <a href="#" data-type="text" class="edit_ppn"></a>%
                                       <input type="hidden" class="form-control" name="RFQ[vat]" placeholder="% " style="width: 150px; float: left; margin-right: 10px;">
                                     <?php endif; ?>
                                  </td>
@@ -212,7 +212,7 @@
                                     <?php if(isset($quotation_id)):?>
                                       <?=format_idr($quotation['shipping_charge'])?>
                                     <?php else: ?>
-                                      <a href="#" data-type="text" class="edit_shipping_charger">0</a>
+                                      <a href="#" data-type="text" class="edit_shipping_charger"></a>
                                       <input type="hidden" name="RFQ[shipping_charge]" value="" />
                                     <?php endif; ?>
                                  </td>

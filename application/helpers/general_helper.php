@@ -213,11 +213,11 @@ function send_notif($param)
     $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
 
     $CI->email->set_newline("\r\n");
-    $CI->email->from('noreply@pmt.co.id');
+    $CI->email->from('epl@pmt.co.id');
     $CI->email->to($param['email']);
     $CI->email->subject($param['subject']);
     $CI->email->message($message);
-    $CI->email->send();
+    $CI->email->send(FALSE);
 
     $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
     $message = 'text='. urlencode($message);

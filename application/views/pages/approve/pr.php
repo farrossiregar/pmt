@@ -96,6 +96,7 @@
             <tr>
               <th>No</th>
               <th>Material Group</th>
+              <th>Purchase Category</th>
               <th>Material</th>
               <th>Required Qty.</th>
               <th>Urgency Level</th>
@@ -108,6 +109,7 @@
             <tr>
                <td class="column-title"><?php echo $key+1; ?></td>
                <td class="column-title"><?php echo $value['group_material']; ?></td>
+               <td class="column-title"><?php echo $value['purchase_category']; ?></td>
                <td class="column-title">
                   <?php 
                     $name = $value["name_material"];

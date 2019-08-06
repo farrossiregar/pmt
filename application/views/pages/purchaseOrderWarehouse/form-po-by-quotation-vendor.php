@@ -163,14 +163,23 @@
                                  {
                                     $sub_total = 0;
                                     foreach ($material as $key => $item)
-                                    {
+                                    { 
                                        echo '<tr>';
                                        echo '<td>'. ($key+1) .'</td>';
                                        echo '<td>'. $item->material .'</td>';
                                        echo '<td>'. $item->qty .'</td>';
                                        echo '<td>'. $item->price .'</td>';
                                        echo '<td>'. $item->discount .'</td>';
-                                       echo '<td class="sub_total">'. format_idr($item->price * $item->qty) .'</td>';
+
+                                       $discount = 0;
+                                       if(!empty($item->discount))
+                                       {
+                                          $discount = $item->discount * $item->price / 100; 
+                                       }
+
+                                       $price = ($item->price - $discount) * $item->qty;
+
+                                       echo '<td class="sub_total">'. format_idr($price) .'</td>';
                                        echo '</tr>';
 
                                        echo '<input type="hidden" name="Material['. $key .'][material_id]" value="'. $item->material_id .'" />';
@@ -178,7 +187,7 @@
                                        echo '<input type="hidden" name="Material['. $key .'][price]" value="'. $item->price .'" />';
                                        echo '<input type="hidden" name="Material['. $key .'][discount]" value="'. $item->discount .'" />';
 
-                                       $sub_total += $item->price * $item->qty;
+                                       $sub_total += $price;
                                     }    
 
                                     $vat = $data->vat * $sub_total / 100;

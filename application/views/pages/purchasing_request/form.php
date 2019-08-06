@@ -66,6 +66,7 @@
                     <input type="text" value="<?=(isset($data['require_date']) ? $data['require_date'] : "")?>"  name="require_date" class="form-control" id="require_date">
                   </div>
                </div>
+
                <hr/>
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group_id">Material Group <span class="required">*</span>
@@ -85,6 +86,16 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select class="form-control" name="material_id" id="material_id">
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_id">Purchase Category </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                     <select class="form-control" name="purchase_category" >
+                        <option>Consumable</option>
+                        <option>Company Asset</option>
+                        <option>Ownership</option>
                      </select>
                   </div>
                </div>
@@ -137,6 +148,7 @@
                         <thead>
                           <tr>
                             <th>Material Group</th>
+                            <th>Purchase Category</th>
                             <th>Material</th>
                             <th>Required Qty.</th>
                             <th>Urgency Level</th>
@@ -310,6 +322,7 @@ function CompareDate(val){
 
          var input = '<input type="hidden" name="purchasingRequest['+i+'][id]" value="'+$("#purchase_material_id").val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][material_group_id]" value="'+$( "#material_group_id" ).val()+'">'+
+                     '<input type="hidden" name="purchasingRequest['+i+'][purchase_category]" value="'+$("select[name='purchase_category']").val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][material_id]" value="'+$( "#material_id" ).val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][qty]" value="'+$( "#qty" ).val()+'">'+
                      '<input type="hidden" name="purchasingRequest['+i+'][urgency]" value="'+$( "#urgency" ).val()+'">'+
@@ -317,6 +330,7 @@ function CompareDate(val){
 
          var tr = "<tr id='child-request-"+i+"'>"+
                      "<td>"+$("#material_group_id option:selected").text()+"</td>"+
+                     "<td>"+$("select[name='purchase_category']").val()+"</td>"+
                      "<td>"+$("#material_id option:selected").text()+"</td>"+
                      "<td align='center'>"+$("#qty ").val()+"</td>"+
                      "<td>"+$("#urgency option:selected").text()+"</td>"+

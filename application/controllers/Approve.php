@@ -35,7 +35,7 @@ class Approve extends CI_Controller {
 		$this->load->model('Project_model');
 
 		$params['data'] = $this->PurchaseRequest_model->get_by_token($token);
-		$params['material'] = $this->MaterialPurchaseRequest_model->get_where_many(['purchase_request_id' => $params['data']['id']]);
+		$params['material'] = $this->MaterialPurchaseRequest_model->get_where_many(['material_purchase_request.purchase_request_id' => $params['data']['id']]);
 
 		$expired 	= strtotime($params['data']['token_expired']);
 		$today 		= strtotime(date('Y-m-d'));
@@ -68,7 +68,7 @@ class Approve extends CI_Controller {
 			$this->session->set_flashdata('messages', 'Purchase Requisition #'. $params['data']['no']. ( $post['status'] == 1 ? ' Approved' : 'Rejected'));
 
 			$set['note_pm'] = $post['note'];
-			$this->db->where('token_code', $token_code);
+			$this->db->where('id', $params['data']['id']);
 			$this->db->update('purchase_request', $set);
 
 			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
@@ -87,15 +87,20 @@ class Approve extends CI_Controller {
             	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
 
             	send_notif($param);
-            	$message  = "Your Purchase Requisition ". $data['purchase_number'] .' Approved.';
+            	$message  = "Your Purchase Requisition ". $params['data']['no'] .' Approved.';
 			}
-			else $message  = "Your Purchase Requisition ". $data['purchase_number'] ." rejected.";
+			else $message  = "Your Purchase Requisition ". $params['data']['no'] ." rejected.";
 
-        	$param['message'] 	= $message;
-        	$param['phone'] 	= $pm['phone'];
-        	$param['email']		= $pm['email'];
-        	$param['subject']	= 'Purchase Request  #'. $data['purchase_number'];
-        	send_notif($param);
+            $pm = $this->Project_model->get_manager_by_project($data['data']->project_id);
+
+            if($pm)
+            {
+	        	$param['message'] 	= $message;
+	        	$param['phone'] 	= $pm['phone'];
+	        	$param['email']		= $pm['email'];
+	        	$param['subject']	= 'Purchase Request  #'. $params['data']['no'];
+	        	send_notif($param);
+	        }
 
 			redirect('approve/success','location');
 		}

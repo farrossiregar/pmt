@@ -141,6 +141,7 @@
             		$konten_detail = array(
             			'purchase_request_id' => $insid,
             			'material_group_id' => $detail[$i]['material_group_id'],
+            			'purchase_category' => $detail[$i]['purchase_category'],
             			'material_id' => $detail[$i]['material_id'],
             			'qty' => $detail[$i]['qty'],
             			'urgency' => $detail[$i]['urgency'],
