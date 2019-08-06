@@ -68,7 +68,6 @@ class RequestForQuotation extends CI_Controller {
 				$val['price'] 								= $post['price'][$k];
 				$val['material_id'] 						= $post['material_id'][$k];
 				$this->db->insert('request_for_qoutation_material_nego', $val);	
-			
 				$this->db->flush_cache();
 				$val = [];
 				$val['persen_nego'] = $i;

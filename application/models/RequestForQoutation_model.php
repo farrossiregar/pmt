@@ -139,7 +139,7 @@
 	{
 		$this->db->from('request_for_qoutation_material r');
 		$this->db->select('r.*, v.name as material');
-		$this->db->join('material v','v.id=r.material_id');
+		$this->db->join('material v','v.id=r.material_id', 'left');
 		$this->db->where('r.request_for_qoutation', $id);
 
 		$data = $this->db->get()->result_array();

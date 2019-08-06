@@ -163,6 +163,7 @@
   {
     if(confirm('Approve Purchase Request #<?=$data['no']?> ?'))
     {
+      $("input[name='status']").val(1);
       $("#form_purchase_request").trigger('submit');
     }
   }
