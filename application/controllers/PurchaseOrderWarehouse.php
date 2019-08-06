@@ -241,19 +241,22 @@ class PurchaseOrderWarehouse extends CI_Controller {
 				} 	
 			}
 			// Procurement Manager
-			$user = $this->db->get_where('user', ['user_group_id' => 18])->row_array();
-			if($user)
+			$users = $this->db->get_where('user', ['user_group_id' => 14])->result_array();
+			foreach($users as $user)
 			{
-				// send notifikasi whatsapp
-				$message  = "This ". $post['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= site_url('approve/poprocurement/'. $token_code) ."\n ";
+				if($user)
+				{
+					// send notifikasi whatsapp
+					$message  = "This ". $post['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= site_url('approve/poprocurement/'. $token_code) ."\n ";
 
-				$param['message'] 	= $message;
-            	$param['phone'] 	= $user['phone'];
-            	$param['email']		= $user['email'];
-            	$param['subject']	= 'Purchase Order Need Your Approval #'. $post['po_number'];
+					$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $post['po_number'];
 
-            	send_notif($param);
+	            	send_notif($param);
+				}
 			}
 			
 			$this->session->set_flashdata('messages', 'Purchase Order Submited.');
