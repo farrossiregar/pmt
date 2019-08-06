@@ -50,9 +50,9 @@
                            }else if($value['status'] == 4){
 
                               if(cek_po_by_pr($value['id']) || cek_rfq_by_pr($value['id']))
-                                echo "<button class='btn btn-success btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
+                                echo "<button class='btn btn-success btn-xs' onclick=\"alert('". $value['note_pm'] ."')\" >Delivery</button>";
                               else
-                                echo "<button class='btn btn-warning btn-xs' onclick=\"alert('". $value['note_ho'] ."')\" >Delivery</button>";
+                                echo "<button class='btn btn-warning btn-xs' onclick=\"alert('". $value['note_pm'] ."')\" >Delivery</button>";
 
                            }else if($value['status'] == 5){
                               echo "<button class='btn btn-info  btn-xs'><i class=\"fa fa-check-square-o\"></i> Received</button>";
