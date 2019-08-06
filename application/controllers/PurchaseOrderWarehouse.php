@@ -137,16 +137,19 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	            	send_notif($param);
 				}
 				// General Manager
-				$user = $this->db->get_where('user', ['user_group_id' => 15])->row_array();
-				if($user)
+				$users = $this->db->get_where('user', ['user_group_id' => 15])->result_array();
+				foreach($users as $user)
 				{
-					$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
-	            	$param['message'] 	= $message;
-	            	$param['phone'] 	= $user['phone'];
-	            	$param['email']		= $user['email'];
-	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
-	            	send_notif($param);
+					if($user)
+					{
+						$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+						$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+		            	$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
+		            	send_notif($param);
+					}
 				}
 				$message  = "Purchase Order ". $params['data']['po_number'] ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
 			}
@@ -281,7 +284,7 @@ class PurchaseOrderWarehouse extends CI_Controller {
 		$html = $this->load->view('pages/purchaseOrderWarehouse/po_pdf', $params, true);
 		//print_r($html);exit();
 		//this the the PDF filename that user will get to download
-		$pdfFilePath = "Invoice-". date('d M Y') .".pdf";
+		$pdfFilePath = "Purchase-Order-". date('d M Y') .".pdf";
 
         //load mPDF library
 		$this->load->library('m_pdf');

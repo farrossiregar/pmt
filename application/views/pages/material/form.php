@@ -39,11 +39,11 @@
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="safety_stock">Safety Stock</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="safety_stock" name="Material[safety_stock]"  value="<?=(isset($data['safety_stock']) ? $data['safety_stock'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
+                     <input type="number" id="safety_stock" name="Material[safety_stock]" value="<?=(isset($data['safety_stock']) ? $data['safety_stock'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="plaanned_delivery_time">Planned Delivery Time <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="plaanned_delivery_time">Planned Delivery Time</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <select class="form-control count_reorder_level" id="planned_delivery_time" name="Material[planned_delivery_time]">
                      <?php 
@@ -76,42 +76,16 @@
                </div>
 
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="planned_daily_usage">Planner Daily Usage <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="planned_daily_usage">Planner Daily Usage</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="number" id="planned_daily_usage" required="required" name="Material[planned_daily_usage]"  value="<?=(isset($data['planned_daily_usage']) ? $data['planned_daily_usage'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
                   </div>
                </div>
 
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reorder_level">Reorder Level <span class="required">*</span></label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reorder_level">Reorder Level</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="text" readonly="readonly" id="reorder_level" required="required" name="Material[reorder_level]"  value="<?=(isset($data['reorder_level']) ? $data['reorder_level'] : '')?>" class="form-control col-md-7 col-xs-12">
-                  </div>
-               </div>
-
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reorder_level">Purchasing Group (Group of Buyers) </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <select multiple="multiple" class="form-control" id="division" name="Material[division][]">
-                     <?php 
-
-                        foreach ($division as $key => $value) {
-
-                            $selected = "";
-
-                            if(isset($data['division']) )
-                            {
-                                $val_select  = explode(",", $data['division']);
-                                if(count($val_select) > 0 AND in_array($value['id'], $val_select))
-                                {
-                                  $selected = " selected";
-                                }
-                            }
-
-                           echo "<option ".$selected." value='".$value['id']."'>".$value['name']."</option>";
-                        }
-                     ?>                  
-                     </select>
                   </div>
                </div>
                 <div class="form-group">
@@ -168,7 +142,7 @@
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Capacity or Quantity <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Capacity or Quantity</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="texr" name="Material[capacity_or_quantity]" value="<?=(isset($data['capacity_or_quantity']) ? $data['capacity_or_quantity'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
@@ -227,21 +201,21 @@
 
                <div id="shipping_child" style="<?=$display;?>"> 
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="overdelive_tol">OVERDELIV. TOL <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="overdelive_tol">OVERDELIV. TOL</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="number" step="0.01" id="overdelive_tol" name="Material[overdelive_tol]" value="<?=(isset($data['overdelive_tol']) ? $data['overdelive_tol'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
 
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="underdelive_tol">UNDERDELIV. TOL <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="underdelive_tol">UNDERDELIV. TOL</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="number" step="0.01" id="underdelive_tol" name="Material[underdelive_tol]" value="<?=(isset($data['underdelive_tol']) ? $data['underdelive_tol'] : '')?>" class="form-control col-md-7 col-xs-12">
                      </div>
                   </div>
 
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stock_type">STOCK TYPE <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="stock_type">STOCK TYPE</label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <select class="form-control" name="Material[stock_type]">
                         <?php 
@@ -264,7 +238,7 @@
                   </div>
 
                   <div class="form-group">
-                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reminder">REMINDER <span class="required">*</span></label>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="reminder">REMINDER </label>
                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <label class="switch">
                           <?php 
@@ -286,21 +260,21 @@
 
                   <div id="reminder_child" style="<?=$display;?>"> 
                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="1_st_rem">1st REM./EXPED <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="1_st_rem">1st REM./EXPED</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                            <input type="number" id="1_st_rem" name="Material[1_st_rem]" value="<?=(isset($data['1_st_rem']) ? $data['1_st_rem'] : '')?>" class="form-control col-md-7 col-xs-12">
                         </div>
                      </div>
 
                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="2_st_rem">2st REM./EXPED <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="2_st_rem">2st REM./EXPED</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                            <input type="number" id="2_st_rem" name="Material[2_st_rem]" value="<?=(isset($data['2_st_rem']) ? $data['2_st_rem'] : '')?>" class="form-control col-md-7 col-xs-12">
                         </div>
                      </div>
 
                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="3_st_rem">3st REM./EXPED <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="3_st_rem">3st REM./EXPED</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                            <input type="number" id="3_st_rem" name="Material[3_st_rem]" value="<?=(isset($data['3_st_rem']) ? $data['3_st_rem'] : '')?>" class="form-control col-md-7 col-xs-12">
                         </div>

@@ -102,13 +102,6 @@ class Material extends CI_Controller {
 				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
 				$post['order_unit'] =  $this->db->insert_id();	
 			}
-
-
-			if(isset($post['division']))
-			{
-				$divisi = implode(',', $post['division']);
-				$post['division'] = $divisi;	
-			}
 			
 			if($post['shipping_instruction_val'] != 1)
 			{
@@ -156,12 +149,6 @@ class Material extends CI_Controller {
 			{
 				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
 				$post['order_unit'] =  $this->db->insert_id();
-			}
-
-			if(isset($post['division']))
-			{
-				$divisi = implode(',', $post['division']);
-				$post['division'] = $divisi;	
 			}
 			
 			if($post['shipping_instruction_val'] != 1)

@@ -71,25 +71,27 @@ class Approve extends CI_Controller {
 			$this->db->where('id', $params['data']['id']);
 			$this->db->update('purchase_request', $set);
 
-			$user = $this->db->get_where('user',['user_group_id' => 14])->row_array();
-        		
-    		if(!empty($user) and $post['status'] == 1)
-    		{
-				$token_code = md5(uniqid());
-        		$this->db->where('id', $params['data']['id']);
-        		$this->db->update('purchase_request', ['token_code'=>'-']);
-				
-				$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
+			$users = $this->db->get_where('user',['user_group_id' => 14])->result_array();
+        	foreach($users as $user)
+        	{
+	    		if(!empty($user) and $post['status'] == 1)
+	    		{
+					$token_code = md5(uniqid());
+	        		$this->db->where('id', $params['data']['id']);
+	        		$this->db->update('purchase_request', ['token_code'=>'-']);
+					
+					$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
 
-            	$param['message'] 	= $message;
-            	$param['phone'] 	= $user['phone'];
-            	$param['email']		= $user['email'];
-            	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $user['phone'];
+	            	$param['email']		= $user['email'];
+	            	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
 
-            	send_notif($param);
-            	$message  = "Your Purchase Requisition ". $params['data']['no'] .' Approved.';
+	            	send_notif($param);
+	            	$message  = "Your Purchase Requisition ". $params['data']['no'] .' Approved.';
+				}
+				else $message  = "Your Purchase Requisition ". $params['data']['no'] ." rejected.";
 			}
-			else $message  = "Your Purchase Requisition ". $params['data']['no'] ." rejected.";
 
             $pm = $this->Project_model->get_manager_by_project($data['data']->project_id);
 
@@ -179,28 +181,34 @@ class Approve extends CI_Controller {
 			if($post['status'] == 1)
 			{
 	    		// Finance
-				$user = $this->db->get_where('user', ['user_group_id' => 16])->row_array();
-				if($user)
+				$users = $this->db->get_where('user', ['user_group_id' => 16])->result_array();
+				foreach($users as $user)
 				{
-					$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
-					$message .= "\n ". site_url('approve/pofinance/'. $token_code) ."\n ";	
-	            	$param['message'] 	= $message;
-	            	$param['phone'] 	= $user['phone'];
-	            	$param['email']		= $user['email'];
-	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
-	            	send_notif($param);
+					if($user)
+					{
+						$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
+						$message .= "\n ". site_url('approve/pofinance/'. $token_code) ."\n ";	
+		            	$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
+		            	send_notif($param);
+					}
 				}
 				// General Manager
-				$user = $this->db->get_where('user', ['user_group_id' => 15])->row_array();
-				if($user)
+				$users = $this->db->get_where('user', ['user_group_id' => 15])->result_array();
+				foreach($users as $user)
 				{
-					$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
-					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
-	            	$param['message'] 	= $message;
-	            	$param['phone'] 	= $user['phone'];
-	            	$param['email']		= $user['email'];
-	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
-	            	send_notif($param);
+					if($user)
+					{
+						$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
+						$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+		            	$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
+		            	send_notif($param);
+					}
 				}
 				$message  = "Purchase Order ". $params['data']->po_number ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
 			}
