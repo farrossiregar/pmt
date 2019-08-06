@@ -90,7 +90,7 @@
 		<div class="box-2">
 			<h4>SHIPPED TO</h4>
 			<div class="box" style="float: right;">
-				<p style="padding-left: 10px;"><?=$po['address']?></p>
+				<p style="padding-left: 10px;"><?=$po['detail_delivery_address']?></p>
 			</div>
 		</div>
 		<div style="clear: both;"></div>
@@ -98,35 +98,51 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th class="border">ITEM</th>
 					<th class="border">QTY</th>
-					<th class="border">ITEM#</th>
 					<th class="border">UNIT PRICE (IDR)</th>
+					<th class="border">DISC (%)</th>
 					<th class="border">LINE TOTAL (IDR)</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php 
 			$sub_total = 0;
-			foreach($material as $item) { ?>
+			foreach($material as $item) {
+
+				$d = 0;
+                if(!empty($item->discount)) $d = $item->discount * $item->price / 100;
+				
+				$sub_total += ($item->price - $d)*$item->qty;
+
+			?>
 				<tr>
-					<td class="border"><?=@$item->qty?></td>
 					<td class="border"><?=@$item->material?></td>
+					<td class="border"><?=@$item->qty?></td>
 					<td class="border" style="text-align: right"><?=@format_idr($item->price)?></td>
-					<td class="border" style="text-align: right"><?=@format_idr($item->price*$item->qty)?></td>
+					<td class="border" style="text-align: right"><?=@format_idr($item->discount)?></td>
+					<td class="border" style="text-align: right"><?=@format_idr(($item->price - $d)*$item->qty)?></td>
 				</tr>
 			<?php 
-				$sub_total += $item->price*$item->qty;
+				
 				}?>
 				<tr>
 					<td> </td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align: right">Sub Total</td>
+					<td colspan="4" style="text-align: right">Sub Total</td>
 					<td style="width: 160px;text-align: right;"><strong><?=format_idr($sub_total)?></strong></td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align: right">VAT (<?=$po['vat']?>%)</td>
+					<td colspan="4" style="text-align: right">
+					<?php 
+                        if($po['vat_type']==1)
+                        { 
+                          echo "PPH"; 
+                        }else  echo "PPN";
+                    ?>
+					 (<?=$po['vat']?>%)</td>
 					<td style="text-align: right">
 						<strong>
 						<?php 
@@ -137,22 +153,22 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align: right">Shipping Charge</td>
+					<td colspan="4" style="text-align: right">Shipping Charge</td>
 					<td style="text-align: right"> <strong><?=format_idr($po['shipping_charge'])?></strong></td>
 				</tr>
-				<tr>
-					<td colspan="3" style="text-align: right">Discount (<?=$po['discount']?>%)</td>
+				<!-- <tr>
+					<td colspan="4" style="text-align: right">Discount (<?=$po['discount']?>%)</td>
 					<td style="text-align: right"> 
 						<strong>
 						<?php 
-							$disc = $po['discount'] * $sub_total / 100;
-							echo format_idr($disc);
+							//$disc = $po['discount'] * $sub_total / 100;
+							//echo format_idr($disc);
 						?>
 						</strong>
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
-					<td colspan="3" style="text-align: right">Order Total</td>
+					<td colspan="4" style="text-align: right">Order Total</td>
 					<td style="text-align: right"><strong><?=format_idr($sub_total - $disc + $vat + $po['shipping_charge'])?></strong></td>
 				</tr>
 			  </tbody>

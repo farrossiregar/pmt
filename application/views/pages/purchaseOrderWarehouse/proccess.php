@@ -35,12 +35,12 @@
                   </div>
             	</div>
                <?php endif;?>
-            	<div class="form-group">
+            	<!-- <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">PR Number <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="text" class="form-control" value="<?=$data['pr_number']?>" disabled>
                   </div>
-               </div>
+               </div> -->
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="vendor_id">Vendor <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -59,8 +59,8 @@
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="number" class="form-control" disabled value="<?=$data['term_day']?>" placeholder="Day" style="width: 150px; float: left; margin-right: 10px;">
-                     <label style="margin-top:8px; float: left;">After Invoice Received</label>
-                     <input type="text" class="form-control" value="<?=$data['term_day_remark']?>" disabled style="float: left;margin-left: 10px; width: 300px;" placeholder="Remark">
+                     <label style="margin-top:8px; float: left;">After Invoice Received</label><div style="clear:both;"></div>
+                     <input type="text" class="form-control" value="<?=$data['term_day_remark']?>" disabled style="margin-top:5px;float: left;margin-left: 0px; width: 300px;" placeholder="Remark">
                   </div>
                </div>
                <div class="form-group">
@@ -78,6 +78,9 @@
                      <textarea class="form-control" style="height: 100px;" disabled><?=$data['address']?></textarea>
                   </div>
                </div>
+
+
+               
                <table align="center" class="table" style="margin:auto; width: 50%" >
                   <tbody id="term_body">
                      <?php foreach($term as $item): ?>
@@ -89,54 +92,91 @@
                   </tbody>
                </table>
                <hr />
-               <table align="center" class="table" style="margin:auto; width: 90%" >
-	               	<thead>
-	               		<tr>
-                           <th style="width: 50px;">No</th>
-	               			<th>Item</th>
-	               			<th>PO QTY</th>
-	               			<th>Unit Price</th>
-	               			<th style="width: 300px;">Sub Total</th>
-	               		</tr>
-	               	</thead>
-	               	<tbody id="material_body">
-                     <?php $total = 0; ?>
-                     <?php foreach($material as $key => $item): ?>
-                        <tr>
-                           <td><?=($key+1)?></td>
-                           <td><?=$item->material?></td>
-                           <td><?=$item->qty?></td>
-                           <td><?=format_idr($item->price)?></td>
-                           <td><?=format_idr($item->price * $item->qty)?></td>
-                        </tr>
-                        <?php $total += $item->price * $item->qty; ?>
-                     <?php endforeach; ?>
-                     </tbody>
-	               	<tfoot style="background: #fbfbfb;">
-                        <tr>
-                           <th colspan="4" style="text-align: right;vertical-align: middle;">Discount</th>
-                           <td><?=$data['discount']?>% (Rp. <?=format_idr($data['discount_rp'])?>)</td>
-                        </tr>
-                        <tr>
-                           <th colspan="4" style="text-align: right;vertical-align: middle;">
-                              <?=$data['vat_type'] == 1 ? 'PPH' : 'PPN'?>
-                           </th>
-                           <td>
-                              <?php $vat_idr = $total * $data['vat'] / 100; ?>
-                              <?=$data['vat']?>% (Rp <?=format_idr($vat_idr)?>)
-                           </td>
-                        </tr>
-                        <tr>
-                           <th colspan="4" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
-                           <td><?=format_idr($data['shipping_charge'])?></td>
-                        </tr>
-		               	<tr>
-		               		<td colspan="4" style="text-align: right;vertical-align: middle;">
-                              <b>Total</b>
-                           </td>
-	            			  <td id="total"><?=format_idr($total + $vat_idr - $data['discount_rp'] + $data['shipping_charge'])?></td>
-		               	</tr>
-	                 </tfoot>
+               <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width: 50px;">No</th>
+                      <th>Item</th>
+                      <th>QTY</th>
+                      <th>Price List</th>
+                      <th>Discount (%)</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody class="add-table-rfq-request">
+                     <?php 
+                       $vat = 0;
+                        if(isset($material) AND count($material) > 0)
+                        {
+                           $sub_total = 0;
+                           foreach ($material as $key => $item)
+                           { 
+                              echo '<tr>';
+                              echo '<td>'. ($key+1) .'</td>';
+                              echo '<td>'. $item->material .'</td>';
+                              echo '<td>'. $item->qty .'</td>';
+                              echo '<td>'. format_idr($item->price) .'</td>';
+                              echo '<td>'. $item->discount .'</td>';
+
+                              $discount = 0;
+                              if(!empty($item->discount))
+                              {
+                                 $discount = $item->discount * $item->price / 100; 
+                              }
+
+                              $price = ($item->price - $discount) * $item->qty;
+
+                              echo '<td class="sub_total">'. format_idr($price) .'</td>';
+                              echo '</tr>';
+
+                              echo '<input type="hidden" name="Material['. $key .'][material_id]" value="'. $item->material_id .'" />';
+                              echo '<input type="hidden" name="Material['. $key .'][qty]" value="'. $item->qty .'" />';
+                              echo '<input type="hidden" name="Material['. $key .'][price]" value="'. $item->price .'" />';
+                              echo '<input type="hidden" name="Material['. $key .'][discount]" value="'. $item->discount .'" />';
+
+                              $sub_total += $price;
+                           }    
+
+                           $vat = $data['vat'] * $sub_total / 100;
+                        }
+                     ?>
+                  </tbody>
+                  <tfoot style="background: #fbfbfb;">
+                     <tr>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">Sub Total</th>
+                        <td><?=format_idr($sub_total)?></td>
+                     </tr>
+                     <!-- <tr>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
+                        <td><?=$data['discount'] == "" ? 0 :$data['discount'] ?>%</td>
+                        <?php 
+                           // $discount_rp = 0;
+                           // if(!empty($data['discount']))
+                           // {
+                           //    $discount_rp = $data['discount'] * $sub_total / 100;
+                           // }
+                        ?>
+                     </tr> -->
+                     <tr>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">
+                           <?=$data['vat_type'] == 1 ? 'PPH' : 'PPN'?>
+                        </th>
+                        <td>
+                           <?php $vat_idr = $sub_total * $data['vat'] / 100; ?>
+                           <?=$data['vat']?>% (Rp <?=format_idr($vat_idr)?>)
+                        </td>
+                     </tr>
+                     <tr>
+                        <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                        <td><?=format_idr($data['shipping_charge'])?></td>
+                     </tr>
+                     <tr>
+                        <td colspan="5" style="text-align: right;vertical-align: middle;">
+                           <b>Total</b>
+                        </td>
+                       <td id="total"><?=format_idr($sub_total + $vat_idr - $discount_rp + $data->shipping_charge)?></td>
+                     </tr>
+                 </tfoot>
                </table>
                <br />
                <div class="form-group">

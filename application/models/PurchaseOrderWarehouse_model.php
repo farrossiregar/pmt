@@ -87,6 +87,7 @@
 							rfq.currency,
 							rfq.delivery_date,
 							rfq.expired_date,
+							rfq.detail_delivery_address,
 							pr.no as pr_number
 						");
 		$this->db->from($this->t_table);

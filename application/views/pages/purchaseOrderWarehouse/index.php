@@ -35,7 +35,7 @@
                     <?php 
                       if($value['status'] == 1 || $value['status'] == "")
                       {
-                         echo '<label class="btn btn-info btn-sm"><i class="fa fa-history"></i> Proqurement Manager </label>';
+                         echo '<label class="btn btn-success btn-sm"><i class="fa fa-history"></i> Proqurement Manager </label>';
                       }
                       elseif($value['status'] == 2 || $value['status'] == 3)
                       {
@@ -43,7 +43,7 @@
                       }
                       elseif($value['status'] == 4)
                       {
-                         echo '<label class="btn btn-success btn-sm"><i class="fa fa-check"></i> Approved </label>';
+                         echo '<label class="btn btn-success btn-sm" style="background: #cfa1f1 !important; border:1px solid #cfa1f1;"><i class="fa fa-check"></i> Approved </label>';
                       }
                       elseif($value['status'] == 5)
                       {
@@ -60,7 +60,9 @@
                         <?php if($value['status']==1): ?>
                         <li><a href="<?=site_url('PurchaseOrderWarehouse/proccess/'.$value['id'])?>" style="color: #4ec54e;" title="Print"><i class="fa fa-arrow-right"></i> Proccess</a></li>
                         <?php endif; ?>
+                        <?php if($value['status']==4): ?>
                         <li><a href="<?=site_url('PurchaseOrderWarehouse/pdf/'.$value['id'])?>" target="_blank" title="Print"><i class="fa fa-print"></i> Print PO</a></li>
+                        <?php endif;?>
                         <li><a href="<?=site_url('purchase-order/detail/'.$value['id'])?>" title="Detail"><i class="fa fa-search"></i> Detail</a></li>
                       </ul>
                     </div>

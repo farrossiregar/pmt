@@ -40,11 +40,19 @@
      </div>
      <div class="clearfix"></div><br />
      <div class="form-group">
+        <label class="control-label col-md-12" for="material_group">Vendor / Supplier</label>
+        <div class="col-sm-12"> 
+           <input type="text" readonly class="form-control" value="<?=$data->vname?>">
+        </div>
+     </div>
+     <div class="clearfix"></div><br />
+     <div class="form-group">
         <label class="control-label col-md-12" for="material_group">PO Number</label>
         <div class="col-sm-12"> 
            <input type="text" readonly class="form-control" value="<?=$data->po_number?>">
         </div>
      </div>
+     
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Quotation Number</label>
@@ -193,7 +201,10 @@
                              echo '<td>'. $item->qty .'</td>';
                              echo '<td>'. format_idr($item->price) .'</td>';
                              echo '<td>'. $item->discount .'</td>';
-                             echo '<td class="sub_total">'. format_idr($item->price * $item->qty) .'</td>';
+                             $d = 0;
+                             if(!empty($item->discount)) $d = $item->discount * $item->price / 100;
+
+                             echo '<td class="sub_total">'. format_idr(($item->price - $d) * $item->qty) .'</td>';
                              echo '</tr>';
 
                              echo '<input type="hidden" name="Material['. $key .'][material_id]" value="'. $item->material_id .'" />';
@@ -201,7 +212,7 @@
                              echo '<input type="hidden" name="Material['. $key .'][price]" value="'. $item->price .'" />';
                              echo '<input type="hidden" name="Material['. $key .'][discount]" value="'. $item->discount .'" />';
 
-                             $sub_total += $item->price * $item->qty;
+                             $sub_total += ($item->price - $d) * $item->qty;
                           }    
 
                           $vat = $data->vat * $sub_total / 100;
@@ -213,14 +224,17 @@
                        <td colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</td>
                        <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                        <td colspan="5" style="text-align: right;vertical-align: middle;">Discount</td>
                        <th><?=$data->discount?>% (Rp. <?=format_idr($data->discount_rp)?>)</th>
-                    </tr>
+                    </tr> -->
                     <tr>
                        <td colspan="5" style="text-align: right;vertical-align: middle;">
-                          <?php if($data->vat_type==1){ echo "PPH"; }?>
-                          <?php if($data->vat_type==2){ echo "PPN"; }?>
+                          <?php 
+                            if($data->vat_type==1)
+                            { 
+                              echo "PPH"; 
+                            }else  echo "PPN";?>
                        </td>
                        <th><?=format_idr($data->vat)?>% (Rp. <?=format_idr($vat)?>)</th>
                     </tr>
@@ -252,6 +266,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4" style="text-align: right;">
+          <a href="<?=site_url()?>" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-sign-in"></i> Login</a>
           <button type="button" class="btn btn-success btn-sm" onclick="approve()"><i class="fa fa-check"></i>Approve</button>
         </div>
         <!-- /.col -->

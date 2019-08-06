@@ -169,7 +169,7 @@ class Approve extends CI_Controller {
 
 			$this->db->set('note_gm', $post['note']);
 			$this->db->where('id', $params['data']->id);
-			$this->db->update('purchase_order_warehouse');
+			$this->db->update('purchase_order_warehouse', $set);
 
 			$token_code = md5(uniqid());
     		$this->db->set('token_code', $token_code );
@@ -431,9 +431,9 @@ class Approve extends CI_Controller {
 
 			if($post['status'] == 1)
 			{
-				$message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+				$message  = "Purchase Order ". $params['data']->po_number ." Approved Finance.\n\nNote:\n". $post['note'];	
 			}
-			else $message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
+			else $message  = "Purchase Order ". $params['data']->po_number ." Approved Finance.\n\nNote:\n". $post['note'];	
 			
 			$this->db->where('id', $params['data']->id);
 	        $this->db->update('purchase_order_warehouse');

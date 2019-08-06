@@ -44,12 +44,31 @@
                         {
                            echo '<td></td>';
                         }
+
                         echo "<td>". $i['vendor'] ."</td>";
+                        $t = 0;
                         foreach ($material as $item) {
                            $row = get_material_vendor_row($item['material_id'], $i['vendor_id']);
                            if($row)
                            {
-                              echo '<td class="editable">'. format_idr($row['sales_price']) .'</td>';
+                              $p = "";
+                              if($qo)
+                              {
+                                 $p = $this->db->get_where('quotation_order_vendor_material', ['material_id' => $item['material_id'], 'quotation_order_vendor_id' => $qo['id']])->row_array();
+                              }
+
+                              if($p)
+                              { 
+                                 $d = $p['discount'] * $row['sales_price'] / 100;
+
+                                 if(!empty($p['discount']))
+                                 {
+                                    echo '<td class="editable">'. format_idr(($row['sales_price'] - $d)  * $item['qty']) .'</td>';
+                                 }else
+                                    echo '<td class="editable">'. format_idr($row['sales_price'] * $item['qty']) .'</td>';
+                              }
+                              else
+                                 echo '<td class="editable">'. format_idr($row['sales_price'] * $item['qty']) .'</td>';
                            }
                            else
                            {

@@ -112,7 +112,7 @@
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Delivery Address</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <textarea class="form-control" readonly><?=isset($data->detail_delivery_address) ? $data->detail_delivery_address : '';?></textarea>
+                     <textarea class="form-control" readonly name="PO[address]"><?=isset($data->detail_delivery_address) ? $data->detail_delivery_address : '';?></textarea>
                   </div>
                </div>
                <div class="form-group">
@@ -168,7 +168,7 @@
                                        echo '<td>'. ($key+1) .'</td>';
                                        echo '<td>'. $item->material .'</td>';
                                        echo '<td>'. $item->qty .'</td>';
-                                       echo '<td>'. $item->price .'</td>';
+                                       echo '<td>'. format_idr($item->price) .'</td>';
                                        echo '<td>'. $item->discount .'</td>';
 
                                        $discount = 0;
@@ -196,20 +196,20 @@
                            </tbody>
                            <tfoot style="background: #fbfbfb;">
                               <tr>
-                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
+                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Sub Total</th>
                                  <td><?=format_idr($sub_total)?></td>
                               </tr>
-                              <tr>
+                             <!--  <tr>
                                  <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
                                  <td><?=$data->discount == "" ? 0 :$data->discount ?>%</td>
                                  <?php 
-                                    $discount_rp = 0;
-                                    if(!empty($data->discount))
-                                    {
-                                       $discount_rp = $data->discount * $sub_total / 100;
-                                    }
+                                    // $discount_rp = 0;
+                                    // if(!empty($data->discount))
+                                    // {
+                                    //    $discount_rp = $data->discount * $sub_total / 100;
+                                    // }
                                  ?>
-                              </tr>
+                              </tr> -->
                               <tr>
                                  <th colspan="5" style="text-align: right;vertical-align: middle;">
                                     <?=$data->vat_type == 1 ? 'PPH' : 'PPN'?>
@@ -232,7 +232,8 @@
                           </tfoot>
                         </table>
                         <input type="hidden" name="sub_total" value="<?=$sub_total?>">
-                        <input type="hidden" name="tax" value="<?=$vat?>">
+                        <input type="hidden" name="PO[vat]" value="<?=$vat?>">
+                        <input type="hidden" name="PO[shipping_charge]" value="">
                         <input type="hidden" name="total" value="<?=$sub_total + $vat_idr - $discount_rp + $data->shipping_charge?>">
                      </div>
                   </div>
