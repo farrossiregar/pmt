@@ -283,7 +283,7 @@
                <div class="ln_solid"></div>
                <div class="form-group">
                   <div>
-                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Cancel</a>
+                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
                      <button class="btn btn-primary btn-sm" type="reset"><i class="fa fa-refresh"></i> Reset</button>
                      <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Save</button>
                   </div>
