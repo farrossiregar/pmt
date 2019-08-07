@@ -19,7 +19,6 @@
                 <th class="column-title">Deskripsi</th>
                 <th class="column-title">Order Unit</th>
                 <th class="column-title">Planned Delivery Time</th>
-                <th class="column-title">Stock</th>
                 <th class="column-title"></th>
               </tr>
             </thead>
@@ -41,8 +40,6 @@
                           echo $planned;
                         ?>   
                     </td>
-                    <!-- <td><?=get_divisi($item['division'])?></td> -->
-                    <td><?=$item['tot_stock']?></td>
                     <td>
                         <a href="<?=site_url("material/edit/{$item['id']}")?>" title="Edit"><i class="fa fa-edit"></i></a> 
                         <a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("material/delete/{$item['id']}")?>')" ><i class="fa fa-trash"></i></a> 

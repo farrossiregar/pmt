@@ -374,7 +374,7 @@ function _alert(msg)
   if(msg == "") return false;
 
   bootbox.alert({
-    title : "<i class=\"fa fa-warning\"></i> PMT SYSTEM",
+    title : "<i class=\"fa fa-warning\"></i> SYSTEM",
     message: msg
   })
 }
@@ -389,7 +389,7 @@ function _confirm(msg, url="")
   if(msg == "") return false;
 
   bootbox.confirm({
-    title : "<i class=\"fa fa-warning\"></i> PMT SYSTEM",
+    title : "<i class=\"fa fa-warning\"></i> SYSTEM",
     message: msg,
     buttons: {
         confirm: {
@@ -405,6 +405,40 @@ function _confirm(msg, url="")
       if(result)
       { 
           window.location = url;
+      }
+      
+    }
+  });
+
+  return false;
+}
+
+/**
+ * [_confirm description]
+ * @param  {[type]} msg [description]
+ * @return {[type]}     [description]
+ */
+function _confirm_submit(msg, el)
+{
+  if(msg == "") return false;
+
+  bootbox.confirm({
+    title : "<i class=\"fa fa-warning\"></i> SYSTEM",
+    message: msg,
+    buttons: {
+        confirm: {
+            label: 'Yes',
+            className: 'btn-success'
+        },
+        cancel: {
+            label: 'No',
+            className: 'btn-danger'
+        }
+    },
+    callback: function (result) {
+      if(result)
+      { 
+        el.trigger('submit');
       }
       
     }

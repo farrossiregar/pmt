@@ -66,10 +66,12 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	 */
 	public function detail($id)
 	{
-		$params['page'] 		= 'purchaseOrderWarehouse/form-po-by-quotation-vendor';
-		$params['data'] 		= $this->QuotationOrderVendor_model->get_by_id($id);
-		$params['material']		= $this->QuotationOrderVendor_model->material($id);
-		$params['term']			= $this->QuotationOrderVendor_model->term($id);
+		$params['page'] 			= 'purchaseOrderWarehouse/detail';
+		$params['data'] 			= $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
+		$params['material'] 		= $this->model->material($id);
+		$params['term'] 			= $this->model->term($id);
+		$params['pr_data'] 			= $this->PurchaseRequest_model->get_by_id($data['data']['pr_id']);
+		$params['rfq'] 				= $this->RequestForQoutation_model->data_();
 
 		$this->load->view('layouts/main', $params);
 	}
@@ -240,8 +242,11 @@ class PurchaseOrderWarehouse extends CI_Controller {
 								]);
 				} 	
 			}
+
 			// Procurement Manager
+            $this->db->flush_cache();
 			$users = $this->db->get_where('user', ['user_group_id' => 14])->result_array();
+
 			foreach($users as $user)
 			{
 				if($user)

@@ -38,11 +38,11 @@
                         $qo = item_quotation_rfq_vendor($data['id'], $i['vendor_id']);
                         if($qo)
                         {
-                           echo '<td><a href="">'. $qo['quotation_number'] ."</a></td>";
+                           echo '<td><a href="'.site_url('requestForQuotation/detailqovendor/'. $data['id']).'?quotation_id='. $qo['id'] .'&vendor_name='. $qo['vname'] .'" class="link">'. $qo['quotation_number'] ."</a></td>";
                         }
                         else
                         {
-                           echo '<td></td>';
+                           echo '<td><i>Belum Mengirimkan Penawaran</i></td>';
                         }
 
                         echo "<td>". $i['vendor'] ."</td>";

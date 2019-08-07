@@ -40,10 +40,8 @@
     <!-- bootstrap-datetimepicker -->
     <link href="<?=base_url()?>assets/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
-
     <link href="<?=base_url()?>assets/jqueryui-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="<?=base_url()?>assets/jqueryui-editable/js/bootstrap-editable.min.js"></script>
-
     <!-- Datatables -->
     <link href="<?=base_url()?>assets/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -81,6 +79,9 @@
       } 
       .link {
         color: #26b99a
+      }
+      .table-responsive {
+        overflow-x: inherit;
       }
     </style>
   </head>

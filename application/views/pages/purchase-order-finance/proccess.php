@@ -123,29 +123,30 @@
                            $total = 0;
                            foreach ($material as $key => $item)
                            {
+                              $discount = 0;
+                              if(!empty($item->discount))
+                              {
+                                 $discount = $item->discount * $item->price / 100; 
+                              }
+
+                              $price = ($item->price - $discount) * $item->qty;
                               echo '<tr>';
                               echo '<td>'. ($key+1) .'</td>';
                               echo '<td>'. $item->material .'</td>';
                               echo '<td>'. $item->qty .'</td>';
                               echo '<td>'. format_idr($item->price) .'</td>';
                               echo '<td>'. $item->discount .'</td>';
-                              echo '<td class="sub_total">'. format_idr($item->price * $item->qty) .'</td>';
+                              echo '<td class="sub_total">'. format_idr($price) .'</td>';
                               echo '</tr>';
                               echo '<input type="hidden" name="Material['. $key .'][material_id]" value="'. $item->material_id .'" />';
                               echo '<input type="hidden" name="Material['. $key .'][qty]" value="'. $item->qty .'" />';
                               echo '<input type="hidden" name="Material['. $key .'][price]" value="'. $item->sales_price .'" />';
-                              $total += $item->price * $item->qty;
+                              $total += $price;
                            }    
-
-                           $vat = $data->vat * $total / 100;
                         }
                      ?>
                   </tbody>                
                   <tfoot style="background: #fbfbfb;">
-                     <tr>
-                        <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
-                        <td><?=$data['discount']?>% (Rp. <?=format_idr($data['discount_rp'])?>)</td>
-                     </tr>
                      <tr>
                         <th colspan="5" style="text-align: right;vertical-align: middle;">
                            <?=$data['vat_type'] == 1 ? 'PPH' : 'PPN'?>

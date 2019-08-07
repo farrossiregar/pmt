@@ -43,14 +43,14 @@ if($access == 1){
 
 		[
 			'label' => 'User Management',
-			'link' => '#',
+			'link' => 'user',
 			'icon' => 'fa-user',
 			'items' => [
-				[
-					'label' => 'User List',
-					'link' => 'user',
-					'icon' => ''
-				]
+			// 	[
+			// 		'label' => 'User List',
+			// 		'link' => 'user',
+			// 		'icon' => ''
+			// 	]
 			]
 		]
 	]; 
@@ -64,46 +64,6 @@ else if($access == 13) // Purchasing
 			'icon' => 'fa-paper-plane-o',
 		]
 	]; 
-	
-	// $menu = [
-	// 	[
-	// 		'label' => 'Master Data',
-	// 		'link' => '#',
-	// 		'icon' => 'fa-home',
-	// 		'items' => [
-	// 			[
-	// 				'label' => 'Material / Services',
-	// 				'link' => 'material',
-	// 				'icon' => ''
-	// 			],
-	// 			[
-	// 				'label' => 'Vendor',
-	// 				'link' => 'vendor',
-	// 				'icon' => ''
-	// 			],
-	// 			[
-	// 				'label' => 'Sales And Distribution',
-	// 				'link' => 'salesDistribution',
-	// 				'icon' => ''
-	// 			],
-	// 			[
-	// 				'label' => 'Request For Quotation',
-	// 				'link' => 'requestForQuotation',
-	// 				'icon' => ''
-	// 			],
-	// 			[
-	// 				'label' => 'PO',
-	// 				'link' => 'PurchaseOrderWarehouse',
-	// 				'icon' => ''
-	// 			],
-	// 			[
-	// 				'label' => 'Import Material',
-	// 				'link' => 'importMaterial',
-	// 				'icon' => ''
-	// 			]
-	// 		]
-	// 	]
-	// ]; 
 }
 else if($access == 14) // Procurement Manager
 {

@@ -65,7 +65,7 @@
                     <td class="a-center "><?=($no)?></td>
                     <td>
                         <?=$item['username']?>
-                        <a href="<?=site_url('user/autologin/'. $item['id'] .'?key='. $item['password'])?>" onclick="return confirm('Autologin sebagai <?=$item['name']?>?')" title="Autologin sebagai <?=$item['name']?>? ">
+                        <a href="javascript:void(0)" onclick="_confirm('Autologin sebagai <?=$item['name']?>?', '<?=site_url('user/autologin/'. $item['id'] .'?key='. $item['password'])?>')" title="Autologin sebagai <?=$item['name']?>?">
                             <i class="fa fa-user-secret" style="float: right;"></i>
                         </a>
                     </td>

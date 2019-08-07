@@ -2,7 +2,7 @@
    <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
          <div class="x_title">
-            <h2>Create Quotation From <label class="text-danger"><?=$data['case_id']?></label></h2>
+            <h2>Quotation From <label class="text-danger"><?=$data['case_id']?></label></h2>
             <a href="<?=site_url('requestForQuotationVendor/index')?>" class="btn btn-default btn-sm pull-right"><i class="fa fa-arrow-left"></i> Back</a>
             <div class="clearfix"></div>
          </div>
@@ -238,7 +238,9 @@
                 <div class="form-group">
                   <div>
                      <a href="<?=site_url('requestForQuotationVendor')?>" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                     <?php if(!isset($quotation_id)):?>
                      <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-paper-plane"></i> Submit</button>
+                   <?php endif?>
                   </div>
                </div>
             </form>

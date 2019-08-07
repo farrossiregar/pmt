@@ -141,7 +141,12 @@
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Delivery Address</label>
         <div class="col-md-12">
-           <textarea class="form-control" readonly><?=isset($data->detail_delivery_address) ? $data->detail_delivery_address : '';?></textarea>
+            <?php if(empty($data->rfq_id)):?>
+            <?php if(isset($data->detail_delivery_address)) { $address = $data->detail_delivery_address; }else $address = ''; ?>
+            <?php else: ?>
+            <?php if(isset($data->address)) { $address = $data->address; }else $address = ''; ?>
+            <?php endif;?>
+           <textarea class="form-control" readonly><?=$address?></textarea>
         </div>
      </div>
      <div class="clearfix"></div><br />
@@ -224,10 +229,6 @@
                        <td colspan="5" style="text-align: right;background: #f5f5f5;">Sub Total</td>
                        <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
                     </tr>
-                    <!-- <tr>
-                       <td colspan="5" style="text-align: right;vertical-align: middle;">Discount</td>
-                       <th><?=$data->discount?>% (Rp. <?=format_idr($data->discount_rp)?>)</th>
-                    </tr> -->
                     <tr>
                        <td colspan="5" style="text-align: right;vertical-align: middle;">
                           <?php 
@@ -266,7 +267,9 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4" style="text-align: right;">
+          <?php if(isset($is_ho)):?>
           <a href="<?=site_url()?>" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-sign-in"></i> Login</a>
+          <?php endif; ?>
           <button type="button" class="btn btn-success btn-sm" onclick="approve()"><i class="fa fa-check"></i>Approve</button>
         </div>
         <!-- /.col -->

@@ -56,8 +56,11 @@
               <?php foreach($data as $key => $item): ?>
                 <tr class="even pointer">
                     <td class="a-center "><?=$key+1?></td>
-                    <td><?=$item['vendor_id']?></td>                 
-                    <td><?=$item['name']?></td>                    
+                    <td><?=$item['vendor_id']?>    </td>                 
+                    <td>
+                      <?=$item['name']?>
+                      <a href="javascript:void(0)" title="Autologin" style="float: right;" onclick="_confirm('Login sebagai <?=$item['name']?>?', '<?=site_url("vendor/autologin")?>?email=<?=$item['email']?>')" ><i class="fa fa-user-secret"></i></a>
+                    </td>                    
                     <td><?php
                           switch ($item['currency']) {
                             case 1:

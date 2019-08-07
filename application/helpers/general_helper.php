@@ -124,8 +124,10 @@ function item_quotation_rfq_vendor($id, $vendor_id)
 {
     $CI = get_instance();
     $CI->db->from('quotation_order_vendor');
+    $CI->db->select('quotation_order_vendor.*, v.name as vname');
+    $CI->db->join('vendor_of_material v', 'quotation_order_vendor.vendor_id=v.id');
     $CI->db->where('rfq_id', $id);
-    $CI->db->where('vendor_id', $vendor_id);
+    $CI->db->where('quotation_order_vendor.vendor_id', $vendor_id);
 
     return $CI->db->get()->row_array();
 }

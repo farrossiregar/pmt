@@ -33,6 +33,7 @@ class RequestForQuotation extends CI_Controller {
 		$this->load->model('PurchaseRequest_model');
 		$this->load->model('MaterialPurchaseRequest_model');
 		$this->load->model('RequestForQoutationMaterial_model');
+		$this->load->model('QuotationOrderVendor_model');
 		$this->model = $this->RequestForQoutation_model;
 	}
 
@@ -40,6 +41,42 @@ class RequestForQuotation extends CI_Controller {
 	{
 		$params['page'] = 'requestForQuotation/index';
 		$params['data'] = $this->model->data_();
+		$this->load->view('layouts/main', $params);
+	}
+
+	/**
+	 * Detail Qo Vendor
+	 * @return 
+	 */
+	public function detailqovendor($id)
+	{
+		$params['data'] = $this->model->get_by_id($id);
+		$params['pr'] 			= $this->PurchaseRequest_model->get_by_id($params['data']['purchase_request_id']);
+		$params['pr_number'] 	= $params['pr']['no'];
+
+		if(isset($_GET['quotation_id']))
+		{
+			$params['material']		= $this->QuotationOrderVendor_model->material($_GET['quotation_id'], 'array');
+			$params['term']			= $this->QuotationOrderVendor_model->term($_GET['quotation_id'], 'array');
+			$params['new'] 			= 0;
+		}
+		else
+		{
+			$params['material']		= $this->model->material($id);
+			$params['term']			= $this->model->term($id);
+			$params['new'] 			= 1;
+		}
+		$params['vendor']		= $this->model->vendor($id);
+		$params['vendor_id'] 	= $this->session->userdata('vendor_id');
+		$params['page'] 		= 'requestForQuotation/detail-qo-vendor';
+		$params['request']		= $this->PurchaseRequest_model->get_where_many(['purchase_request.status' => 0]);
+
+		if(isset($_GET['quotation_id']))
+		{
+			$params['quotation_id'] 	= $_GET['quotation_id'];
+			$params['quotation'] 		= $this->db->get_where('quotation_order_vendor', ['id'=>$_GET['quotation_id']] )->row_array();
+		}
+
 		$this->load->view('layouts/main', $params);
 	}
 

@@ -88,7 +88,8 @@
 							rfq.delivery_date,
 							rfq.expired_date,
 							rfq.detail_delivery_address,
-							pr.no as pr_number
+							pr.no as pr_number,
+							purchase_order_warehouse.qo_number
 						");
 		$this->db->from($this->t_table);
 		if(! empty($search))
@@ -104,6 +105,7 @@
 		$this->db->join('quotation_order_vendor qo', 'qo.id=purchase_order_warehouse.quotation_vendor_id', 'left');
 		$this->db->join('request_for_qoutation rfq', 'rfq.id=purchase_order_warehouse.rfq_id', 'left');
 		$this->db->join('purchase_request pr', 'pr.id='. $this->t_table .'.pr_id', 'left');
+		
 		$i = $this->db->get();
 
 		if($type == 'object') 

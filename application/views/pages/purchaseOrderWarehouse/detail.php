@@ -8,34 +8,34 @@
          <div class="x_content">
             <br>
             <form id="demo-po" method="post" class="form-horizontal form-label-left">
-				  <div class="form-group">
+          <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="po_number">Company <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                  	<select class="form-control" disabled>
-                  		<option value="">-- Select Company --</option>
-                  		<?php foreach(get_company() as $item) { ?>
-   					         <option value="<?=$item['id']?>" <?=($data['company_id'] == $item['id']) ? 'selected' : ''?> data-po_number="<?=generate_purchase_order_no($item['code'])?>"><?=$item['name']?></option>
-                  		<?php } ?>
-                  	</select>
+                    <select class="form-control" disabled>
+                      <option value="">-- Select Company --</option>
+                      <?php foreach(get_company() as $item) { ?>
+                     <option value="<?=$item['id']?>" <?=($data['company_id'] == $item['id']) ? 'selected' : ''?> data-po_number="<?=generate_purchase_order_no($item['code'])?>"><?=$item['name']?></option>
+                      <?php } ?>
+                    </select>
                   </div>
                </div>
-            	<div class="form-group">
+              <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="po_number">PO Number <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="text" id="po_number" required="required" value="<?=$data['po_number']?>" readonly="readonly" class="form-control col-md-7 col-xs-12">
                   </div>
-            	</div>
+              </div>
                <?php if(!empty($data['rfq_number'])):?>
-            	<div class="form-group">
+              <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rfq_id">RFQ Number <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="text" class="form-control" value="<?=$data['rfq_number']?>" disabled>
                   </div>
-            	</div>
+              </div>
                <?php endif;?>
-            	<!-- <div class="form-group">
+              <!-- <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">PR Number <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="text" class="form-control" value="<?=$data['pr_number']?>" disabled>
@@ -67,7 +67,7 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Note
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                  	<textarea class="form-control" style="height: 100px;" disabled><?=$data['note']?></textarea>
+                    <textarea class="form-control" style="height: 100px;" disabled><?=$data['note']?></textarea>
                   </div>
                </div>
 
@@ -170,75 +170,14 @@
                  </tfoot>
                </table>
                <br />
-               <div class="form-group">
-                  <div class="col-md-6">
-                     <textarea name="note" class="form-control" placeholder="Noted" style="height: 100px;"></textarea>
-                  </div>
-               </div>
                <div class="ln_solid"></div>
                <div class="form-group">
                   <div>
-                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Cancel</a>
-                     <button type="button" onclick="reject()" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Reject</button>
-                     <button type="button" onclick="approve()" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Approve</button>
+                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
                   </div>
                </div>
-               <input type="hidden" name="status" value="1">
             </form>
          </div>
       </div>
    </div>
 </div>
-<script type="text/javascript">
-   function approve()
-   {
-      bootbox.confirm({
-      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
-      message: 'Approve Purchasing Order #<?=$data['po_number']?> ?',
-      closeButton: false,
-      buttons: {
-           confirm: {
-               label: '<i class="fa fa-check"></i> Yes',
-               className: 'btn btn-sm btn-success'
-           },
-           cancel: {
-               label: '<i class="fa fa-close"></i> No',
-               className: 'btn btn-sm btn-default btn-outline'
-           }
-      },
-      callback: function (result) {
-         if(result)
-         { 
-            $("input[name='status']").val(1);
-            $("#demo-po").trigger('submit');
-         }
-       }
-     });
-   }
-
-   function reject()
-   {
-      bootbox.confirm({
-      title : "<i class=\"fa fa-warning\"></i> EMPORE SYSTEM",
-      message: 'Reject Purchasing Order #<?=$data['po_number']?> ?',
-      closeButton: false,
-      buttons: {
-           confirm: {
-               label: '<i class="fa fa-check"></i> Yes',
-               className: 'btn btn-sm btn-success'
-           },
-           cancel: {
-               label: '<i class="fa fa-close"></i> No',
-               className: 'btn btn-sm btn-default btn-outline'
-           }
-      },
-      callback: function (result) {
-         if(result)
-         { 
-            $("input[name='status']").val(2);
-            $("#demo-po").trigger('submit');
-         }
-       }
-     });
-   }
-</script>

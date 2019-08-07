@@ -29,17 +29,10 @@
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Order Unit<span class="required">*</span>
-                  </label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Order Unit</label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" class="form-control autocomplete-order-unit" name="order_unit_name"  value="<?=(isset($data['name_unit']) ? $data['name_unit'] : '')?>">
                     <input type="hidden" class="form-control" name="Material[order_unit]" value="<?=(isset($data['order_unit']) ? $data['order_unit'] : '')?>">
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="safety_stock">Safety Stock</label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                     <input type="number" id="safety_stock" name="Material[safety_stock]" value="<?=(isset($data['safety_stock']) ? $data['safety_stock'] : '')?>" class="form-control col-md-7 col-xs-12 count_reorder_level">
                   </div>
                </div>
                <div class="form-group">

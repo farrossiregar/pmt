@@ -7,7 +7,7 @@
             <div class="clearfix"></div>
          </div>
          <div class="x_content">
-            <form id="demo-form2" method="post" onsubmit="return confirm('Submit Purchase Order ?')" class="form-horizontal form-label-left" action="<?=site_url('purchase-order/insert')?>">
+            <form id="form-po" method="post" class="form-horizontal form-label-left" action="<?=site_url('purchase-order/insert')?>">
                <?php if(isset($quotation_vendor_id)): ?>
                <input type="hidden" name="PO[quotation_vendor_id]" value="<?=$quotation_vendor_id?>">
                <?php endif;?>
@@ -16,6 +16,7 @@
                <?php endif;?>
                <?php if(isset($rfq_id)): ?>
                <input type="hidden" name="PO[rfq_id]" value="<?=$rfq_id?>">
+               <input type="hidden" name="PO[pr_id]" value="<?=$data->pr_id?>">
                <?php endif;?>
                
                <div class="form-group">
@@ -189,8 +190,6 @@
 
                                        $sub_total += $price;
                                     }    
-
-                                    $vat = $data->vat * $sub_total / 100;
                                  }
                               ?>
                            </tbody>
@@ -199,17 +198,6 @@
                                  <th colspan="5" style="text-align: right;vertical-align: middle;">Sub Total</th>
                                  <td><?=format_idr($sub_total)?></td>
                               </tr>
-                             <!--  <tr>
-                                 <th colspan="5" style="text-align: right;vertical-align: middle;">Discount</th>
-                                 <td><?=$data->discount == "" ? 0 :$data->discount ?>%</td>
-                                 <?php 
-                                    // $discount_rp = 0;
-                                    // if(!empty($data->discount))
-                                    // {
-                                    //    $discount_rp = $data->discount * $sub_total / 100;
-                                    // }
-                                 ?>
-                              </tr> -->
                               <tr>
                                  <th colspan="5" style="text-align: right;vertical-align: middle;">
                                     <?=$data->vat_type == 1 ? 'PPH' : 'PPN'?>
@@ -232,8 +220,8 @@
                           </tfoot>
                         </table>
                         <input type="hidden" name="sub_total" value="<?=$sub_total?>">
-                        <input type="hidden" name="PO[vat]" value="<?=$vat?>">
-                        <input type="hidden" name="PO[shipping_charge]" value="">
+                        <input type="hidden" name="PO[vat]" value="<?=$data->vat?>">
+                        <input type="hidden" name="PO[shipping_charge]" value="<?=$data->shipping_charge?>">
                         <input type="hidden" name="total" value="<?=$sub_total + $vat_idr - $discount_rp + $data->shipping_charge?>">
                      </div>
                   </div>
@@ -241,7 +229,7 @@
                 <div class="form-group">
                   <div>
                      <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
-                     <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-paper-plane"></i> Submit Purchase Order</button>
+                     <a class="btn btn-success btn-sm" onclick="_confirm_submit('Submit Purchase Order <?=$data->quotation_number?>', $('#form-po'))"><i class="fa fa-paper-plane"></i> Submit Purchase Order</a>
                   </div>
                </div>
             </form>
@@ -249,70 +237,3 @@
       </div>
    </div>
 </div>
-<script type="text/javascript">
-
-   var total = <?=$sub_total?>;
-
-   function init_calculate(rp = "")
-   {
-      if(total == 0 || total == "") return false;
-
-      var disc             = $("input[name='PO[discount]']").val() !="" ? parseInt($("input[name='PO[discount]']").val()) : 0;
-      var shipping_charge  = $("input[name='PO[shipping_charge]']").val() !="" ? parseInt($("input[name='PO[shipping_charge]']").val()) : 0;
-      var vat              = $("input[name='PO[vat]']").val() !="" ? parseInt($("input[name='PO[vat]']").val()) : 0;
-      var discount_rp      = $("input[name='PO[discount_rp]']").val() !="" ? parseInt($("input[name='PO[discount_rp]']").val()) : 0;
-      var total_           = total;
-
-      if(disc != 0 && rp == "")
-      {
-         disc  = disc * total / 100; 
-         total_ = parseInt(total_) - disc;
-         $("input[name='PO[discount_rp]']").val(disc);
-      }
-      if(rp != "")
-      {
-         disc     = discount_rp / total * 100; 
-         total_   = parseInt(total_) - discount_rp;
-         $("input[name='PO[discount]']").val(disc);
-      }
-      if(vat != 0)
-      {
-         vat  = vat * total_ / 100; 
-         total_ = parseInt(total_ + vat);
-      }
-
-      total_ += parseInt(shipping_charge);
-      
-      $("#total").html(numberWithDot(total_)); 
-   }
-
-   $( document ).ready(function() {      
-      $("input[name='PO[discount]'], input[name='PO[vat]'], input[name='PO[shipping_charge]'], input[name='PO[discount_rp]']").on('input', function(){
-         
-         if($(this).attr('name') == 'PO[discount_rp]')
-         {
-            init_calculate('rp');         
-         } 
-         else init_calculate();         
-
-      });
-   });
-
-   $("#add_term").click(function(){
-      //term_body
-      var td = '<tr">' +
-                  '<td><input type="text" id="tem_0" name="term[]" class="form-control" placeholder="Term"></td>' +
-                  '<td><input type="text" id="cond_0" name="cond[]" class="form-control" placeholder="Cond"></td>' +
-                  '<td style="text-align: rightl"><a style="cursor: pointer;" class="btn btn-danger delete-term" onclick="delete_term(this)"><i class="fa fa-trash"></i></a></td>' +
-               '</tr>';
-
-      $("#term_body").append(td);
-      term ++;
-   });
-
-   function delete_term(el)
-   {
-      $(el).parent().parent().remove();
-   }
-
-</script>

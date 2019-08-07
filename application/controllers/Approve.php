@@ -146,6 +146,7 @@ class Approve extends CI_Controller {
 		$params['data'] 		= $this->PurchaseOrderWarehouse_model->get_where_one(['purchase_order_warehouse.id' => $item['id']], 'object');
 		$params['material']		= $this->PurchaseOrderWarehouse_model->material($item['id']);
 		$params['term']			= $this->PurchaseOrderWarehouse_model->term($item['id']);
+		$params['is_ho']		= 1;
 
 		if(!$params['data'])
 		{
