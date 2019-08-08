@@ -185,6 +185,16 @@ elseif($access == 16)
 		],
 	]; 
 }
+elseif($access == 17)
+{
+	$menu = [
+		// [
+		// 	'label' => 'Purchase Requisition',
+		// 	'link' => 'PurchasingRequest',
+		// 	'icon' => 'fa-paper-plane-o',
+		// ]
+	]; 
+}
 else
 {
 	$menu = [
@@ -197,6 +207,17 @@ else
 }
 
 ?>
+
+<?php if($access == 17 || $access == 13):?>
+	<style type="text/css">
+		.left_col,.nav.toggle {
+			display: none;
+		}
+		.nav-sm .main_container .top_nav, .nav-sm footer, .nav-sm .container.body .right_col {
+			margin-left: 0;
+		}
+	</style>
+<?php endif; ?>
 <ul class="nav side-menu">
 	<?php
 		foreach($menu as $key => $value){

@@ -67,7 +67,7 @@ class Login extends CI_Controller {
 						}
 					}
 
-					if($row->user_group_id ==13)
+					if($row->user_group_id ==13 || $row->user_group_id ==17)
 					{
 						redirect('PurchasingRequest', 'location');
 					}
