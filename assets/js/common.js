@@ -57,9 +57,9 @@ if($('input').hasClass('date-range'))
 {
     $('.date-range').dateRangePicker(
         {
-            startDate: date.yyyymmdd(),
+            //startDate: date.yyyymmdd(),
             minDays:1,
-            maxDays:7
+            //maxDays:7
         });
 }
 

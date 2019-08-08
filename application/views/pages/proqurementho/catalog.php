@@ -6,12 +6,13 @@
         </div>
         <div class="col-md-10">
           <form action="" method="get">
-             <div class="col-md-3">
+            <div class="pull-right">
               <div class="form-group">
-                <input type="text" class="form-control" name="material" placeholder="Material" value="<?=(@$_GET['material'] ? $_GET['material'] : '')?>" />
+                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-search-plus"></i></button>
               </div>
             </div>
-            <div class="col-md-3">
+            
+            <div class="col-md-3 pull-right">
               <div class="form-group">
                 <select name="vendor_id" class="form-control">
                   <option value="">- Select Vendor -</option>
@@ -24,7 +25,7 @@
                 </select>
               </div>
             </div>
-             <div class="col-md-4">
+             <div class="col-md-4 pull-right">
               <div class="form-group">
                 <select name="group_id" class="form-control">
                   <option value="">- Select Group -</option>
@@ -37,11 +38,13 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-3 pull-right">
               <div class="form-group">
-                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-search-plus"></i></button>
+                <input type="text" class="form-control" name="material" placeholder="Material" value="<?=(@$_GET['material'] ? $_GET['material'] : '')?>" />
               </div>
             </div>
+            
+            <div class="clearfix"></div>
           </form>
         </div>
         <div class="clearfix"></div>

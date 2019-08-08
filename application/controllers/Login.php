@@ -67,6 +67,10 @@ class Login extends CI_Controller {
 						}
 					}
 
+					if($row->user_group_id ==13)
+					{
+						redirect('PurchasingRequest', 'location');
+					}
 					redirect('home', 'location');
 				else:
 					$this->data['incorrect_login'] = true;

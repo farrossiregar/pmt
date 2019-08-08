@@ -58,11 +58,11 @@ if($access == 1){
 else if($access == 13) // Purchasing
 {
 	$menu = [
-		[
-			'label' => 'Purchase Requisition',
-			'link' => 'PurchasingRequest',
-			'icon' => 'fa-paper-plane-o',
-		]
+		// [
+		// 	'label' => 'Purchase Requisition',
+		// 	'link' => 'PurchasingRequest',
+		// 	'icon' => 'fa-paper-plane-o',
+		// ]
 	]; 
 }
 else if($access == 14) // Procurement Manager

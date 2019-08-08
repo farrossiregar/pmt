@@ -43,6 +43,20 @@ class Material extends CI_Controller {
 		$this->db->join('group_of_material', 'group_of_material.id = material.material_group', 'left');
 		$this->db->join('master_unit', 'master_unit.id = material.order_unit', 'left');
 		$this->db->join('stock_material', 'material.id = stock_material.material_id', 'left');
+
+		if(isset($_GET['material_group']) and !empty($_GET['material_group']))
+		{
+			$this->db->where('material.material_group', $_GET['material_group']);
+		}
+		if(isset($_GET['order_unit']) and !empty($_GET['order_unit']))
+		{
+			$this->db->where('material.order_unit', $_GET['order_unit']);
+		}
+		if(isset($_GET['name']) and !empty($_GET['name']))
+		{
+			$this->db->like('material.name', $_GET['name']);
+		}
+
 		$this->db->group_by('material.id');
 		$i = $this->db->get();
 		$params['data'] = $i->result_array();

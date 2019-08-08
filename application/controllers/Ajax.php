@@ -33,7 +33,7 @@ class Ajax extends CI_Controller {
 
 		$name	= @$_POST['name'];
 
-		$data = $this->db->query("SELECT * FROM group_of_material WHERE name LIKE '%". $name ."%'" )->result_object();
+		$data = $this->db->query("SELECT * FROM group_of_material WHERE name LIKE '%". $name ."%' LIMIT 10")->result_object();
 
 		$params = [];
 
@@ -60,7 +60,7 @@ class Ajax extends CI_Controller {
 
 		$name	= @$_POST['name'];
 
-		$data = $this->db->query("SELECT * FROM master_unit WHERE name LIKE '%". $name ."%'" )->result_object();
+		$data = $this->db->query("SELECT * FROM master_unit WHERE name LIKE '%". $name ."%' LIMIT 10" )->result_object();
 
 		$params = [];
 
@@ -86,7 +86,7 @@ class Ajax extends CI_Controller {
 
 		$name	= @$_POST['name'];
 
-		$data = $this->db->query("SELECT * FROM user where user_group_id=17 and name LIKE '%". $name ."%'" )->result_object();
+		$data = $this->db->query("SELECT * FROM user where user_group_id=17 and name LIKE '%". $name ."%' LIMIT 10" )->result_object();
 
 		$params = [];
 
@@ -112,7 +112,7 @@ class Ajax extends CI_Controller {
 
 		$name	= @$_POST['name'];
 
-		$data = $this->db->query("SELECT * FROM user where user_group_id=13 and name LIKE '%". $name ."%'" )->result_object();
+		$data = $this->db->query("SELECT * FROM user where user_group_id=13 and name LIKE '%". $name ."%' LIMIT 10" )->result_object();
 
 		$params = [];
 
@@ -138,7 +138,7 @@ class Ajax extends CI_Controller {
 
 		$name	= $_GET['name'];
 
-		$data = $this->db->query("SELECT * FROM user where user_group_id <> 2 and name LIKE '%". $name ."%'" )->result_object();
+		$data = $this->db->query("SELECT * FROM user where user_group_id <> 2 and name LIKE '%". $name ."%' LIMIT 10" )->result_object();
 
 		$params = [];
 

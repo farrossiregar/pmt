@@ -2,12 +2,60 @@
     <div class="x_panel">
       <div class="x_title">
         <h2>Material / Services</h2> &nbsp;
-        <div class="btn-group pull-right">
-          <a href="<?=site_url('material/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
+        <div class="col-md-8 pull-right">
+            <form method="GET" action="">
+                <a href="<?=site_url('material/insert')?>" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i> Create </a>
+                <button type="submit" class="btn btn-info btn-sm pull-right"><i class="fa fa-search-plus"></i></button>
+                <div class="col-md-3 pull-right">
+                    <select name="material_group" class="form-control">
+                        <option value=""> - Material Group - </option>
+                        <?php 
+                            $i = $this->db->get('group_of_material');
+                
+                            foreach($i->result_array() as $i) {
+
+                              $selected = '';
+                              if(isset($_GET['material_group']))
+                              {
+                                if($_GET['material_group'] == $i['id'])
+                                {
+                                  $selected = ' selected';
+                                }
+                              }
+                            ?>
+                              <option value="<?=$i['id']?>" <?=$selected?>><?=$i['name']?></option>
+                              <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-3 pull-right">
+                    <select name="order_unit" class="form-control">
+                        <option value=""> - Order Unit - </option>
+                        <?php 
+                            $i = $this->db->get('master_unit');
+                
+                            foreach($i->result_array() as $i) {
+
+                              $selected = '';
+                              if(isset($_GET['order_unit']))
+                              {
+                                if($_GET['order_unit'] == $i['id'])
+                                {
+                                  $selected = ' selected';
+                                }
+                              }
+                            ?>
+                              <option value="<?=$i['id']?>" <?=$selected?>><?=$i['name']?></option>
+
+                              <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-3 pull-right">
+                    <input type="text" class="form-control" name="name" value="<?=@$_GET['name']?>" placeholder="Material / Services">
+                </div>
+            </form>
         </div>
         <div class="clearfix"></div>
       </div>
-
       <div class="x_content">
         <div class="table-responsive p-t-0">
           <table class="table table-striped table-bordered">
