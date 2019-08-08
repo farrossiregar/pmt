@@ -92,26 +92,24 @@ class Material extends CI_Controller {
 		{ 
 			$post	= $this->input->post('Material');
 
-			if($post['material_group'] == "" and $this->input->post('material_group_name') != "")
+			if($post['material_group'] == "")
 			{
-				$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
-				$post['material_group'] =  $this->db->insert_id();
-			}
-			elseif($post['material_group'] != "" and $this->input->post('material_group_name') != "")
-			{
-				$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
-				$post['material_group'] =  $this->db->insert_id();	
+				if($this->input->post('material_group_name') != "")
+				{
+					$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+					$post['material_group'] =  $this->db->insert_id();
+				}else $post['material_group'] = 0;
 			}
 
 			// new insert order unit
-			if($post['order_unit'] == "" and $this->input->post('order_unit_name') != "")
+			if($post['order_unit'] == "")
 			{
-				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
-				$post['order_unit'] =  $this->db->insert_id();
-			}elseif($post['order_unit'] != "" and $this->input->post('order_unit_name') != "")
-			{
-				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
-				$post['order_unit'] =  $this->db->insert_id();	
+				if($this->input->post('order_unit_name') != "")
+				{
+					$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+					$post['order_unit'] =  $this->db->insert_id();
+				} else $post['order_unit'] = 0;
+
 			}
 			
 			if($post['shipping_instruction_val'] != 1)
@@ -155,11 +153,24 @@ class Material extends CI_Controller {
 		{
 			$post	= $this->input->post('Material');
 
-			// new insert order unit
-			if($post['order_unit'] != $model->order_unit and $this->input->post('order_unit_name') != "")
+			if($post['material_group'] == "")
 			{
-				$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
-				$post['order_unit'] =  $this->db->insert_id();
+				if($this->input->post('material_group_name') != "")
+				{
+					$this->db->insert('group_of_material', ['name' => $this->input->post('material_group_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+					$post['material_group'] =  $this->db->insert_id();
+				}else $post['material_group'] = 0;
+			}
+
+			// new insert order unit
+			if($post['order_unit'] == "")
+			{
+				if($this->input->post('order_unit_name') != "")
+				{
+					$this->db->insert('master_unit', ['name' => $this->input->post('order_unit_name'), 'created_at' => date('Y-m-d H:i:s') ]);
+					$post['order_unit'] =  $this->db->insert_id();
+				} else $post['order_unit'] = 0;
+
 			}
 			
 			if($post['shipping_instruction_val'] != 1)
