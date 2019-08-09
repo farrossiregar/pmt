@@ -29,7 +29,15 @@
                 <select class="form-control col-md-7 col-xs-12" name="project[region_id]">
                   <option value=""> - Region - </option>
                   <?php foreach(get_region()->result_object() as $item){ ?>
-                    <option value="<?=$item->id?>"><?=$item->region_code?> - <?=$item->region?></option>
+                    <?php 
+
+                      $selected = '';
+                      if(isset($data['region_id']))
+                      {
+                        if($data['region_id'] == $item->id) $selected = 'selected';
+                      }
+                    ?>
+                    <option value="<?=$item->id?>" <?=$selected?> > <?=$item->region_code?> - <?=$item->region?></option>
                 <?php } ?>
                 </select>
               </div>

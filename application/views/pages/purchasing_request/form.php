@@ -96,6 +96,7 @@
                         <option>Consumable</option>
                         <option>Company Asset</option>
                         <option>Ownership</option>
+                        <option>Services</option>
                      </select>
                   </div>
                </div>
