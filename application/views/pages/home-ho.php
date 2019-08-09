@@ -4,7 +4,7 @@
             <h2>Purchase Requisition History</h2>
             <div class="col-md-10 pull-right" style="padding-right: 0;">
                 <form method="GET" action="" autocomplete="off">
-                    <!-- <a href="" class="btn btn-success btn-sm pull-right"><i class="fa fa-file"></i> Download Excel </a> -->
+                    <a href="<?=site_url('home/exporthistorypr')?>?<?=$_SERVER['QUERY_STRING'] ?>" class="btn btn-success btn-sm pull-right"><i class="fa fa-file"></i> Download Excel </a>
                     <button type="submit" class="btn btn-info btn-sm pull-right"><i class="fa fa-search-plus"></i></button>
                     <div class="col-md-2 pull-right">
                         <input type="text" class="form-control date-range" name="date" placeholder="Start Date" value="<?=isset($_GET['date']) ? $_GET['date'] : ''?>">

@@ -52,8 +52,8 @@
             <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
               <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Data Pribadi</a>
               </li>
-              <!-- <li role="presentation"><a href="#tab_content_password" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Rubah Password</a>
-              </li> -->
+              <li role="presentation"><a href="#tab_content_password" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Rubah Password</a>
+              </li>
             </ul>
             <div id="myTabContent" class="tab-content">
               <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
