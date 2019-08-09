@@ -65,7 +65,18 @@ class Home extends CI_Controller {
 
 		$this->load->view('layouts/main', $params);
 	}
-	
+		
+	/**
+	 * Export History PR
+	 * @return excel
+	 */
+	public function exporthistorypr()
+	{	
+		$params['data'] = $this->Home_model->transaksi();
+
+		$this->load->view('pages/export/export-history-pr',$params);
+	}
+
 	/**
 	 * BAC
 	 * @return void
@@ -88,7 +99,6 @@ class Home extends CI_Controller {
 		$params['page'] = 'bac-all';
 		$params['data'] = $data;
 
-		
 		$this->load->view('layouts/main', $params);
 	}
 
