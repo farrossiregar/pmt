@@ -71,29 +71,6 @@ class Approve extends CI_Controller {
 			$this->db->where('id', $params['data']['id']);
 			$this->db->update('purchase_request', $set);
 
-			// Notif Procurement Manager
-			$users = $this->db->get_where('user',['user_group_id' => 14])->result_array();
-        	foreach($users as $user)
-        	{
-	    		if(!empty($user) and $post['status'] == 1)
-	    		{
-					$token_code = md5(uniqid());
-	        		$this->db->where('id', $params['data']['id']);
-	        		$this->db->update('purchase_request', ['token_code'=>'-']);
-					
-					$message  = "You have incoming Purchase Requisition ". $params['data']['no'];
-
-	            	$param['message'] 	= $message;
-	            	$param['phone'] 	= $user['phone'];
-	            	$param['email']		= $user['email'];
-	            	$param['subject']	= 'Purchase Requisition #'. $params['data']['no'];
-
-	            	send_notif($param);
-	            	$message  = "Your Purchase Requisition ". $params['data']['no'] .' Approved.';
-				}
-				else $message  = "Your Purchase Requisition ". $params['data']['no'] ." rejected.";
-			}
-
 			// Procurement
 			$users = $this->db->get_where('user',['user_group_id' => 18])->result_array();
         	foreach($users as $user)

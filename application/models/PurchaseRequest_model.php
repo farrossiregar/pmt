@@ -287,21 +287,6 @@
 
 	            if($data['value'] == 4)
             	{
-            		$users = $this->db->get_where('user',['user_group_id' => 14])->result_array();
-            		foreach($users as $user)
-            		{
-	            		if(!empty($user))
-	            		{
-							// send notifikasi whatsapp
-							$message  = "You have incoming Purchase Requisition ". $pr['no'];	
-			            	$param['message'] 	= $message;
-			            	$param['phone'] 	= $user['phone'];
-			            	$param['email']		= $user['email'];
-			            	$param['subject']	= 'Purchase Requisition #'. $pr['no'];
-			            	send_notif($param); $params = "";
-						}
-					}
-
 					// Procurement
 					$users = $this->db->get_where('user',['user_group_id' => 18])->result_array();
 		        	foreach($users as $user)
