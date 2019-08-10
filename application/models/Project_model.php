@@ -37,6 +37,29 @@
 		{
 			$this->db->where('project_manager_id', $user_id);
 		}
+
+		if(isset($_GET['osm_id']) and !empty($_GET['osm_id']))
+		{
+			$this->db->where('projects.osm_id', $_GET['osm_id']);
+		}
+		if(isset($_GET['project_manager_id']) and !empty($_GET['project_manager_id']))
+		{
+			$this->db->where('projects.project_manager_id', $_GET['project_manager_id']);
+		}
+		if(isset($_GET['region_id']) and !empty($_GET['region_id']))
+		{
+			$this->db->where('projects.region_id', $_GET['region_id']);
+		}
+
+		if(isset($_GET['name']) and !empty($_GET['name']))
+		{
+			$this->db->group_start()
+					->like('projects.project_code', $_GET['name'])
+					->or_like('projects.name', $_GET['name'])
+					->or_like('projects.project_type', $_GET['name'])
+					->group_end();
+		}
+
 		$this->db->order_by('id', 'DESC');
 		$i = $this->db->get();	
 		

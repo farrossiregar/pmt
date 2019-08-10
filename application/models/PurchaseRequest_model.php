@@ -301,6 +301,20 @@
 			            	send_notif($param); $params = "";
 						}
 					}
+
+					// Procurement
+					$users = $this->db->get_where('user',['user_group_id' => 18])->result_array();
+		        	foreach($users as $user)
+		        	{
+						$message  = "You have incoming Purchase Requisition ". $pr['no'];
+
+		            	$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Requisition #'. $pr['no'];
+
+		            	send_notif($param);
+					}
             	}
             	else $message  = "Your Purchase Requisition ". $pr['no'] ." rejected.";
             	
