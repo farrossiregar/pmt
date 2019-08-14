@@ -226,6 +226,32 @@ function send_notif($param)
     $number = str_replace_first('0','62', $param['phone']);
     $number = str_replace('-', '', $number);
     
+
+/*
+    $curl = curl_init();
+    $token = "9YjpodFU91xqJzL35neu5wBgfk649MHZSe9dvG1E1JgMmfP1hkWIZLpr0aYzD9L3";
+    $data = [
+        'phone' => $number,
+        'message' => $message,
+    ];
+
+    curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+            "Authorization: $token",
+        )
+    );
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_URL, "https://wablas.com/api/sms/send");
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+    $result = curl_exec($curl);
+    curl_close($curl);
+    
+    */
+
+    /**
     $url = "https://panel.apiwha.com/send_message.php?apikey=". APIWHA_TOKEN ."&number=". $number ."&".$message;
       
     $curl = curl_init();
@@ -246,6 +272,7 @@ function send_notif($param)
     } else {
         //echo $response;
     }
+    */
 }
 
 

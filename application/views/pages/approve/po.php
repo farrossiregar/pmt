@@ -245,7 +245,7 @@
                     </tr>
                     <tr>
                        <td colspan="5" style="text-align: right;background: #f5f5f5;" title="Value After Tax" colspan="3">Total</td>
-                       <th style="background: #f5f5f5;" class="vat"><?=format_idr( $sub_total + $data->shipping_charge + $vat - $data->discount_rp)?></th>
+                       <th style="background: #f5f5f5;" class="vat"><?=format_idr( $sub_total + $data->shipping_charge + $vat)?></th>
                     </tr>
                  </tfoot>
               </table>

@@ -71,10 +71,11 @@
 	 */
 	public function get_manager_by_project($project_id)
 	{
-		$this->db->from($this->t_table);
-		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, user.phone, user.email');
-		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
-		$this->db->join('user', 'user.id='. $this->t_table .'.project_manager_id', 'left');
+		$this->db->from($this->t_table.' p');
+		$this->db->select('p.*, region.region_code, user.name as project_manager, user.phone, user.email');
+		$this->db->join('region', 'region.id=p.region_id', 'left');
+		$this->db->join('user', 'user.id=p.project_manager_id', 'left');
+		$this->db->where('p.id', $project_id);
 
 		$i = $this->db->get();
 		

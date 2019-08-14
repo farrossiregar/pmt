@@ -136,27 +136,19 @@
                            <th style="width: 50px;">No</th>
 	               			<th>Item</th>
 	               			<th>PO QTY</th>
-	               			<th>Unit Price</th>
+                           <th>Unit Price</th>
+	               			<th>Discount</th>
 	               			<th style="width: 300px;">Sub Total</th>
 	               		</tr>
 	               	</thead>
 	               	<tbody id="material_body">
                         <tr>
-                           <td colspan="5" style="text-align: center;"><i>Empty</i></td>
+                           <td colspan="6" style="text-align: center;"><i>Empty</i></td>
                         </tr>    
                      </tbody>
 	               	<tfoot style="background: #fbfbfb;">
                         <tr>
-                           <th colspan="4" style="text-align: right;vertical-align: middle;">
-                              Discount
-                           </th>
-                           <td>
-                              <input type="number" class="form-control" name="PO[discount]" placeholder="%" style="width: 80px; float: left; margin-right: 10px;">
-                              <input type="number" class="form-control" name="PO[discount_rp]" placeholder="Rp. " style="width: 170px; float: left; margin-right: 10px;">
-                           </td>
-                        </tr>
-                        <tr>
-                           <td colspan="4" style="text-align: right;vertical-align: middle;">
+                           <td colspan="5" style="text-align: right;vertical-align: middle;">
                               <select name="PO[vat_type]" class="form-control" style="width: 100px;float: right;">
                                  <option value="1">PPh</option>
                                  <option value="2">PPN</option>
@@ -167,13 +159,13 @@
                            </td>
                         </tr>
                         <tr>
-                           <th colspan="4" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
+                           <th colspan="5" style="text-align: right;vertical-align: middle;">Shipping Charge</th>
                            <td>
                               <input type="number" class="form-control" name="PO[shipping_charge]" placeholder="Rp. " style="width: 150px; float: left; margin-right: 10px;">
                            </td>
                         </tr>
 		               	<tr>
-		               		<td colspan="4" style="text-align: right;vertical-align: middle;">
+		               		<td colspan="5" style="text-align: right;vertical-align: middle;">
                               <b>Total</b>
                               <input type="hidden" name="PO[total]" />
                            </td>
@@ -204,12 +196,38 @@
 
    function editable_harga()
    {
-      $('.editable_harga').editable({
+      $('.editable_harga' ).editable({
           success: function(response, val) {
             var el = $(this).parent().parent();
+            
+            var disc = el.find(".input_discount").val(); 
+            if(disc !="")
+            {
+               var disc = parseInt(val) * parseInt(disc) / 100;
+               val -= parseInt(disc)
+            }
+
             var sub_total = parseInt(val) * parseInt(el.find(".input_qty").val());
-            el.find(".sub_total").html(sub_total);
+            el.find(".sub_total").html(numberWithDot(sub_total));
             el.find('.input_price').val(val);
+            init_calculate();
+          }
+        });
+
+      $('.editable_discount').editable({
+          success: function(response, disc) {
+            var el = $(this).parent().parent();
+            var price = el.find('.input_price').val();
+            
+            if(disc !="")
+            {
+               var disc_ = parseInt(price) * parseInt(disc) / 100;
+               price -= parseInt(disc_)
+            }
+
+            var sub_total = parseInt(price) * parseInt(el.find(".input_qty").val());
+            el.find(".sub_total").html(numberWithDot(sub_total));
+            el.find('.input_discount').val(disc);
             init_calculate();
           }
         });
@@ -217,38 +235,29 @@
 
    function init_calculate(rp = "")
    {
-      if(total == 0)
-      {
-         $('.editable_harga').each(function(){
-            var el = $(this).parent().parent();
-            if(el.find('.input_qty').val() != "" && el.find('.input_price').val() != "")
+      var total = 0;
+      $('.editable_harga').each(function(){
+         var el = $(this).parent().parent();
+         if(el.find('.input_qty').val() != "" && el.find('.input_price').val() != "")
+         {
+            var price = parseInt(el.find('.input_price').val());
+            var disc = el.find(".input_discount").val(); 
+            if(disc !="")
             {
-               total += (parseInt(el.find('.input_qty').val()) * parseInt(el.find('.input_price').val()));
+               var disc = parseInt(price) * parseInt(disc) / 100;
+               console.log('Diskon :'+numberWithDot(disc));
+               price -= parseInt(disc)
             }
-         });
-      }
+            total += (parseInt(el.find('.input_qty').val()) * parseInt(price));
+         }
+      });
       
-
       if(total == 0 || total == "") return false;
 
-      var disc             = $("input[name='PO[discount]']").val() !="" ? parseInt($("input[name='PO[discount]']").val()) : 0;
       var shipping_charge  = $("input[name='PO[shipping_charge]']").val() !="" ? parseInt($("input[name='PO[shipping_charge]']").val()) : 0;
       var vat              = $("input[name='PO[vat]']").val() !="" ? parseInt($("input[name='PO[vat]']").val()) : 0;
-      var discount_rp      = $("input[name='PO[discount_rp]']").val() !="" ? parseInt($("input[name='PO[discount_rp]']").val()) : 0;
       var total_           = total;
 
-      if(disc != 0 && rp == "")
-      {
-         disc  = disc * total / 100; 
-         total_ = parseInt(total_) - disc;
-         $("input[name='PO[discount_rp]']").val(disc);
-      }
-      if(rp != "")
-      {
-         disc     = discount_rp / total * 100; 
-         total_   = parseInt(total_) - discount_rp;
-         $("input[name='PO[discount]']").val(disc);
-      }
       if(vat != 0)
       {
          vat  = vat * total_ / 100; 
@@ -261,14 +270,8 @@
    }
 
 	$( document ).ready(function() {      
-      $("input[name='PO[discount]'], input[name='PO[vat]'], input[name='PO[shipping_charge]'], input[name='PO[discount_rp]']").on('input', function(){
-         
-         if($(this).attr('name') == 'PO[discount_rp]')
-         {
-            init_calculate('rp');         
-         } 
-         else init_calculate();         
-
+      $("input[name='PO[vat]'], input[name='PO[shipping_charge]']").on('input', function(){
+         init_calculate();         
       });
 
 		$("select[name='PO[company_id]']").on('change', function(){
@@ -328,13 +331,21 @@
 
 	            	$(data).each(function(k,v){
 	            		var sub_total = 0;
-	            		el += '<tr>';
+	            		
+                     var disc = "";
+                     if(typeof v.discount !== 'undefined')
+                     {
+                        disc = v.discount;
+                     }
+
+                     el += '<tr>';
                      el += '<td>'+ (parseInt(k) + 1) +'</td>';
 	            		el += '<td>'+ v.material +'</td>';
 	            		el += '<td>'+ v.qty;
 	            		el += '<input type="hidden" name="Material['+ k +'][material_id]" class="input_material_id" value="'+ v.material_id +'" />';
 	            		el += '<input type="hidden" name="Material['+ k +'][qty]" class="input_qty" value="'+ v.qty +'" />';
-	            		el += '<input type="hidden" name="Material['+ k +'][price]" class="input_price" value="'+ v.sales_price +'" />';
+                     el += '<input type="hidden" name="Material['+ k +'][price]" class="input_price" value="'+ v.sales_price +'" />';
+	            		el += '<input type="hidden" name="Material['+ k +'][discount]" class="input_discount" value="'+ disc +'" />';
 	            		el += '</td>';
 
 	            		if(v.sales_price != "")
@@ -343,9 +354,11 @@
 	            			total += parseInt(v.sales_price) * parseInt(v.qty); 
 	            			sub_total = parseInt(v.sales_price) * parseInt(v.qty);
 	            		}else{
-	            			el += '<td><a href="javascript:void(0)" class="editable_harga text-danger">0</a></td>';
+	            			el += '<td><a href="javascript:void(0)" class="editable_harga text-danger"></a></td>';
 	            		}
-	            		el += '<td class="sub_total">'+ numberWithDot(sub_total) +'</td>';
+                     
+                     el += '<td><a href="javascript:void(0)" class="editable_discount text-danger"></a></td>';
+                     el += '<td class="sub_total">'+ numberWithDot(sub_total) +'</td>';
 	            		el += '</tr>';
 	            	});	
 

@@ -101,7 +101,7 @@ class Approve extends CI_Controller {
 	        	$param['message'] 	= $message;
 	        	$param['phone'] 	= $pm['phone'];
 	        	$param['email']		= $pm['email'];
-	        	$param['subject']	= 'Purchase Request  #'. $params['data']['no'];
+	        	$param['subject']	= 'Purchase Request #'. $params['data']['no'];
 	        	send_notif($param);
 	        }
 

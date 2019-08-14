@@ -103,7 +103,7 @@ class PurchaseOrderWarehouse extends CI_Controller {
 		$params['pr_data'] 			= $this->PurchaseRequest_model->get_by_id($data['data']['pr_id']);
 		$params['page'] 	= 'purchaseOrderWarehouse/proccess';
 		$params['rfq'] 		= $this->RequestForQoutation_model->data_();
-
+		
 		if($this->input->post())
 		{
         	$post = $this->input->post();
@@ -227,7 +227,7 @@ class PurchaseOrderWarehouse extends CI_Controller {
 				if($vendor_material)
 				{
 					$this->db->where('id', $vendor_material['id']);
-					$this->db->update('sales_and_distribution', ['price_submited' => $value['price'], 'price_submited_date'=> date('Y-m-d')]);
+					$this->db->update('sales_and_distribution', [ 'discont' => $value['discount'], 'price_submited' => $value['price'], 'price_submited_date'=> date('Y-m-d')]);
             		$this->db->flush_cache();
 				}
 				else
@@ -238,7 +238,8 @@ class PurchaseOrderWarehouse extends CI_Controller {
 									'material_id' => $value['material_id'],
 									'sales_price'=> $value['price'],
 									'price_submited' => $value['price'], 
-									'price_submited_date'=> date('Y-m-d')
+									'price_submited_date'=> date('Y-m-d'),
+									'discont' => $value['discount']
 								]);
 				} 	
 			}
@@ -380,6 +381,8 @@ class PurchaseOrderWarehouse extends CI_Controller {
             		$data[$key]['sales_price'] = $row['price_submited'];
             	}else
             		$data[$key]['sales_price'] = $row['sales_price'];
+
+            	$data[$key]['discount'] = $row['discont'];
             } 
             else
             {

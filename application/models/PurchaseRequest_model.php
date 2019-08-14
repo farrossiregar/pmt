@@ -185,7 +185,6 @@
 
             	send_notif($param);
 
-
             	$user = $this->db->get_where('user', ['id' => $this->session->userdata('user_id') ])->row_array();
             	$message  = "Your purchase requisition with ".  $data['purchase_number'] ." number has been successfully created and is waiting for approval from OSM";
             	
@@ -195,7 +194,6 @@
             	$param['subject']	= 'Your Purchase Requisition '. $data['purchase_number'];
 
             	send_notif($param);
-            	
             }
 
         } catch (Exception $exc) {
@@ -303,11 +301,14 @@
             	}
             	else $message  = "Your Purchase Requisition ". $pr['no'] ." rejected.";
             	
-            	$param['message'] 	= $message;
-	        	$param['phone'] 	= $pm['phone'];
-	        	$param['email']		= $pm['email'];
-	        	$param['subject']	= 'Purchase Requisition  #'. $pr['no'];
-	        	send_notif($param);
+            	if($pm)
+	            {
+	            	$param['message'] 	= $message;
+		        	$param['phone'] 	= $pm['phone'];
+		        	$param['email']		= $pm['email'];
+		        	$param['subject']	= 'Purchase Requisition  #'. $pr['no'];
+		        	send_notif($param);
+		        }
             }
 
             if ($this->db->trans_status() == false) {

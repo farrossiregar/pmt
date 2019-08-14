@@ -96,7 +96,6 @@
                            <tr>
                               <td><input type="text" name="term[]" class="form-control" readonly placeholder="Term" value="<?=$item->term?>"></td>
                               <td><input type="text" name="cond[]" class="form-control" readonly placeholder="Condition" value="<?=$item->cond?>"></td>
-                              <td style="text-align: right;"></td>
                            </tr>
                         <?php endforeach; ?>
                      <?php endif; ?>
@@ -164,7 +163,7 @@
                         <td colspan="5" style="text-align: right;vertical-align: middle;">
                            <b>Total</b>
                         </td>
-                       <td id="total"><?=format_idr($total + $vat_idr - $data['discount_rp'] + $data['shipping_charge'])?></td>
+                       <td id="total"><?=format_idr($total + $vat_idr + $data['shipping_charge'])?></td>
                      </tr>
                  </tfoot>
                </table>
