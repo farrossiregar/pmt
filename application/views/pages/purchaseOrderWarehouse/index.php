@@ -57,9 +57,13 @@
                         <i class="fa fa-bars"></i>
                       </a>
                       <ul class="dropdown-menu">
-                        <?php if($value['status']==1): ?>
-                        <li><a href="<?=site_url('PurchaseOrderWarehouse/proccess/'.$value['id'])?>" style="color: #4ec54e;" title="Print"><i class="fa fa-arrow-right"></i> Proccess</a></li>
-                        <?php endif; ?>
+                        
+                        <?php if($this->session->userdata('access_id') == 14): ?>
+                          <?php if($value['status']==1): ?>
+                          <li><a href="<?=site_url('PurchaseOrderWarehouse/proccess/'.$value['id'])?>" style="color: #4ec54e;" title="Print"><i class="fa fa-arrow-right"></i> Proccess</a></li>
+                          <?php endif; ?>
+                        <?php endif;?>
+                        
                         <?php if($value['status']==4): ?>
                         <li><a href="<?=site_url('PurchaseOrderWarehouse/pdf/'.$value['id'])?>" target="_blank" title="Print"><i class="fa fa-print"></i> Print PO</a></li>
                         <?php endif;?>
