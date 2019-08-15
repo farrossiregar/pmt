@@ -35,7 +35,7 @@ class PurchaseOrderGM extends CI_Controller {
 	public function index()
 	{
 		$params['page'] = 'purchase-order-gm/index';
-		$params['data'] = $this->model->data_();
+		$params['data'] = $this->model->data_('gm');
 		$this->load->view('layouts/main', $params);
 	}
 
@@ -84,7 +84,6 @@ class PurchaseOrderGM extends CI_Controller {
 			}
 			else $message  = "Purchase Order ". $params['data']['po_number'] ." Approved General Manager.\n\nNote:\n". $post['note'];	
 			
-
 			$this->db->where('id', $params['data']['id']);
 	        $this->db->update('purchase_order_warehouse');
 

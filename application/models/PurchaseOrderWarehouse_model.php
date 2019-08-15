@@ -25,13 +25,20 @@
 	 * @param	id, page, limit, search
 	 * @return 	array
 	 **/
-	public function data_($id=0, $page=0, $limit=0, $search=0)
+	public function data_($type='')
 	{
 		$this->db->from($this->t_table);
 		$this->db->select($this->t_table .'.*, c.name as company, v.name as vendor');
 		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id');
 		$this->db->join('vendor_of_material v', 'v.id='. $this->t_table .'.vendor_id');
+		$this->db->join('purchase_request pr', 'pr.id=purchase_order_warehouse.pr_id');
+		$this->db->join('projects pj', 'pj.id=pr.project_id');
 		$this->db->order_by('id', 'desc');
+
+		if($type == 'gm')
+		{
+			$this->db->where('pj.gm_id', $this->session->userdata('user_id'));
+		}
 
 		$i = $this->db->get();
 		
@@ -89,7 +96,10 @@
 							rfq.expired_date,
 							rfq.detail_delivery_address,
 							pr.no as pr_number,
-							purchase_order_warehouse.qo_number
+							purchase_order_warehouse.qo_number,
+							u1.name as gm_name,
+							u1.email as gm_email,
+							u1.phone as gm_phone
 						");
 		$this->db->from($this->t_table);
 		if(! empty($search))
@@ -105,6 +115,8 @@
 		$this->db->join('quotation_order_vendor qo', 'qo.id=purchase_order_warehouse.quotation_vendor_id', 'left');
 		$this->db->join('request_for_qoutation rfq', 'rfq.id=purchase_order_warehouse.rfq_id', 'left');
 		$this->db->join('purchase_request pr', 'pr.id='. $this->t_table .'.pr_id', 'left');
+		$this->db->join('projects pj', 'pj.id=pr.project_id');
+		$this->db->join('user u1', 'u1.id=pj.gm_id', 'LEFT');
 		
 		$i = $this->db->get();
 

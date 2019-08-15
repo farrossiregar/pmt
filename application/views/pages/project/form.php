@@ -57,6 +57,15 @@
                 <input type="hidden" name="project[project_manager_id]" value="<?=isset($data['project_manager_id']) ? $data['project_manager_id'] : ''?>" />
               </div>
             </div>
+
+             <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">General Manager <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" class="form-control autocomplete-general-manager" value="<?=isset($data['general_manager']) ? $data['general_manager'] : ''?>" required />
+                <input type="hidden" name="project[gm_id]" value="<?=isset($data['gm_id']) ? $data['gm_id'] : ''?>" />
+              </div>
+            </div>
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Operation Service Manager <span class="required">*</span>
               </label>
@@ -115,6 +124,30 @@
     },
     select: function( event, ui ) {
       $(".project_code_description").val(ui.item.description);
+    }
+  }).on('focus', function () {
+        $(this).autocomplete("search", "");
+  });
+
+
+   $(".autocomplete-general-manager").autocomplete({
+    minLength:0,
+    limit: 25,
+    dataType: "json",
+    source: function( request, response ) {
+        $.ajax({
+          url: "<?=site_url('ajax/getgm')?>",
+          method : 'POST',
+          data: {
+            'name': request.term
+          },
+          success: function( data ) {
+            response( data );
+          }
+        });
+    },
+    select: function( event, ui ) {
+      $("input[name='project[gm_id]']").val(ui.item.id);
     }
   }).on('focus', function () {
         $(this).autocomplete("search", "");

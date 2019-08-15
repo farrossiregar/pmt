@@ -43,12 +43,6 @@
 			$this->db->or_where(['p.osm_id' => $user_id]);
 		}
 
-		if($position > 2){
-			$this->db->where('pr.status', 2);
-			$this->db->or_where('pr.status', 3);
-			$this->db->or_where('pr.status', 4);
-			$this->db->or_where('pr.status', 5);
-		}
 		$i = $this->db->get();
 		
 		return $i->result_array();

@@ -28,47 +28,45 @@
                      <input type="text" id="po_number" required="required" name="PO[po_number]" value="<?=generate_purchase_order_no($pr_data['project_code'])?>" readonly="readonly" class="form-control col-md-7 col-xs-12">
                   </div>
                	</div>
+
+                  <?php if(!isset($pr_data)): ?>
                	<div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rfq_id">RFQ Number <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                  	 <?php if(isset($pr_data)) { ?>
-                     <select class="form-control col-md-7 col-xs-12" name="PO[rfq_id]" id="rfq_id" disabled>
-                     <?php } else { ?>
-                     <select class="form-control col-md-7 col-xs-12" name="PO[rfq_id]" id="rfq_id">
-                     <?php } ?>
-                     	<option value="0">-- Select FRQ --</option>
-	                    <?php foreach ($rfq as $key => $value) { ?>
-	                  		<option value="<?=$value['id']?>"><?=$value['case_id']?></option>
-	                  	<?php } ?>
-                     </select>
-                  </div>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rfq_id">RFQ Number <span class="required">*</span></label>
+                     <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select class="form-control col-md-7 col-xs-12" name="PO[rfq_id]" id="rfq_id">
+                        	<option value="0">-- Select FRQ --</option>
+   	                    <?php foreach ($rfq as $key => $value) { ?>
+   	                  		<option value="<?=$value['id']?>"><?=$value['case_id']?></option>
+   	                  	<?php } ?>
+                        </select>
+                     </div>
                	</div>
+                  <?php endif; ?>
+
                	<div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">PR Number <span class="required">*</span>
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                  	  <?php if(isset($pr_data)) { ?>
-                      <select class="form-control col-md-7 col-xs-12" readonly="true" name="PO[pr_id]" id="pr_id">
-                      <?php } else{ ?>
-                      <select class="form-control col-md-7 col-xs-12" name="PO[pr_id]" id="pr_id">
-                      <?php } ?>
-                     	<option value="0">-- Select PR --</option>
-	                    <?php foreach ($pr as $key => $value) { 
-	                    	$selected = '';
-	                    	if(isset($pr_data)) 
-	                    	{
-	                    		if($pr_data['id'] == $value['id'])
-	                    		{
-	                    			$selected = 'selected';
-	                    		}
-	                    	}
-	                    ?>
-	                  		<option value="<?=$value['id']?>" <?=$selected?>><?=$value['no']?></option>
-	                  	<?php } ?>
-                     </select>
+                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">PR Number <span class="required">*</span></label>
+                     <div class="col-md-6 col-sm-6 col-xs-12">
+                     	  <?php if(isset($pr_data)) { ?>
+                         <select class="form-control col-md-7 col-xs-12" readonly="true" name="PO[pr_id]" id="pr_id">
+                         <?php } else{ ?>
+                         <select class="form-control col-md-7 col-xs-12" name="PO[pr_id]" id="pr_id">
+                         <?php } ?>
+                        	<option value="0">-- Select PR --</option>
+   	                    <?php foreach ($pr as $key => $value) { 
+   	                    	$selected = '';
+   	                    	if(isset($pr_data)) 
+   	                    	{
+   	                    		if($pr_data['id'] == $value['id'])
+   	                    		{
+   	                    			$selected = 'selected';
+   	                    		}
+   	                    	}
+   	                    ?>
+   	                  		<option value="<?=$value['id']?>" <?=$selected?>><?=$value['no']?></option>
+   	                  	<?php } ?>
+                        </select>
+                     </div>
                   </div>
-               </div>
                <?php if(isset($pr_data)): ?>
                <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pr_id">Quotation /<br /> Confirmation Order Number</label>
@@ -137,7 +135,7 @@
 	               			<th>Item</th>
 	               			<th>PO QTY</th>
                            <th>Unit Price</th>
-	               			<th>Discount</th>
+	               			<th>Discount (%)</th>
 	               			<th style="width: 300px;">Sub Total</th>
 	               		</tr>
 	               	</thead>

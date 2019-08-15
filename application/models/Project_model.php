@@ -28,10 +28,11 @@
 	public function data_($type = '', $user_id = '')
 	{
 		$this->db->from($this->t_table);
-		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, u2.name as osm');
+		$this->db->select($this->t_table .'.*, region.region_code, user.name as project_manager, u2.name as osm, u3.name as general_manager');
 		$this->db->join('region', 'region.id='. $this->t_table .'.region_id', 'left');
 		$this->db->join('user', 'user.id='. $this->t_table .'.project_manager_id', 'left');
 		$this->db->join('user u2', 'u2.id='. $this->t_table .'.osm_id', 'left');
+		$this->db->join('user u3', 'u3.id='. $this->t_table .'.gm_id', 'left');
 
 		if($type == 'pm')
 		{

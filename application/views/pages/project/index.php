@@ -90,6 +90,7 @@
                 <th>No</th>
                 <th class="column-title">Project Code </th>
                 <th class="column-title">Project Name </th>
+                <th class="column-title">General Manager </th>
                 <th class="column-title">Operation Service Manager </th>
                 <th class="column-title">Project Manager </th>
                 <th class="column-title">Region Code</th>
@@ -103,6 +104,7 @@
               <td><?=$key+1?></td>
               <td><?=$item['project_code']?></td>
               <td><?=$item['name']?></td>
+              <td><?=$item['general_manager']?></td>
               <td><?=$item['osm']?></td>
               <td><?=$item['project_manager']?></td>
               <td><?=$item['region_code']?></td>

@@ -28,6 +28,7 @@ class Approve extends CI_Controller {
 	 */
 	public function prpm($token)
 	{
+		$params = [];
 		$token = mysqli_real_escape_string(get_instance()->db->conn_id, $token);
 
 		$this->load->model('PurchaseRequest_model');
@@ -73,6 +74,7 @@ class Approve extends CI_Controller {
 
 			// Procurement
 			$users = $this->db->get_where('user',['user_group_id' => 18])->result_array();
+
         	foreach($users as $user)
         	{
 	    		if(!empty($user) and $post['status'] == 1)
@@ -94,8 +96,8 @@ class Approve extends CI_Controller {
 				else $message  = "Your Purchase Requisition ". $params['data']['no'] ." rejected.";
 			}
 			
-            $pm = $this->Project_model->get_manager_by_project($data['data']->project_id);
-
+            $pm = $this->Project_model->get_manager_by_project($params['data']['project_id']);
+            
             if($pm)
             {
 	        	$param['message'] 	= $message;
@@ -113,12 +115,12 @@ class Approve extends CI_Controller {
 
 	public function test()
 	{
-		$message  = "Your Purchase Requisition  Rejected.";
+		$message  = "Testing message.";
             	
     	$param['message'] 	= $message;
     	$param['phone'] 	= '087775365856';
     	$param['email']		= 'doni.enginer@gmail.com';
-    	$param['subject']	= 'Purchase Request  #';
+    	$param['subject']	= 'Testing message';
 
     	send_notif($param);
 	}
@@ -129,7 +131,7 @@ class Approve extends CI_Controller {
 	 */
 	public function success()
 	{
-		$this->load->view('pages/approve/success', $params);
+		$this->load->view('pages/approve/success');
 	}
 
 	/**
@@ -197,21 +199,19 @@ class Approve extends CI_Controller {
 		            	send_notif($param);
 					}
 				}
+
 				// General Manager
-				$users = $this->db->get_where('user', ['user_group_id' => 15])->result_array();
-				foreach($users as $user)
+				if($params['data']->gm_email)
 				{
-					if($user)
-					{
-						$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
-						$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
-		            	$param['message'] 	= $message;
-		            	$param['phone'] 	= $user['phone'];
-		            	$param['email']		= $user['email'];
-		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
-		            	send_notif($param);
-					}
-				}
+					$message  = "This ". $params['data']->po_number ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $params['data']->gm_phone;
+	            	$param['email']		= $params['data']->gm_email;
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']->po_number;
+	            	send_notif($param);
+	            }
+				
 				$message  = "Purchase Order ". $params['data']->po_number ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
 			}
 			else $message  = "Purchase Order ". $params['data']->po_number ." Rejected Proqurement Manager.\n\nNote:\n". $post['note'];

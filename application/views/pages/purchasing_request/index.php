@@ -103,20 +103,7 @@
                                   }
                                 }
                               ?>
-                              <li><a href="<?=site_url("PurchasingRequest/material/{$value['id']}")?>" title="Show Detail Material"><i class="glyphicon glyphicon-share"></i> View</a></li>                    
-                              <?php 
-                                    if((int)$position == 1 && (int)$value['status'] > 1){ 
-                                      // No Action [hide]
-                                    }else{ 
-                                        if((int)$access_id == 17 && (int)$value['status'] >= 4){ 
-                                            // No Action [hide]
-                                        }else{ 
-                              ?>
-
-                              <!-- <li><a href="<?=site_url("PurchasingRequest/insert/{$value['id']}")?>" title="Edit"><i class="fa fa-edit"></i> Edit</a></li> -->
-                              <!-- <li><a title="Hapus" onclick="_confirm('Hapus data ini?', '<?=site_url("PurchasingRequest/delete/{$value['id']}")?>')" ><i class="fa fa-trash"></i> Delete</a></li>  -->
-                            <?php }
-                                } ?>
+                                <li><a href="<?=site_url("PurchasingRequest/material/{$value['id']}")?>" title="Show Detail Material"><i class="glyphicon glyphicon-share"></i> View</a></li>                    
                               </ul>
                           </div>
                        </td>

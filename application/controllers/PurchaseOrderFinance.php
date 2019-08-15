@@ -85,7 +85,6 @@ class PurchaseOrderFinance extends CI_Controller {
 			
 			$this->db->where('id', $params['data']['id']);
 	        $this->db->update('purchase_order_warehouse');
-            
             $this->db->flush_cache();
 			$user = $this->db->get_where('user', ['id' => $params['data']['user_id']])->row_array();
 			

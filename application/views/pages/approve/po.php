@@ -57,7 +57,12 @@
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Quotation Number</label>
         <div class="col-md-12"> 
-           <input type="text" readonly class="form-control" value="<?=$data->quotation_number?>">
+          <?php if(!empty($data->quotation_number)):?>
+          <input type="text" readonly class="form-control" value="<?=$data->quotation_number?>">
+          <?php endif;?>
+          <?php if(!empty($data->qo_number)):?>
+          <input type="text" readonly class="form-control" value="<?=$data->qo_number?>">
+          <?php endif;?>
         </div>
      </div>
      <div class="clearfix"></div><br />
@@ -69,6 +74,7 @@
            <input type="text" id="doc_date" readonly value="<?=$data->doc_date?>"  class="form-control col-md-7 col-xs-12 tanggal">
         </div>
      </div>
+     <?php if(!empty($data->rfq_number)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">RFQ Number</label>
@@ -77,6 +83,9 @@
            <input type="hidden" name="PO[rfq_id]" name="<?=$data->rfq_id?>">
         </div>
      </div>
+     <?php endif; ?>
+     
+     <?php if(!empty($data->document_title)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Document Title</label>
@@ -84,6 +93,8 @@
            <input type="text" class="form-control" readonly value="<?=$data->document_title?>">
         </div>
      </div>
+     <?php endif;?>
+     <?php if(!empty($data->solicatation_type)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Solicitation Type<span class="required">*</span>
@@ -103,6 +114,8 @@
            </select>
         </div>
      </div>
+     <?php endif; ?>
+     <?php if(!empty($data->currency)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Currency<span class="required">*</span>
@@ -123,6 +136,8 @@
            </select>
         </div>
      </div>
+     <?php endif;?>
+     <?php if(!empty($data->delivery_date)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Delivery Date</label>
@@ -130,6 +145,8 @@
            <input type="text" class="form-control tanggal" readonly value="<?=isset($data->delivery_date) ? $data->delivery_date : '';?>">
         </div>
      </div>
+     <?php endif;?>
+     <?php if(!empty($data->expired_date)):?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Expiration Date and Time</label>
@@ -137,11 +154,12 @@
            <input type="text" class="form-control" id="expired_date" readonly value="<?=isset($data->expired_date) ? $data->expired_date : '';?>">
         </div>
      </div>
+     <?php endif;?>
      <div class="clearfix"></div><br />
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Delivery Address</label>
         <div class="col-md-12">
-            <?php if(empty($data->rfq_id)):?>
+            <?php if(!empty($data->rfq_id)):?>
             <?php if(isset($data->detail_delivery_address)) { $address = $data->detail_delivery_address; }else $address = ''; ?>
             <?php else: ?>
             <?php if(isset($data->address)) { $address = $data->address; }else $address = ''; ?>

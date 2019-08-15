@@ -138,21 +138,19 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
 	            	send_notif($param);
 				}
+
 				// General Manager
-				$users = $this->db->get_where('user', ['user_group_id' => 15])->result_array();
-				foreach($users as $user)
+				if($params['data']['gm_email'])
 				{
-					if($user)
-					{
-						$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-						$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
-		            	$param['message'] 	= $message;
-		            	$param['phone'] 	= $user['phone'];
-		            	$param['email']		= $user['email'];
-		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
-		            	send_notif($param);
-					}
+					$message  = "This ". $params['data']['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+					$message .= "\n ". site_url('approve/pogm/'. $token_code) ."\n ";	
+	            	$param['message'] 	= $message;
+	            	$param['phone'] 	= $params['data']['gm_phone'];
+	            	$param['email']		= $params['data']['gm_email'];
+	            	$param['subject']	= 'Purchase Order Need Your Approval #'. $params['data']['po_number'];
+	            	send_notif($param);
 				}
+				
 				$message  = "Purchase Order ". $params['data']['po_number'] ." Approved Proqurement Manager.\n\nNote:\n". $post['note'];	
 			}
 			else $message  = "Purchase Order ". $params['data']['po_number'] ." Rejected Proqurement Manager.\n\nNote:\n". $post['note'];
@@ -184,7 +182,7 @@ class PurchaseOrderWarehouse extends CI_Controller {
 		if(isset($_GET['pr_id']))
 		{
 			$params['pr_data'] 			= $this->PurchaseRequest_model->get_by_id($_GET['pr_id']);
-			$params['pr_number'] 		= $params['pr']['no'];
+			$params['pr_number'] 		= $params['pr_data']['no'];
 			$params['material']			= get_material_pr($_GET['pr_id']);
 		}
 
@@ -264,6 +262,19 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	            	send_notif($param);
 				}
 			}
+
+			$user = $this->db->get_where('user', ['id' => $this->session->userdata('user_id') ])->row_array();
+        	$message  = "Your Purchase Order with ".  $post['po_number'] ." number has been successfully created and is waiting for approval from Procurement Manager, General Manager and Finance";
+        	
+        	if($user)
+        	{
+	        	$param['message'] 	= $message;
+	        	$param['phone'] 	= $user['phone'];
+	        	$param['email']		= $user['email'];
+	        	$param['subject']	= 'Your Purchase Order '. $post['po_number'];
+
+        		send_notif($param);
+        	}
 			
 			$this->session->set_flashdata('messages', 'Purchase Order Submited.');
 
@@ -275,11 +286,6 @@ class PurchaseOrderWarehouse extends CI_Controller {
 		$params['pr'] 		= $this->PurchaseRequest_model->get_where_many(['purchase_request.status' => 4]);
 		$params['rfq'] 		= $this->RequestForQoutation_model->data_();
 		$params['branch'] 	= $this->Branch_model->data_();
-
-		$this->db->from('user');	
-		$this->db->like("user_group_id", 12);
-		$i = $this->db->get();	
-		$params['requester'] = $i->result_array();
 
 		$this->load->view('layouts/main', $params);
 	}

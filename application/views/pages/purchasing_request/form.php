@@ -349,6 +349,7 @@ function CompareDate(val){
          $("#material_id").val('');
          $("#qty").val('');
          $("#urgency").val(0);
+         $("#note").val("");
       }
    });
 
