@@ -95,7 +95,7 @@
                   </div>
                </div>               
                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Term of Payment<span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Term of Payment <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                      <input type="number" class="form-control" name="PO[term_day]" placeholder="Day" style="width: 150px; float: left; margin-right: 10px;">

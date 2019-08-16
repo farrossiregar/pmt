@@ -221,16 +221,14 @@ function send_notif($param)
     $CI->email->message($message);
     if(!$CI->email->send(FALSE))
     {
-        dd($CI->email->print_debugger());
+        
     }
 
     $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
-    $message = 'text='. urlencode($message);
+    $message = $message;
     $number = str_replace_first('0','62', $param['phone']);
     $number = str_replace('-', '', $number);
     
-
-/*
     $curl = curl_init();
     $token = "9YjpodFU91xqJzL35neu5wBgfk649MHZSe9dvG1E1JgMmfP1hkWIZLpr0aYzD9L3";
     $data = [
@@ -240,42 +238,17 @@ function send_notif($param)
 
     curl_setopt($curl, CURLOPT_HTTPHEADER,
         array(
-            "Authorization: $token",
+            "Authorization: ". $token,
         )
     );
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($curl, CURLOPT_URL, "https://wablas.com/api/sms/send");
+    curl_setopt($curl, CURLOPT_URL, "https://wablas.com/api/send-message");
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     $result = curl_exec($curl);
     curl_close($curl);
-    
-    */
-
-    /**
-    $url = "https://panel.apiwha.com/send_message.php?apikey=". APIWHA_TOKEN ."&number=". $number ."&".$message;
-      
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-    ));
-    $response = curl_exec($curl);
-    $err = curl_error($curl);
-    curl_close($curl);
-    if ($err) {
-        echo "cURL Error #:" . $err;
-    } else {
-        //echo $response;
-    }
-    */
 }
 
 
