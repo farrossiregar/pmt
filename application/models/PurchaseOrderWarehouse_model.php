@@ -29,17 +29,16 @@
 	{
 		$this->db->from($this->t_table);
 		$this->db->select($this->t_table .'.*, c.name as company, v.name as vendor');
-		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id');
-		$this->db->join('vendor_of_material v', 'v.id='. $this->t_table .'.vendor_id');
-		$this->db->join('purchase_request pr', 'pr.id=purchase_order_warehouse.pr_id');
-		$this->db->join('projects pj', 'pj.id=pr.project_id');
+		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id' ,'left');
+		$this->db->join('vendor_of_material v', 'v.id='. $this->t_table .'.vendor_id', 'left');
+		$this->db->join('purchase_request pr', 'pr.id=purchase_order_warehouse.pr_id','left');
+		$this->db->join('projects pj', 'pj.id=pr.project_id', 'left');
 		$this->db->order_by('id', 'desc');
 
 		if($type == 'gm')
 		{
 			$this->db->where('pj.gm_id', $this->session->userdata('user_id'));
 		}
-
 		$i = $this->db->get();
 		
 		return $i->result_array();
@@ -82,6 +81,7 @@
 							vendor_of_material.name as vname, 
 							vendor_of_material.pic_name as vpic_name, 
 							vendor_of_material.phone_1 as vphone_1, 
+							vendor_of_material.email as vemail, 
 							user.name as uname, 
 							c.name as company, 
 							c.telepon as company_telepon, 
@@ -111,11 +111,11 @@
 
 		$this->db->join('vendor_of_material', 'vendor_of_material.id = purchase_order_warehouse.vendor_id', 'left');
 		$this->db->join('user', 'user.id = purchase_order_warehouse.requester', 'left');
-		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id');
+		$this->db->join('company c', 'c.id='. $this->t_table .'.company_id', 'left');
 		$this->db->join('quotation_order_vendor qo', 'qo.id=purchase_order_warehouse.quotation_vendor_id', 'left');
 		$this->db->join('request_for_qoutation rfq', 'rfq.id=purchase_order_warehouse.rfq_id', 'left');
 		$this->db->join('purchase_request pr', 'pr.id='. $this->t_table .'.pr_id', 'left');
-		$this->db->join('projects pj', 'pj.id=pr.project_id');
+		$this->db->join('projects pj', 'pj.id=pr.project_id', 'left');
 		$this->db->join('user u1', 'u1.id=pj.gm_id', 'LEFT');
 		
 		$i = $this->db->get();

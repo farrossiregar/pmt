@@ -78,15 +78,21 @@
                      ?>
                      <td>
                         <?php if($qo): ?>
-                        <div class="btn-group pull-right">
-                          <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-bars"></i>
-                          </a>
-                          <ul class="dropdown-menu">
-                              <li><a href="<?=site_url('request-for-quotation/nego/'. $qo['id'])?>?vendor_id=<?=$i['vendor_id']?>"><i class="fa fa-edit"></i> Nego </a></li>
-                              <li><a href="<?=site_url('purchase-order/createpobyqo/'. $qo['id'])?>"><i class="fa fa-arrow-right"></i> PO</a></li>
-                           </ul>
-                        </div>
+                           <?php if($qo['status'] == 2):?>
+                              <a href="javascript:void(0)" class="btn btn-success btn-sm"><i class="fa fa-check"></i> Win</a>
+                           <?php elseif($qo['status'] == 3):?>
+                              <a href="javascript:void(0)" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Lose</a>
+                           <?php else: ?>
+                           <div class="btn-group pull-right">
+                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                               <i class="fa fa-bars"></i>
+                             </a>
+                             <ul class="dropdown-menu">
+                                 <li><a href="<?=site_url('request-for-quotation/nego/'. $qo['id'])?>?vendor_id=<?=$i['vendor_id']?>"><i class="fa fa-edit"></i> Nego </a></li>
+                                 <li><a href="<?=site_url('purchase-order/createpobyqo/'. $qo['id'])?>"><i class="fa fa-arrow-right"></i> PO</a></li>
+                              </ul>
+                           </div>
+                        <?php endif;?>
                         <?php endif;?>
                      </td>
                     </tr>

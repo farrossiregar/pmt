@@ -191,8 +191,10 @@
                 <div class="form-group">
                   <div>
                      <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                     <?php if(!isset($data['id'])):?>
                      <button class="btn btn-primary btn-sm" type="reset"><i class="fa fa-refresh"></i> Reset</button>
                      <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Submit</button>
+                     <?php endif;?>
                   </div>
                </div>
             </form>

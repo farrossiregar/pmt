@@ -3,7 +3,7 @@
       <div class="x_panel">
          <div class="x_title">
             <h2>Quotation From <label class="text-danger"><?=$data['case_id']?></label></h2>
-            <a href="<?=site_url('requestForQuotationVendor/index')?>" class="btn btn-default btn-sm pull-right"><i class="fa fa-arrow-left"></i> Back</a>
+            <a href="<?=site_url('requestForQuotation/bac')?>/<?=$data['id']?>" class="btn btn-default btn-sm pull-right"><i class="fa fa-arrow-left"></i> Back</a>
             <div class="clearfix"></div>
          </div>
          <div class="x_content">

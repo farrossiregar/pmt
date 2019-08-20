@@ -36,6 +36,7 @@
     	$this->db->from($this->t_table .' qo');
     	$this->db->select(
            'qo.*, 
+            rfq.purchase_request_id as pr_id,
             rfq.id as rfq_id,
     		rfq.case_id as rfq_number, 
     		rfq.solicatation_type, 

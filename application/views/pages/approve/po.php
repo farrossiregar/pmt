@@ -159,11 +159,18 @@
      <div class="form-group">
         <label class="control-label col-md-12" for="material_group">Delivery Address</label>
         <div class="col-md-12">
-            <?php if(!empty($data->rfq_id)):?>
-            <?php if(isset($data->detail_delivery_address)) { $address = $data->detail_delivery_address; }else $address = ''; ?>
-            <?php else: ?>
-            <?php if(isset($data->address)) { $address = $data->address; }else $address = ''; ?>
-            <?php endif;?>
+            <?php
+
+              $address = '';
+              if(isset($data->detail_delivery_address) and !empty($data->detail_delivery_address)) 
+              { 
+                $address = $data->detail_delivery_address; 
+              } 
+              elseif(isset($data->address) and !empty($data->address)) 
+              { 
+                $address = $data->address; 
+              }
+            ?>
            <textarea class="form-control" readonly><?=$address?></textarea>
         </div>
      </div>

@@ -17,6 +17,7 @@
                <?php if(isset($rfq_id)): ?>
                <input type="hidden" name="PO[rfq_id]" value="<?=$rfq_id?>">
                <input type="hidden" name="PO[pr_id]" value="<?=$data->pr_id?>">
+
                <?php endif;?>
                
                <div class="form-group">
