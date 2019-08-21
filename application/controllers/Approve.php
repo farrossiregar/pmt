@@ -173,7 +173,7 @@ class Approve extends CI_Controller {
 				$set['status'] = 5;
 			}
 
-			$this->db->set('note_gm', $post['note']);
+			$this->db->set('note_procurement', $post['note']);
 			$this->db->where('id', $params['data']->id);
 			$this->db->update('purchase_order_warehouse', $set);
 

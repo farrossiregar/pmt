@@ -49,6 +49,43 @@ class PurchasingRequest extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
+	/**
+	 * PDF
+	 * @param  id
+	 * @return pdf
+	 */
+	public function pdf($id)
+	{
+		$params['data'] = $this->model->get_by_id($id);;
+		$params['material'] = $this->MaterialPurchaseRequest_model->get_where_many(['material_purchase_request.purchase_request_id' => $id]);
+
+		$html = $this->load->view('pages/purchasing_request/pdf', $params, true);
+		//this the the PDF filename that user will get to download
+		$pdfFilePath = "Purchase-Request-". date('d M Y') .".pdf";
+
+        //load mPDF library
+		$this->load->library('m_pdf');
+
+		$this->m_pdf = new mPDF();
+		
+		$this->m_pdf->showImageErrors = true;
+
+		$this->m_pdf->AddPage('P', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            5, // margin bottom
+            5, // margin header
+            5); // margin footer
+
+       //generate the PDF from the given html
+		$this->m_pdf->WriteHTML($html);
+
+        //download it.
+		$this->m_pdf->Output($pdfFilePath, "I");		
+	}
+
 	public function ajaxGetMaterial($id)
 	{
 		$data = $this->MaterialPurchaseRequest_model->get_where_many(['purchase_request_id' => $id]);

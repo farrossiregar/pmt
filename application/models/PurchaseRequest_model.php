@@ -350,14 +350,20 @@
 	 */
 	public function get_by_id($id)
 	{
-		$this->db->select('pr.*,p.osm_id,u_osm.name as osm, p.name as project, r.region_code, p.project_type, p.project_code, u_p.name as project_manager, p.project_manager_id');
+		$this->db->select('pr.*,
+							c.name as company, 
+							c.address as company_address, 
+							c.logo as company_logo,
+							c.telepon as company_telepon, 
+							p.osm_id,u_osm.name as osm, p.name as project, r.region_code, p.project_type, p.project_code, u_p.name as project_manager, p.project_manager_id');
 		$this->db->order_by('id','desc');
 		
 		$this->db->from($this->t_table.' pr');
-		$this->db->join('projects p ', 'p.id=pr.project_id');
-		$this->db->join('user u_p ', 'u_p.id=p.project_manager_id');
-		$this->db->join('user u_osm ', 'u_osm.id=p.osm_id');
-		$this->db->join('region r', 'r.id=p.region_id');
+		$this->db->join('projects p ', 'p.id=pr.project_id', 'left');
+		$this->db->join('user u_p ', 'u_p.id=p.project_manager_id', 'left');
+		$this->db->join('user u_osm ', 'u_osm.id=p.osm_id', 'left');
+		$this->db->join('region r', 'r.id=p.region_id', 'left');
+		$this->db->join('company c', 'c.id=pr.company_id', 'left');
 		$this->db->where(['pr.id' => $id]);
 
 		$i = $this->db->get();

@@ -45,20 +45,37 @@
 		}
 		.signature {
 			border-bottom: 1px solid;
-			position: absolute;
-			bottom: 100px;
-			left: 50px;
 			width: 200px;
+			margin-top: 20px;
 		}
 		.table_total {
 			width: 50%;
 			float: right;
 		}
+		.divremarks {
+  			position: absolute;
+  			top:50%;
+  			text-align: center;
+		}
+		.remarksimg{
+			-ms-transform: rotate(-30deg); /* IE 9 */
+  			-webkit-transform: rotate(-30deg); /* Safari 3-8 */
+  			transform: rotate(-30deg);
+  			opacity: 0.1;
+  			text-align: center;
+  			margin-left: 130px;
+  			height: 300px;
+		}
 	</style>
 </head>
 <body>
+	<div class="divremarks">
+		<img src="<?=base_url()?>/assets/images/approved.png" class="remarksimg">
+	</div>
 	<div class="container">
+		<?php if($po['status'] == 4):?>
 		<p><img src="<?=base_url('upload/').$po['company_logo']?>" style="width: 150px;" /></p>
+		<?php endif; ?>
 		<hr />
 		<table>
 			<tr>
@@ -70,8 +87,6 @@
 				</td>
 				<td style="text-align: right">
 					<h1>PURCHASE ORDER</h1>
-					<br />
-					<br />
 					<br />
 					<br />
 					<br />
@@ -100,7 +115,7 @@
 			</div>
 		</div>
 		<div style="clear: both;"></div>
-		<br /><br />
+		<br />
 		<table class="table">
 			<thead>
 				<tr>
@@ -162,17 +177,6 @@
 					<td colspan="4" style="text-align: right">Shipping Charge</td>
 					<td style="text-align: right"> <strong><?=format_idr($po['shipping_charge'])?></strong></td>
 				</tr>
-				<!-- <tr>
-					<td colspan="4" style="text-align: right">Discount (<?=$po['discount']?>%)</td>
-					<td style="text-align: right"> 
-						<strong>
-						<?php 
-							//$disc = $po['discount'] * $sub_total / 100;
-							//echo format_idr($disc);
-						?>
-						</strong>
-					</td>
-				</tr> -->
 				<tr>
 					<td colspan="4" style="text-align: right">Order Total</td>
 					<td style="text-align: right"><strong><?=format_idr($sub_total - $disc + $vat + $po['shipping_charge'])?></strong></td>
@@ -185,18 +189,40 @@
 					echo '<p>'. $item['term'] .' : '. $item['cond'] .'</p>';
 				}
 			?>
-			<div style="border: 1px solid black; width: 300px; height: 50px;padding: 5px;">
+			<?php if(!empty($po['note'])):?>
+			<div style="border: 1px solid black; width: 300px; min-height: 20px;padding: 5px;">
 				<?=$po['note']?>
 			</div>
+			<?php endif;?>
+
 		</div>
 		<div style="clear: both;"></div>
-		
-		<br />
-		<br />
-		<br />
+		<p style="text-align: center;"><small>Approved By:</small></p>
+		<div style="width: 33%; float: left;text-align: center;height: 100px;">
+			<p>P & L Manager</p>
+			<p><?=$po['note_procurement']?></p>
+		</div>
+		<div style="width: 33%; float: left;text-align: center;height: 100px;">
+			<p>General Manager</p>
+			<p><?=$po['note_gm']?></p>
+		</div>
+		<div style="width: 33%; float: left;text-align: center;height: 100px;">
+			<p>FA Manager</p>
+			<p><?=$po['note_finance']?></p>
+		</div>
+		<div style="clear: both;"></div>
+			
 		<div class="signature">
 			<p>Vendor Signature</p>
 		</div>
+		<br />
+		<br />
+		<br />
+		<br />
+		<div style="border-bottom: 1px solid #000000; width: 100px;">
+			<p>Director</p>
+		</div>
+		<p style="color: blue;position: absolute;bottom: 10px;">This is computer generated document no signature required</p>
 	</div>
 </body>
 </html>

@@ -64,9 +64,9 @@
                           <?php endif; ?>
                         <?php endif;?>
                         
-                        <?php if($value['status']==4): ?>
+                        <?php //if($value['status']==4): ?>
                         <li><a href="<?=site_url('PurchaseOrderWarehouse/pdf/'.$value['id'])?>" target="_blank" title="Print"><i class="fa fa-print"></i> Print PO</a></li>
-                        <?php endif;?>
+                        <?php //endif;?>
                         <li><a href="<?=site_url('purchase-order/detail/'.$value['id'])?>?is_rfq=<?=isset($value['rfq_id']) ? $value['rfq_id'] : ''?>" title="Detail"><i class="fa fa-search"></i> Detail</a></li>
                       </ul>
                     </div>

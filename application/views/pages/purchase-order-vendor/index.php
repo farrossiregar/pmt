@@ -23,7 +23,7 @@
           <?php
             foreach ($data as $key => $value) {
               $k = $key+1;
-              if($value['status'] != 3) continue;
+              if($value['status'] != 4) continue;
               ?>
                 <tr>
                     <td><?=$k?></td>
@@ -36,13 +36,20 @@
                       {
                           echo '<label class="btn btn-warning btn-sm"> Open</label>';
                       }
-                      elseif($value['status'] == 3)
+                      elseif($value['status'] == 4)
                       {
                           if(!empty($value['invoice_id']))
                           {
                             echo '<a href="'. site_url('invoice-vendor/'. $value['id']) .'" class="btn btn-info btn-sm"><i class="fa fa-calendar"></i> Invoice</a>';
-                          }else
-                            echo '<label class="btn btn-success btn-sm"><i class="fa fa-star"></i> Win</label>';
+                          }
+                          else
+                          {
+
+                          }
+                      }
+                      elseif($value['status'] == 5)
+                      {
+                        echo '<a href="javascript:void(0)" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Rejected</a>';
                       }
                     ?>
                     </td>

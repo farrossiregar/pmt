@@ -99,7 +99,7 @@
                                       echo '<li><a href="'. site_url('PurchaseOrderWarehouse/insert?pr_id='. $value['id']) .'" class="text-success"><i class="fa fa-plus"></i> Create PO</a></li>';
                                     }
 
-                                    // echo '<li><a href="'. site_url("PurchasingRequest/checkinventory/").$value['id'] .'" title="Check Inventory"><i class="fa fa-check-square"></i> Check Inventory</a></li>';
+                                    echo '<li><a href="'. site_url("PurchasingRequest/pdf/").$value['id'] .'" title="Print"><i class="fa fa-print"></i> Print</a></li>';
                                   }
                                 }
                               ?>

@@ -121,6 +121,7 @@ class PurchaseOrderWarehouse extends CI_Controller {
 
 			$token_code = md5(uniqid());
     		$this->db->set('token_code', $token_code );
+    		$this->db->set('note_procurement', $post['note']);
     		$this->db->where('id', $id);
     		$this->db->update('purchase_order_warehouse');
 
