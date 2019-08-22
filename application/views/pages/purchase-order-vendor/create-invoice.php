@@ -10,7 +10,7 @@
             <form id="proccess_po" method="post" enctype="multipart/form-data"  class="form-horizontal form-label-left">
                <input type="hidden" name="Invoice[po_id]" value="<?=$data['id']?>">
                <input type="hidden" name="Invoice[status]" value="1">
-               <input type="hidden" name="Invoice[term_day]" value="1">
+               <input type="hidden" name="Invoice[term_day]" value="<?=$data['term_day']?>">
                <input type="hidden" name="Invoice[created_at]" value="<?=date('Y-m-d H:i:s')?>">
                <div class="form-group">
                   <label class="control-label col-md-2 col-sm-3 col-xs-12" for="po_number">Invoice Number *</label>

@@ -401,7 +401,7 @@ class Approve extends CI_Controller {
 			}
 			else $message  = "Purchase Order ". $params['data']->po_number ." Approved General Manager.\n\nNote:\n". $post['note'];	
 			
-
+			$var['note_gm'] = $post['note'];
 			$this->db->where('id', $params['data']->id);
 	        $this->db->update('purchase_order_warehouse', $var);
 
@@ -534,6 +534,8 @@ class Approve extends CI_Controller {
 				$message  = "Purchase Order ". $params['data']->po_number ." Approved Finance.\n\nNote:\n". $post['note'];	
 			}
 			else $message  = "Purchase Order ". $params['data']->po_number ." Approved Finance.\n\nNote:\n". $post['note'];	
+			
+			$var['note_finance'] = $post['note'];
 			
 			$this->db->where('id', $params['data']->id);
 	        $this->db->update('purchase_order_warehouse', $var);

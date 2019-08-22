@@ -110,10 +110,14 @@ class PurchaseOrderVendor extends CI_Controller {
 			if($finance)
 			{
 				// send notifikasi whatsapp
-				$message  = "This ". $post['invoice_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
-				$message .= "\n ";//. site_url('approve/pr/'. $token_code) ."\n ";
+				$message  = "You have incoming Invoice ". $post['invoice_number'] ."\n";
 
-				ApiWhaCurl($finance['phone'], $message);
+				$param['message'] 	= $message;
+            	$param['phone'] 	= $finance['phone'];
+            	$param['email']		= $finance['email'];
+            	$param['subject']	= 'Invoice #'. $post['invoice_number'];
+
+            	send_notif($param);
 			}
 
 			redirect('InvoiceVendor','location');

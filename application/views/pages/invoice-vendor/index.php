@@ -33,7 +33,7 @@
 
               if($day <= 3 and $value['status'] != 3)
               {
-                echo '<tr class="warning" title="Term Of Payment '. $day .' Day">';
+                echo '<tr class="warning" title="Term Of Payment '. $day .' Day '. date('d F Y', strtotime($value['due_date'])) .'">';
               }
               else
               {
@@ -55,8 +55,8 @@
                       }
 
                       if($value['status'] != 3){
-                        echo $day?> Day ( <?=date('d F Y', strtotime($value['due_date']))?> )
-                    <?php } else { echo $value['term_day'] .' Day'; } ?>
+                        echo $value['term_day']?>D 
+                    <?php } else { echo $value['term_day'] .'D'; } ?>
                   </td>
                     <td><?=date('d F Y', strtotime($value['created_at']))?></td>
                     <td>
