@@ -75,11 +75,16 @@
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="material_group">Delivery Address
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                     <?php if(empty($data['rfq_id'])):?>
-                        <?php $address = $data['detail_delivery_address']; ?>
-                        <?php else: ?>
-                        <?php $address = $data['address']; ?>
-                     <?php endif;?>
+                    <?php $address = ''; ?>
+                    
+                    <?php if(!empty($data['detail_delivery_address'])):?>
+                    <?php $address = $data['detail_delivery_address']; ?>
+                    <?php endif; ?>
+
+                    <?php if(!empty($data['address'])):?>
+                    <?php $address = $data['address']; ?>
+                    <?php endif;?>
+
                      <textarea class="form-control" style="height: 100px;" disabled><?=$address?></textarea>
                   </div>
                </div>
@@ -165,7 +170,7 @@
                         <td colspan="5" style="text-align: right;vertical-align: middle;">
                            <b>Total</b>
                         </td>
-                       <td id="total"><?=format_idr($sub_total + $vat_idr - $discount_rp + $data->shipping_charge)?></td>
+                       <td id="total"><?=format_idr($sub_total + $vat_idr - $discount_rp + $data['shipping_charge'])?></td>
                      </tr>
                  </tfoot>
                </table>

@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<title><?=$po['po_number']?></title>
+	<title>Purchase Request #<?=$data['no']?></title>
 	<meta name="generator" content="LibreOffice 6.0.2.1 (Linux)"/>
 	<meta name="author" content="Lenovo"/>
 	<meta name="created" content="2018-04-25T01:01:53"/>
@@ -28,6 +28,8 @@
 		}
 		.table tr th.border, .table tr td.border {
 			border: 1px solid;
+			padding-left: 10px;
+			padding-right: 10px;
 		}
 		.box-1 {
 			width: 40%;
@@ -90,6 +92,20 @@
 					<br />
 					<br />
 					<br />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p>
+						<b>Date of Assigment:</b> <?=date('d F Y', strtotime($data['created_at']))?><br />
+						Requester : <?=$data['project_manager']?><br />
+						<b>Project Name : <?=$data['project']?></b><br />
+						<b>Contract Project No: : <?=$data['project_code']?></b><br />
+						<b>Region: : <?=$data['region_code']?></b><br />
+					</p>
+				</td>
+				<td>
+					<p>Date Required : <?=date('d F Y', strtotime($data['require_date']))?></p>
 				</td>
 			</tr>
 		</table>

@@ -144,12 +144,16 @@
                         <th style="background: #f5f5f5;"> <?=format_idr($sub_total)?></th>
                      </tr>
                      <tr>
-                        <th colspan="5" style="text-align: right;background: #f5f5f5;">VAT (<?=$data->vat?>%)</th>
+                        <th colspan="5" style="text-align: right;background: #f5f5f5;">
+                           <?=$data->vat_type == 1 ? 'PPH' : 'PPN'?>
+                        </th>
                         <th style="background: #f5f5f5;padding-top:0;">
-                           <a href="#" class="edit_disc" data-type="text"><?=($vat * $sub_total / 100)?></a>
+                           <?php $vat_idr = $sub_total * $data->vat / 100; ?>
+                           <a href="#" class="edit_disc" data-type="text"><?=($vat_idr)?></a>
                            <input type="hidden" name="PO[vat]" value="<?=$data->vat?>">
                         </th>
                      </tr>
+
                      <tr>
                         <th colspan="5" style="text-align: right;background: #f5f5f5;">Shipping Charge</th>
                         <th style="background: #f5f5f5;padding-top:0;"><?=format_idr($data->shipping_charge)?></th>

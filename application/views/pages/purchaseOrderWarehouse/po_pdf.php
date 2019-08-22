@@ -93,6 +93,7 @@
 					<br />
 					<p><strong>PO # </strong> <?=$po['po_number']?></p>	
 					<p><strong>ORDER DATE # </strong> <?=(date('d/m/Y', strtotime($po['created_at'])))?></p>	
+					<p><strong>ToP # </strong> <?=$po['term_day']?>D</p>	
 				</td>
 			</tr>
 		</table>

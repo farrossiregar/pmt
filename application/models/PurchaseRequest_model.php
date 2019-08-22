@@ -355,7 +355,13 @@
 							c.address as company_address, 
 							c.logo as company_logo,
 							c.telepon as company_telepon, 
-							p.osm_id,u_osm.name as osm, p.name as project, r.region_code, p.project_type, p.project_code, u_p.name as project_manager, p.project_manager_id');
+							p.osm_id,u_osm.name as osm, 
+							p.name as project, 
+							r.region_code, 
+							p.project_type, 
+							p.project_code, 
+							u_p.name as project_manager, 
+							p.project_manager_id');
 		$this->db->order_by('id','desc');
 		
 		$this->db->from($this->t_table.' pr');
