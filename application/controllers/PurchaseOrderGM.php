@@ -70,7 +70,7 @@ class PurchaseOrderGM extends CI_Controller {
 
 						$message  = "Dear ". $params['data']['vname'] ."\n
 						Notification of Award of Bidder for (". $material .")\n
-						On behalf of ". $params['data']['company'] ." we are pleased to inform you that your quotation has been successful.\n
+						On behalf of ". $params['data']['company'] ." we are pleased to inform you that your quotation has been <b syle=\"color:green;\">successful</b>.\n
 						This letter is not and is not intended to have contractual effect and no action should be taken by your company at this time in respect of this award letter. PMT accepts no responsibility or liability for any actions which you may take based on the information detailed in this letter. Any such actions and their financial consequences will be entirely at your own risk.\n
 						PMT appreciates your assistance and we look forward to working with you.
 						\n\n Yours sincerely";
@@ -100,7 +100,7 @@ class PurchaseOrderGM extends CI_Controller {
             				$message  = "Dear ". $params['data']['vname'] ."\n
 								Notification of Award of Bidder for (". $material .")\n
 								Thank you for your submission in respect of the Quotation. ". $params['data']['company'] ." has now completed the evaluation of all bidders.\n
-								I regret to inform you that on this occasion your bid has been unsuccessful.\n
+								I regret to inform you that on this occasion your bid has been <b syle=\"color:red;\">unsuccessful</b>.\n
 								I would like to thank you on behalf of PMT for your interest and time taken in the preparation of your quotation submission.\n
 								We hope that your company will consider applying for future contract opportunities that your company may be interested in.
 								\n\n Yours sincerely";

@@ -223,8 +223,8 @@ function send_notif($param)
     {
         
     }
-
-    $message = $param['message'] ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
+    $
+    $message = strip_tags($param['message']) ."\n\n _Harap tidak membalas pesan ini, karena dikirimkan secara otomatis oleh sistem._";
     $message = $message;
     $number = str_replace_first('0','62', $param['phone']);
     $number = str_replace('-', '', $number);
