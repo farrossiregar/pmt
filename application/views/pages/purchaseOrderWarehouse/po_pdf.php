@@ -190,12 +190,6 @@
 					echo '<p>'. $item['term'] .' : '. $item['cond'] .'</p>';
 				}
 			?>
-			<?php if(!empty($po['note'])):?>
-			<div style="border: 1px solid black; width: 300px; min-height: 20px;padding: 5px;">
-				<?=$po['note']?>
-			</div>
-			<?php endif;?>
-
 		</div>
 		<div style="clear: both;"></div>
 		<p style="text-align: center;"><small>Approved By:</small></p>

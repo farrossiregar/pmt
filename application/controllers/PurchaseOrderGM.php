@@ -62,8 +62,18 @@ class PurchaseOrderGM extends CI_Controller {
 					// send notifkasi to vendor
 					if($params['data']['vemail'])
 					{
-						$message  = 'congratulations !!  You become a PO winner with the number '. $params['data']['po_number'];
-						$message .= "\n <a href=\"". site_url() ."\">Login to System</a> for show detail \n";
+						$material = '';
+						foreach($params['material'] as $k => $i)
+						{
+							$material .= $k ==0 ? $i->material : ','. $i->material;
+						}
+
+						$message  = "Dear ". $params['data']['vname'] ."\n
+						Notification of Award of Bidder for (". $material .")\n
+						On behalf of ". $params['data']['company'] ." we are pleased to inform you that your quotation has been successful.\n
+						This letter is not and is not intended to have contractual effect and no action should be taken by your company at this time in respect of this award letter. PMT accepts no responsibility or liability for any actions which you may take based on the information detailed in this letter. Any such actions and their financial consequences will be entirely at your own risk.\n
+						PMT appreciates your assistance and we look forward to working with you.
+						\n\n Yours sincerely";
 
 						$param['message'] 	= $message;
 		            	$param['phone'] 	= $params['data']['vphone_1'];
@@ -87,8 +97,13 @@ class PurchaseOrderGM extends CI_Controller {
             			{
             				if($i['vendor_id'] == $params['data']['vendor_id']) continue; // skip
 
-            				$messages  = "sorry, you haven't had the chance to get a PO from the offer you sent with the number ". $params['data']['po_number'];
-							$messages .= "\n <a href=\"". site_url() ."\">Login to System</a> for show detail \n";
+            				$message  = "Dear ". $params['data']['vname'] ."\n
+								Notification of Award of Bidder for (". $material .")\n
+								Thank you for your submission in respect of the Quotation. ". $params['data']['company'] ." has now completed the evaluation of all bidders.\n
+								I regret to inform you that on this occasion your bid has been unsuccessful.\n
+								I would like to thank you on behalf of PMT for your interest and time taken in the preparation of your quotation submission.\n
+								We hope that your company will consider applying for future contract opportunities that your company may be interested in.
+								\n\n Yours sincerely";
 							
 							$v = $this->db->get_where('vendor_of_material', ['id' => $i['vendor_id']])->row_array();
 							if(isset($v['email']))
