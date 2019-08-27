@@ -118,7 +118,7 @@ class Approve extends CI_Controller {
 		$message  = "Testing message.";
             	
     	$param['message'] 	= $message;
-    	$param['phone'] 	= '62895355359848';
+    	$param['phone'] 	= '6287775365856';
     	$param['email']		= 'doni.enginer@gmail.com';
     	$param['subject']	= 'Testing message';
 

@@ -184,18 +184,26 @@
 				</tr>
 			  </tbody>
 			</table>
-			
+			<?php 
+				foreach($t as $item)
+				{
+					echo '<p>'. $item['term'] .' : '. $item['cond'] .'</p>';
+				}
+			?>
 		</div>
 		<div style="clear: both;"></div>
 		<p style="text-align: center;"><small>Approved By:</small></p>
 		<div style="width: 33%; float: left;text-align: center;height: 100px;">
 			<p>P & L Manager</p>
+			<p><?=$po['note_procurement']?></p>
 		</div>
 		<div style="width: 33%; float: left;text-align: center;height: 100px;">
 			<p>General Manager</p>
+			<p><?=$po['note_gm']?></p>
 		</div>
 		<div style="width: 33%; float: left;text-align: center;height: 100px;">
 			<p>FA Manager</p>
+			<p><?=$po['note_finance']?></p>
 		</div>
 		<div style="clear: both;"></div>
 			

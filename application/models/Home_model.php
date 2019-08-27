@@ -34,13 +34,19 @@
 							po.po_number as po_no,
 							po.vat,
 							po.term_day_remark,
+							po.term_day,
+							po.vat_type,
+							po.status,
 							v.name as vendor_name,
 							m.name as material_name,
 							pom.qty,
 							pom.price,
 							p.project_code,
 							p.name as  project_name,
-							p.project_type
+							p.project_type,
+							u1.name as requester,
+							r.region_code,
+							r.region
 						');
 		$this->db->from('purchase_request pr');
 		$this->db->join('request_for_qoutation rfq', 'rfq.purchase_request_id=pr.id', 'left');
@@ -49,6 +55,8 @@
 		$this->db->join('purchase_order_material pom', 'pom.po_id=po.id');
 		$this->db->join('material m', 'm.id=pom.material_id', 'left');
 		$this->db->join('projects p', 'p.id=pr.project_id', 'left');
+		$this->db->join('user u1', 'u1.id=p.project_manager_id', 'left');
+		$this->db->join('region r', 'r.id=p.region_id', 'left');
 
 		if(isset($_GET['company_id']) and !empty($_GET['company_id']))
 		{

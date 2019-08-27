@@ -54,7 +54,7 @@
             <div class="clearfix"></div>
         </div>
       <div class="x_content">
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow-x: auto; ">
           <table class="table table-striped table-bordered">
             <thead>
               <tr class="headings">
@@ -73,6 +73,11 @@
                 <th class="column-title">Top </th>
                 <th class="column-title">Code Project </th>
                 <th class="column-title">Project Name </th>
+                <th class="column-title">Region </th>
+                <th class="column-title">Requestor </th>
+                <th class="column-title">Remarks </th>
+                <th class="column-title">Status </th>
+                <th class="column-title">PIC </th>
               </tr>
             </thead>
             <tbody>
@@ -89,14 +94,36 @@
                     <td><?=$item->qty?></td>
                     <td><?=format_idr($item->price)?></td>
                     <td><?=format_idr($item->price * $item->qty)?></td>
-                    <?php if(isset($item->vat) and !empty($item->vat)):?>
-                    <td><?=format_idr($item->price * $item->vat / 100)?></td>
-                    <?php else:?>
-                    <td>0</td>
-                    <?php endif;?>
-                    <td><?=$item->term_day_remark?></td>
+                    <td><?=$item->vat_type == 2 ? 'PPN' : 'NON PPN'?></td>
+                    <td><?=$item->term_day?>D</td>
                     <td><?=$item->project_code?></td>
                     <td><?=$item->project_name?></td>
+                    <td><?=$item->region_code?></td>
+                    <td><?=$item->requester?></td>
+                    <td><?=$item->term_day_remark?></td>
+                    <td>
+                    <?php 
+                      if($item->status == 1 || $item->status == "")
+                      {
+                        echo '<label class="text-info">Proqurement Manager </label>';
+                        
+                      }
+                      elseif($item->status == 2 || $item->status == 3)
+                      {
+                        echo '<label class="text-info">General Manager / Finance </label>';
+
+                      }
+                      elseif($item->status == 4)
+                      {
+                         echo '<label class="text-success">Approved </label>';
+                      }
+                      elseif($item->status == 5)
+                      {
+                         echo '<label class="text-danger"> Rejected </label>';
+                      }
+                    ?>
+                    </td>
+                    <td><?=$item->pic?></td>
                 </tr> 
             <?php endforeach;?>
             </tbody>

@@ -291,6 +291,43 @@ class PurchaseOrderWarehouse extends CI_Controller {
 		$this->load->view('layouts/main', $params);
 	}
 
+	/**
+	 * Preview Print
+	 */
+	public function preview_print($id)
+	{
+		$params['po'] = $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
+		$params['material'] = $this->model->material($params['po']['id']);
+		$params['t'] = $this->TermConditionPo_model->get_where_many(['po_id	' => $params['po']['id']]);
+
+		$html = $this->load->view('pages/purchaseOrderWarehouse/preview_print', $params, true);
+		//print_r($html);exit();
+		//this the the PDF filename that user will get to download
+		$pdfFilePath = "Purchase-Order-". date('d M Y') .".pdf";
+
+        //load mPDF library
+		$this->load->library('m_pdf');
+
+		$this->m_pdf = new mPDF();
+		
+		$this->m_pdf->showImageErrors = true;
+
+		$this->m_pdf->AddPage('P', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            5, // margin bottom
+            5, // margin header
+            5); // margin footer
+
+       //generate the PDF from the given html
+		$this->m_pdf->WriteHTML($html);
+
+        //download it.
+		$this->m_pdf->Output($pdfFilePath, "I");		
+	}
+
 	public function pdf($id)
 	{
 		$params['po'] = $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
