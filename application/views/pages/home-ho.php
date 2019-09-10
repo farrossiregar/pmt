@@ -82,6 +82,9 @@
             </thead>
             <tbody>
             <?php foreach($data as $key => $item): ?>
+            
+            <?php if(empty($item->project_code)) continue; ?>
+
                 <tr class="even pointer">
                     <td class="a-center "><?=($key+1)?></td>
                     <td><?=($item->purchase_request_no)?></td>
@@ -106,12 +109,10 @@
                       if($item->status == 1 || $item->status == "")
                       {
                         echo '<label class="text-info">Proqurement Manager </label>';
-                        
                       }
                       elseif($item->status == 2 || $item->status == 3)
                       {
                         echo '<label class="text-info">General Manager / Finance </label>';
-
                       }
                       elseif($item->status == 4)
                       {
@@ -119,7 +120,7 @@
                       }
                       elseif($item->status == 5)
                       {
-                         echo '<label class="text-danger"> Rejected </label>';
+                         echo '<label class="text-danger">Rejected </label>';
                       }
                     ?>
                     </td>
@@ -132,4 +133,3 @@
       </div>
     </div>
 </div>
-

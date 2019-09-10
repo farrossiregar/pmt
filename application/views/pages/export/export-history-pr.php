@@ -34,10 +34,16 @@
 	        <th class="column-title" style="border: 1px solid  #000000;">Top </th>
 	        <th class="column-title" style="border: 1px solid  #000000;">Code Project </th>
 	        <th class="column-title" style="border: 1px solid  #000000;">Project Name </th>
+	        <th class="column-title" style="border: 1px solid  #000000;">Region </th>
+            <th class="column-title" style="border: 1px solid  #000000;">Requestor </th>
+            <th class="column-title" style="border: 1px solid  #000000;">Remarks </th>
+            <th class="column-title" style="border: 1px solid  #000000;">Status </th>
+            <th class="column-title" style="border: 1px solid  #000000;">PIC </th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	    <?php foreach($data as $key => $item): ?>
+            <?php if(empty($item->project_code)) continue; ?>
 	        <tr class="even pointer">
 	            <td class="a-center " style="border: 1px solid  #000000;"><?=($key+1)?></td>
 	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=($item->purchase_request_no)?></td>
@@ -58,6 +64,30 @@
 	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->term_day_remark?></td>
 	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->project_code?></td>
 	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->project_name?></td>
+	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->region_code?></td>
+                <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->requester?></td>
+                <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->term_day_remark?></td>
+                <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px">
+                <?php 
+                  if($item->status == 1 || $item->status == "")
+                  {
+                    echo 'Proqurement Manager';
+                  }
+                  elseif($item->status == 2 || $item->status == 3)
+                  {
+                    echo 'General Manager / Finance';
+                  }
+                  elseif($item->status == 4)
+                  {
+                     echo 'Approved';
+                  }
+                  elseif($item->status == 5)
+                  {
+                     echo 'Rejected';
+                  }
+                ?>
+                </td>
+                <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=$item->pic?></td>
 	        </tr> 
 	    <?php endforeach;?>
 	    </tbody>
