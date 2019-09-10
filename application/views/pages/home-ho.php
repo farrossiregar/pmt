@@ -83,7 +83,7 @@
             <tbody>
             <?php foreach($data as $key => $item): ?>
             
-            <?php if(empty($item->project_code)) continue; ?>
+            <?php //if(empty($item->project_code)) continue; ?>
 
                 <tr class="even pointer">
                     <td class="a-center "><?=($key+1)?></td>

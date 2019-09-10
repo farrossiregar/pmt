@@ -43,7 +43,7 @@
 	    </thead>
 	    <tbody>
 	    <?php foreach($data as $key => $item): ?>
-            <?php if(empty($item->project_code)) continue; ?>
+            <?php //if(empty($item->project_code)) continue; ?>
 	        <tr class="even pointer">
 	            <td class="a-center " style="border: 1px solid  #000000;"><?=($key+1)?></td>
 	            <td style="border: 1px solid  #000000;padding-left: 10px; padding-right: 10px"><?=($item->purchase_request_no)?></td>
