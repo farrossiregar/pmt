@@ -119,6 +119,7 @@
                   <tbody id="term_body">
                      <?php if(isset($term)):?>
                         <?php foreach($term as $item):?>
+                        <?php if(empty($item->term) and empty($item->cond)) continue;?>
                            <tr>
                               <td><input type="text" class="form-control" disabled value="<?=$item->term?>"></td>
                               <td><input type="text" class="form-control" disabled value="<?=$item->cond?>"></td>

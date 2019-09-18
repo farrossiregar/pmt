@@ -129,6 +129,7 @@
                   <tbody id="term_body">
                      <?php if(isset($term)): ?>
                         <?php foreach($term as $item): ?>
+                        <?php if(empty($item->term) and empty($item->cond)) continue;?>
                            <tr>
                               <td><input type="text" name="term[]" class="form-control" readonly placeholder="Term" value="<?=$item->term?>"></td>
                               <td><input type="text" name="cond[]" class="form-control" readonly placeholder="Condition" value="<?=$item->cond?>"></td>
