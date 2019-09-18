@@ -4,9 +4,17 @@
   <div class="x_panel">
     <div class="x_title">
       <h2>Region</h2> &nbsp;
-      <div class="btn-group pull-right">
-        <a href="<?=site_url('region/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
-      </div>
+      <div class="col-md-10 pull-right">
+          <form method="GET" action="">
+            <div class="pull-right">
+                <a href="<?=site_url('region/insert')?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Create </a>
+            </div>
+            <button type="submit" class="btn btn-info btn-sm pull-right"><i class="fa fa-search-plus"></i></button>
+            <div class="col-md-3 pull-right">
+              <input type="text" class="form-control" placeholder="Region / Region Code" name="name" value="<?=((isset($_GET['name']) and !empty($_GET['name'])) ? $_GET['name'] : '')?>" />
+            </div>
+          </form>
+        </div>
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -27,7 +35,7 @@
               <tr class="even pointer">
                   <td class="a-center "><?=$key+1?></td>
                   <td><?=$item['region_code']?></td>
-                  <td><?=$item['region']?></td>
+                  <td><a href="<?=site_url("region/edit/{$item['id']}")?>" title="Edit" class="link"><?=$item['region']?></a></td>
                   <td><?=$item['created_at']?></td>
                   <td><?=$item['updated_at']?></td>
                   <td>

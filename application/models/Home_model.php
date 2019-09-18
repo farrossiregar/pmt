@@ -52,7 +52,7 @@
 		$this->db->join('request_for_qoutation rfq', 'rfq.purchase_request_id=pr.id', 'left');
 		$this->db->join('purchase_order_warehouse po', 'po.rfq_id=rfq.id', 'left');
 		$this->db->join('vendor_of_material v', 'po.vendor_id=v.id', 'left');
-		$this->db->join('purchase_order_material pom', 'pom.po_id=po.id');
+		$this->db->join('purchase_order_material pom', 'pom.po_id=po.id', 'left');
 		$this->db->join('material m', 'm.id=pom.material_id', 'left');
 		$this->db->join('projects p', 'p.id=pr.project_id', 'left');
 		$this->db->join('user u1', 'u1.id=p.project_manager_id', 'left');

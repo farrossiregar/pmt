@@ -35,6 +35,10 @@
 		{
 			$this->db->where('vendor_of_material.currency', $_GET['currency']);
 		}
+		if(isset($_GET['vendor_type']) and !empty($_GET['vendor_type']))
+		{
+			$this->db->where('vendor_of_material.vendor_type', $_GET['vendor_type']);
+		}
 		if(isset($_GET['name']) and !empty($_GET['name']))
 		{
 			$this->db->group_start()

@@ -50,9 +50,10 @@
 	public function data_vendor($vendor_id)
 	{
 		$this->db->from($this->t_table .' po');
-		$this->db->select('po.*, c.name as company, v.name as vendor');
+		$this->db->select('po.*, c.name as company, v.name as vendor, pr.receive_date');
 		$this->db->join('company c', 'c.id=po.company_id', 'LEFT');
 		$this->db->join('vendor_of_material v', 'v.id=po.vendor_id', 'LEFT');
+		$this->db->join('purchase_request pr', 'pr.id=po.pr_id', 'LEFT');
 		$this->db->where('po.vendor_id', $vendor_id);
 		$this->db->order_by('po.id', 'desc');
 

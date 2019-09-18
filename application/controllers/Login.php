@@ -64,6 +64,7 @@ class Login extends CI_Controller {
 						if($vendor)
 						{
 							$this->session->set_userdata('vendor_id', $vendor->id);
+							$this->session->set_userdata('vendor_type', $vendor->vendor_type);
 						}
 					}
 

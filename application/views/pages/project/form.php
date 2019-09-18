@@ -74,6 +74,14 @@
                 <input type="hidden" name="project[osm_id]" value="<?=isset($data['osm_id']) ? $data['osm_id'] : ''?>" />
               </div>
             </div>
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">PMG <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" class="form-control autocomplete-pmg" value="<?=isset($data['pmg']) ? $data['pmg'] : ''?>" required />
+                <input type="hidden" name="project[pmg_id]" value="<?=isset($data['pmg_id']) ? $data['pmg_id'] : ''?>" />
+              </div>
+            </div>
           </div>
           <div class="clearfix"></div>
           
@@ -129,8 +137,30 @@
         $(this).autocomplete("search", "");
   });
 
+  $(".autocomplete-pmg").autocomplete({
+    minLength:0,
+    limit: 25,
+    dataType: "json",
+    source: function( request, response ) {
+        $.ajax({
+          url: "<?=site_url('ajax/getpmg')?>",
+          method : 'POST',
+          data: {
+            'name': request.term
+          },
+          success: function( data ) {
+            response( data );
+          }
+        });
+    },
+    select: function( event, ui ) {
+      $("input[name='project[pmg_id]']").val(ui.item.id);
+    }
+  }).on('focus', function () {
+        $(this).autocomplete("search", "");
+  });
 
-   $(".autocomplete-general-manager").autocomplete({
+  $(".autocomplete-general-manager").autocomplete({
     minLength:0,
     limit: 25,
     dataType: "json",

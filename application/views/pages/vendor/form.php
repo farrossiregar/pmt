@@ -8,7 +8,17 @@
       <div class="x_content">
         <br>
         <form id="demo-form2" method="post" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="vendor_id">Vendor Type <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select name="Vendor[vendor_type]" class="form-control">
+                <option value=""> - Select - </option>
+                <option value="1" <?=(isset($data['vendor_type']) and $data['vendor_type']==1) ? 'selected' : ''?>> Material / Services</option>
+                <option value="2" <?=(isset($data['vendor_type']) and $data['vendor_type']==2) ? 'selected' : ''?>> Vehicle</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="vendor_id">ID Vendor <span class="required">*</span>
             </label>
@@ -74,27 +84,6 @@
               <input type="text" id="phone_1" required="required" name="Vendor[phone_1]"  value="<?=(isset($data['phone_1']) ? $data['phone_1'] : '')?>" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
-         <!--  <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone_2">Phone 2 <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="phone_2" required="required" name="Vendor[phone_2]"  value="<?=(isset($data['phone_2']) ? $data['phone_1'] : '')?>" class="form-control col-md-7 col-xs-12">
-            </div>
-          </div> -->
-          <!-- <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile_1">Mobile 1 <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="mobile_1" required="required" name="Vendor[mobile_1]"  value="<?=(isset($data['mobile_1']) ? $data['mobile_1'] : '')?>" class="form-control col-md-7 col-xs-12">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile_2">Mobile 2 <span class="required">*</span>
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="mobile_2" required="required" name="Vendor[mobile_2]"  value="<?=(isset($data['mobile_2']) ? $data['mobile_2'] : '')?>" class="form-control col-md-7 col-xs-12">
-            </div>
-          </div> -->
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
             </label>
@@ -102,6 +91,14 @@
               <input type="text" id="email" required="required" name="Vendor[email]"  value="<?=(isset($data['email']) ? $data['email'] : '')?>" class="form-control col-md-7 col-xs-12">
             </div>
           </div>
+          <?php if(isset($data['email'])):?>
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">New Password </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="password" required="required" name="password" placeholder="Input New Password" class="form-control col-md-7 col-xs-12">
+            </div>
+          </div>
+          <?php else: ?>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Password <span class="required">*</span>
             </label>
@@ -109,6 +106,7 @@
               <input type="password" required="required" name="password"  class="form-control col-md-7 col-xs-12">
             </div>
           </div>
+          <?php endif; ?>
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="group_vendor">Address <span class="required">*</span>
             </label>

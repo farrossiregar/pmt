@@ -72,9 +72,11 @@ class User extends CI_Controller {
 			if($row->user_group_id == 7)
 			{
 				$vendor = $this->db->get_where('vendor_of_material', ['email' => $row->username])->row();
+
 				if($vendor)
 				{
 					$this->session->set_userdata('vendor_id', $vendor->id);
+					$this->session->set_userdata('vendor_type', $vendor->vendor_type);
 				}
 			}
 

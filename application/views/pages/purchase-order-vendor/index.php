@@ -28,7 +28,7 @@
                 <tr>
                     <td><?=$k?></td>
                     <td><?=$value['company']?></td>
-                    <td><?=$value['po_number']?></td>
+                    <td><a href="<?=site_url('PurchaseOrderVendor/detail/'.$value['id'])?>" class="link"><?=$value['po_number']?></a></td>
                     <td><?=$value['doc_date']?></td>
                     <td>
                     <?php 
@@ -60,7 +60,9 @@
                           </a>
                           <ul class="dropdown-menu">
                             <li><a href="<?=site_url('PurchaseOrderVendor/detail/'.$value['id'])?>"><i class="fa fa-search-plus"></i> Detail</a></li>
+                            <?php if(!empty($item['receive_date'])):?>
                             <li><a href="<?=site_url('PurchaseOrderVendor/createinvoice/'.$value['id'])?>"><i class="fa fa-plus"></i> Create Invoice</a></li>
+                            <?php endif;?>
                             <li><a href="<?=site_url('PurchaseOrderWarehouse/pdf/'.$value['id'])?>" target="_blank"  title="Print"><i class="fa fa-print"></i> Print PO</a></li>
                           </ul>
                         </div>

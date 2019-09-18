@@ -56,6 +56,7 @@ $route['purchase-order/createpobyqo/(:num)'] 	= 'PurchaseOrderWarehouse/createpo
 $route['purchase-order/invoice'] 	= 'PurchaseOrderWarehouse/invoice';
 $route['purchase-order/insert'] 	= 'PurchaseOrderWarehouse/insert';
 $route['purchase-order/detail/(:num)'] 	= 'PurchaseOrderWarehouse/detail/$1';
+$route['purchase-order/edit/(:num)'] 	= 'PurchaseOrderWarehouse/edit/$1';
 $route['purchase-request'] 	= 'PurchasingRequest';
 $route['request-for-quotation/nego/(:num)'] = 'requestForQuotation/nego/$1';
 $route['home/bac-all'] = 'Home/bac';

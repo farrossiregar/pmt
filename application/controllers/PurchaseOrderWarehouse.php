@@ -77,6 +77,201 @@ class PurchaseOrderWarehouse extends CI_Controller {
 	}
 
 	/**
+	 * detail
+	 * @return view
+	 */
+	public function edit($id)
+	{
+		$params['page'] 			= 'purchaseOrderWarehouse/edit';
+
+		if(!empty($_GET['rfq_id']) and !empty($_GET['quotation_vendor_id']))
+		{
+			if($this->input->post())
+			{
+	        	$token_code = md5(uniqid());
+				$post = $this->input->post('PO');
+				$var['token_code'] 			= $token_code;
+	            $var['token_expired'] 		= date('Y-m-d', strtotime( date('Y-m-d') .' + 3 day'));
+				$var['status'] 				= 1;
+				$var['doc_date'] 			= $post['doc_date'];
+			
+	        	$this->db->where('id', $id);
+	        	$this->db->update('purchase_order_warehouse', $var);
+	            $this->db->flush_cache();
+
+	            // Procurement Manager
+	            $this->db->flush_cache();
+				$users = $this->db->get_where('user', ['user_group_id' => 14])->result_array();
+
+				foreach($users as $user)
+				{
+					if($user)
+					{
+						// send notifikasi whatsapp
+						$message  = "This ". $post['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+						$message .= site_url('approve/poprocurement/'. $token_code) ."\n ";
+
+						$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $post['po_number'];
+
+		            	send_notif($param);
+					}
+				}
+
+				$user = $this->db->get_where('user', ['id' => $this->session->userdata('user_id') ])->row_array();
+	        	$message  = "Your Purchase Order with ".  $post['po_number'] ." number has been successfully created and is waiting for approval from Procurement Manager, General Manager and Finance";
+	        	
+	        	if($user)
+	        	{
+		        	$param['message'] 	= $message;
+		        	$param['phone'] 	= $user['phone'];
+		        	$param['email']		= $user['email'];
+		        	$param['subject']	= 'Your Purchase Order '. $post['po_number'];
+
+	        		send_notif($param);
+	        	}
+				
+				$this->session->set_flashdata('messages', 'Purchase Order Submited.');
+
+				redirect('purchaseOrderWarehouse','location');
+
+	        }
+
+			$params['data'] 		= $this->QuotationOrderVendor_model->get_by_id($_GET['quotation_vendor_id']);
+			$params['material']		= $this->QuotationOrderVendor_model->material($_GET['quotation_vendor_id']);
+			$params['term']			= $this->QuotationOrderVendor_model->term($_GET['quotation_vendor_id']);
+			$params['quotation_vendor_id'] = $_GET['quotation_vendor_id'];
+			$params['rfq_id'] 		= $params['data']->rfq_id;
+			$params['data_po'] 			= $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
+		}
+		else
+		{
+			if(isset($_GET['pr_id']))
+			{
+				$params['pr_data'] 			= $this->PurchaseRequest_model->get_by_id($_GET['pr_id']);
+				$params['pr_number'] 		= $params['pr_data']['no'];
+				$params['material']			= get_material_pr($_GET['pr_id']);
+			}
+
+			$params['page'] 			= 'purchaseOrderWarehouse/edit_by_pr';
+			$params['vendor'] 	= $this->VendorOfMaterial_model->data_();
+			$params['pr'] 		= $this->PurchaseRequest_model->get_where_many(['purchase_request.status' => 4]);
+			$params['rfq'] 		= $this->RequestForQoutation_model->data_();
+			$params['branch'] 	= $this->Branch_model->data_();
+			$params['data_po'] 			= $this->model->get_where_one(['purchase_order_warehouse.id' => $id]);
+			$params['term'] 			= $this->model->term($id);
+			$params['material'] 		= $this->model->material($id);
+
+			if($this->input->post())
+			{
+				$token_code = md5(uniqid());
+				$post = $this->input->post('PO');
+				$post['token_code'] 	= $token_code;
+	            $post['token_expired'] 	= date('Y-m-d', strtotime( date('Y-m-d') .' + 3 day'));
+				$post['created_at'] 	= date('Y-m-d H:i:s');
+				$post['status'] 		= 1;
+				$post['user_id'] 		= $this->data['user_id'];
+
+				$this->db->where('id', $id);
+				$this->db->update('purchase_order_warehouse', $post);
+	            $this->db->flush_cache();
+				
+				$term = $this->input->post('term');
+				$cond = $this->input->post('cond');
+				foreach ($term as $key => $item)
+				{
+					$value['po_id'] 	= $id;
+					$value['term'] 		= $item;
+					$value['cond'] 		= $cond[$key];
+					$this->db->insert('term_condition_po', $value);
+	            	$this->db->flush_cache();
+				}
+
+				$material = $this->input->post('Material');
+				foreach ($material as $key => $value)
+				{
+					$var = $value;
+					$var['po_id'] 			= $id;
+					if($params['data_po']['vendor_id'] != $post['vendor_id'])
+					{
+						$this->db->insert('purchase_order_material', $var);
+					}
+					else
+					{
+						$this->db->where('material_id', $value['material_id']);
+						$this->db->where('po_id', $id);
+						$this->db->update('purchase_order_material', $var);
+					}
+	            	$this->db->flush_cache();
+
+	            	// check vendor material price list
+	            	$vendor_material = $this->db->get_where('sales_and_distribution', ['material_id' => $value['material_id'], 'vendor_id' => $post['vendor_id']])->row_array();
+					if($vendor_material)
+					{
+						$this->db->where('id', $vendor_material['id']);
+						$this->db->update('sales_and_distribution', [ 'discont' => $value['discount'], 'price_submited' => $value['price'], 'price_submited_date'=> date('Y-m-d')]);
+	            		$this->db->flush_cache();
+					}
+					else
+					{
+						$this->db->insert('sales_and_distribution', 
+									[
+										'vendor_id'=>$post['vendor_id'], 
+										'material_id' => $value['material_id'],
+										'sales_price'=> $value['price'],
+										'price_submited' => $value['price'], 
+										'price_submited_date'=> date('Y-m-d'),
+										'discont' => $value['discount']
+									]);
+					} 	
+				}
+
+				// Procurement Manager
+	            $this->db->flush_cache();
+				$users = $this->db->get_where('user', ['user_group_id' => 14])->result_array();
+
+				foreach($users as $user)
+				{
+					if($user)
+					{
+						// send notifikasi whatsapp
+						$message  = "This ". $post['po_number'] ." need your approval. Please click the link below and select approve or reject with reason.";
+						$message .= site_url('approve/poprocurement/'. $token_code) ."\n ";
+
+						$param['message'] 	= $message;
+		            	$param['phone'] 	= $user['phone'];
+		            	$param['email']		= $user['email'];
+		            	$param['subject']	= 'Purchase Order Need Your Approval #'. $post['po_number'];
+
+		            	send_notif($param);
+					}
+				}
+
+				$user = $this->db->get_where('user', ['id' => $this->session->userdata('user_id') ])->row_array();
+	        	$message  = "Your Purchase Order with ".  $post['po_number'] ." number has been successfully created and is waiting for approval from Procurement Manager, General Manager and Finance";
+	        	
+	        	if($user)
+	        	{
+		        	$param['message'] 	= $message;
+		        	$param['phone'] 	= $user['phone'];
+		        	$param['email']		= $user['email'];
+		        	$param['subject']	= 'Your Purchase Order '. $post['po_number'];
+
+	        		send_notif($param);
+	        	}
+				
+				$this->session->set_flashdata('messages', 'Purchase Order Submited.');
+
+				redirect('purchaseOrderWarehouse','location');
+			}
+		}
+
+		$this->load->view('layouts/main', $params);
+	}
+
+	/**
 	 * Create Po by Quotation Vendor
 	 */
 	public function createpobyqo($id)

@@ -8,7 +8,7 @@
          <div class="x_content">
             <br>
             <form id="demo-po" method="post" class="form-horizontal form-label-left">
-          <div class="form-group">
+              <div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="po_number">Company <span class="required">*</span>
                   </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -178,7 +178,10 @@
                <div class="ln_solid"></div>
                <div class="form-group">
                   <div>
-                     <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                    <a href="#" onclick="history.back()" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                    <?php if($data['status'] == 5):?>
+                    <a href="<?=site_url('purchase-order/edit/'. $data['id'])?>?pr_id=<?=$data['pr_id']?>&rfq_id=<?=$data['rfq_id']?>&quotation_vendor_id=<?=$data['quotation_vendor_id']?>" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit / Revisi</a>
+                    <?php endif;?>
                   </div>
                </div>
             </form>

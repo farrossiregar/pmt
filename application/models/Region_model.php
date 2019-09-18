@@ -31,9 +31,11 @@
 		$this->db->from($this->t_table);
 		#$this->db->join('employee_access', 'employee.employee_access_id=employee_access.id', 'left');
 
-		if(!empty($search)):
-			$this->db->like('firstname', $search);
-		endif;
+		if(isset($_GET['name']) and !empty($_GET['name']))
+		{
+			$this->db->like('region_code', $_GET['name'] ,'both');
+			$this->db->or_like('region', $_GET['name'] ,'both');
+		}
 
 		$i = $this->db->get();
 		

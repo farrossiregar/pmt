@@ -19,6 +19,11 @@ if($access == 1){
 					'icon' => ''
 				],
 				[
+					'label' => 'Vehicle',
+					'link' => 'vehicle',
+					'icon' => ''
+				],
+				[
 					'label' => 'Vendor / Suplier',
 					'link' => 'vendor',
 					'icon' => ''
@@ -127,10 +132,12 @@ elseif($access == 18) // Procurement
 }
 elseif($access == 7)
 {
+	$vendor_type = $this->session->userdata('vendor_type');
+	
 	$menu = [
 		[
 			'label' => 'Catalog',
-			'link' => 'salesDistribution',
+			'link' => (($vendor_type == "" || $vendor_type == 1) ? 'salesDistribution' : 'vehiclevendor'),
 			'icon' => 'fa-database',
 		],
 		[
@@ -148,7 +155,7 @@ elseif($access == 7)
 			'link' => 'InvoiceVendor',
 			'icon' => 'fa-calendar'
 		],
-	]; 
+	];
 }
 elseif($access == 15)
 {
@@ -193,6 +200,26 @@ elseif($access == 17)
 		// 	'link' => 'PurchasingRequest',
 		// 	'icon' => 'fa-paper-plane-o',
 		// ]
+	]; 
+}
+elseif($access == 19) // PMG
+{
+	$menu = [
+		[
+			'label' => 'Purchase Order',
+			'link' => 'purchaseorderpmg',
+			'icon' => 'fa-paper-plane-o',
+		]
+	]; 
+}
+elseif($access == 22) // Director
+{
+	$menu = [
+		[
+			'label' => 'Purchase Order',
+			'link' => 'purchaseorderdirector',
+			'icon' => 'fa-paper-plane-o',
+		]
 	]; 
 }
 else

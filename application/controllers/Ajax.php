@@ -27,6 +27,110 @@ class Ajax extends CI_Controller {
 	 * get PM
 	 * @return json
 	 */
+	public function getvehiclebrand()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM vehicle where brand LIKE '%". $name ."%' group by brand" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->brand;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * get PM
+	 * @return json
+	 */
+	public function getvehiclemerk()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM vehicle where merk LIKE '%". $name ."%' group by merk" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->merk;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * get PM
+	 * @return json
+	 */
+	public function getvehicletype()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM vehicle where type LIKE '%". $name ."%' group by type" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->type;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * get PM
+	 * @return json
+	 */
+	public function getpmg()
+	{
+		header('Content-Type: application/json');
+
+		$name	= @$_POST['name'];
+
+		$data = $this->db->query("SELECT * FROM user where user_group_id=19 and name LIKE '%". $name ."%' LIMIT 10" )->result_object();
+
+		$params = [];
+
+		if($data)
+		{
+			foreach($data as $key => $item)
+			{
+				$params[$key]['id'] 		= $item->id;
+				$params[$key]['value'] 		= $item->name;  
+			}
+		}
+
+		echo json_encode($params);
+	}
+
+	/**
+	 * get PM
+	 * @return json
+	 */
 	public function getgm()
 	{
 		header('Content-Type: application/json');
@@ -48,7 +152,6 @@ class Ajax extends CI_Controller {
 
 		echo json_encode($params);
 	}
-
 
 	/**
 	 * Get Order Unit

@@ -28,7 +28,7 @@
               <tr>
                   <td><?=$k?></td>
                   <td><?=$value['company']?></td>
-                  <td><?=$value['po_number']?></td>
+                  <td><a href="<?=site_url('purchase-order/detail/'.$value['id'])?>?is_rfq=<?=isset($value['rfq_id']) ? $value['rfq_id'] : ''?>" class="link" title="Detail"><?=$value['po_number']?></a></td>
                   <td><?=$value['vendor']?></td>
                   <td><?=$value['doc_date']?></td>
                   <td>
