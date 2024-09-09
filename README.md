@@ -1,7 +1,4 @@
-This repo is consist of ERP Project.
-
-HBOS (Honda Bintaro Operational System) is an After Sales Web App from Honda Dealer develop to help sales to apply for discount for a buyer who had a plan to buy a car.
-It also help monitoring car sales based on month or salesman performance.
+This repo is consist of ERP Project. This project is as custom request by a company based in Jakarta, it integrating difference on business model from some Department to help the company monitoring a resource and help them to plan better.
 
 Tech Stack : PHP Laravel & Livewire, MySQL, Linux
 
@@ -16,4 +13,10 @@ Feature :
 - Inventory : Asset Database
 
 
-![farros_silhouette](https://github.com/user-attachments/assets/3d8a82cc-1ea1-4775-8314-eab20086f68b)
+
+Screenshot
+1. ![image](https://github.com/user-attachments/assets/18201598-53aa-4c67-a05c-7101600fc5ea)
+
+2. 
+
+
