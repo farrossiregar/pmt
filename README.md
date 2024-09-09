@@ -14,3 +14,6 @@ Feature :
 - Finance : Account Payable, Payroll
 - Vendor Management
 - Inventory : Asset Database
+
+
+![farros_silhouette](https://github.com/user-attachments/assets/3d8a82cc-1ea1-4775-8314-eab20086f68b)
